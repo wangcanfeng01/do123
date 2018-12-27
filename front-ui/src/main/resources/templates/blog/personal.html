@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="default/default">
+<head>
+    <link href="/css/mcss/read.css" rel="stylesheet"/>
+    <link href="/css/mcss/personal.css" rel="stylesheet"/>
+    <title>博客-个人中心</title>
+</head>
+<body>
+<div class="wcf-container" layout:fragment="content">
+    <div id="wrapper">
+        <div th:insert="~{show/read/left::blog-left('personal')}"></div>
+        <div class="read-management-container">
+            <div class="col-md-12">
+                <h4 class="content-title">个人中心</h4>
+            </div>
+            <div id="flex-box">
+                <!-- Sidebar -->
+                <section id="sidebar">
+                    <!-- Intro -->
+                    <section id="intro">
+                        <header>
+                            <h2>小红花</h2>
+                        </header>
+                        <a href="#" class="logo">
+                            <img th:src="${person!=null and person.facePath!=null}?${person.facePath}:'/image/face/default.jpg'"
+                                 alt=""/>
+                        </a>
+                        <footer>
+                            <p>前行路上，不能忘了自己的善良以及内心深处的理想</p>
+                        </footer>
+                    </section>
+                    <!-- Mini Posts -->
+                    <section>
+                        <header>
+                            <h2>我的专栏</h2>
+                        </header>
+                        <div class="mini-posts" th:each="category:${categories}">
+                            <!-- Mini Post -->
+                            <article class="mini-post">
+                                <header>
+                                    <h3>
+                                        <a th:href="'/read/all/list/'+${category.name}"
+                                           th:text="${category.name}"></a>
+                                    </h3>
+                                    <time class="published"
+                                          th:text="'创建于：'+${utils.fmtDate(category.createTime)}"></time>
+                                </header>
+                                <a th:href="'/read/all/list/'+${category.name}"
+                                   class="image"><img th:src="${category.cover}" alt=""/></a>
+                            </article>
+                        </div>
+                    </section>
+
+                    <!-- Comments List -->
+                    <section>
+                        <header>
+                            <h2>最近评论</h2>
+                        </header>
+                        <div class="comments">
+                            <comment class="comment" th:each="comment:${comments}">
+                                <footer>
+                                    <time class="published"
+                                          th:text="${comment.author}+'发表评论：'+${utils.fmtDate(comment.createTime)}"></time>
+                                </footer>
+                                <header>
+                                    <a href="#" class="image">
+                                        <img th:src="${person.facePath}" th:title="${person.username}"/>
+                                    </a>
+                                    <p class="comment-text" th:utext="${comment.text}" th:title="${comment.text}"></p>
+                                </header>
+                            </comment>
+                        </div>
+                    </section>
+
+                    <!-- About -->
+                    <section class="blurb">
+                        <h2>ABOUT</h2>
+                        <p>
+                            &nbsp;&nbsp;&nbsp;&nbsp;作为一个忙碌的且具有强迫症的全栈工程师，
+                            网站虽然有点丑，但是本程序员已经尽力了。说多了都是泪啊，
+                            希望有探讨技术为目的的小伙伴加入一起开发。
+                        </p>
+                    </section>
+
+                </section>
+                <!-- Main -->
+                <div id="main">
+                    <!-- Post -->
+                    <article class="post" th:each="article:${articles}">
+                        <a th:href="${utils.articleLink(article.titleSimple)}" target="_blank" class="image featured">
+                            <th:block th:if="${article.cover==null}">
+                                <img src="/image/article/cover/default.jpg" alt=""/>
+                            </th:block>
+                            <th:block th:if="${article.cover!=null}">
+                                <img th:src="${article.cover}" alt=""/>
+                            </th:block>
+                        </a>
+                        <header>
+                            <div class="title">
+                                <h2><a th:href="${utils.articleLink(article.titleSimple)}" target="_blank"
+                                       th:text="${article.title}"></a></h2>
+                                <p th:text="${article.keywords}"></p>
+                            </div>
+                        </header>
+                        <p th:text="${article.text}"></p>
+                        <footer>
+                            <ul class="actions">
+                                <li>
+                                    <a th:href="${utils.articleLink(article.titleSimple)}" target="_blank"
+                                       class="button-detail">阅读全文</a>
+                                </li>
+                            </ul>
+                            <ul class="stats">
+                                <li>
+                                    <a href="#">
+                                        <span class="fa fa-user" th:text="'&nbsp;'+${article.author}"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <time class="fa fa-clock-o"
+                                          th:text="'&nbsp;'+${utils.fmtDate(article.createTime)}"></time>
+                                </li>
+                                <li><span class="fa fa-eye" th:text="'&nbsp;'+${article.hits}"></span></li>
+                                <li><span class="fa fa-heart" th:text="'&nbsp;'+${article.stars}"></span></li>
+                                <li><span class="fa fa-comment" th:text="'&nbsp;'+${article.commentsNum}"></span></li>
+                            </ul>
+                        </footer>
+                    </article>
+                    <a href="/read/all/list" class="button-more">更多文章...</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

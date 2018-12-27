@@ -1,0 +1,245 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CENTER</title>
+    <!-- Bootstrap -->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" href="../../static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link th:href="@{/font-awesome/css/font-awesome.min.css}" href="../../static/font-awesome/css/font-awesome.min.css"
+        rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link th:href="@{/admin/bootstrap-daterangepicker/daterangepicker.css}" href="../../static/admin/bootstrap-daterangepicker/daterangepicker.css"
+        rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link th:href="@{/admin/custom.min.css}" href="../../static/admin/custom.min.css" rel="stylesheet">
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+
+            <!-- left navigation -->
+            <script type="text/javascript" th:src="@{/admin/left-navigation.js}" src="../../static/admin/left-navigation.js"></script>
+            <!-- /left navigation -->
+
+            <!-- top navigation -->
+            <script type="text/javascript" th:src="@{/admin/top-navigation.js}" src="../../static/admin/top-navigation.js"></script>
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <!-- top tiles -->
+                <div class="row tile_count">
+
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-user"></i> 网站用户数</span>
+                        <div class="count">10</div>
+                        <span class="count_bottom">月<i class="green"> <i class="fa fa-sort-asc"></i> 4%</i> </span>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-user"></i> 新注册用户</span>
+                        <div class="count">50</div>
+                        <span class="count_bottom">月<i class="green"> <i class="fa fa-sort-asc"></i> 34%</i></span>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-user"></i> 访客数目</span>
+                        <div class="count">2000</div>
+                        <span class="count_bottom">月<i class="red"> <i class="fa fa-sort-desc"></i> 12%</i></span>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-file"></i> 博客总数</span>
+                        <div class="count">103</div>
+                        <span class="count_bottom">月<i class="green"> <i class="fa fa-sort-asc"></i> 3%</i></span>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-link"></i> 视频链接</span>
+                        <div class="count green">2,500</div>
+                        <span class="count_bottom">月<i class="green"> <i class="fa fa-sort-asc"></i> 34%</i></span>
+                    </div>
+
+                    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                        <span class="count_top"><i class="fa fa-image"></i> 图片数量</span>
+                        <div class="count">2,315</div>
+                        <span class="count_bottom">月<i class="green"> <i class="fa fa-sort-asc"></i> 34%</i></span>
+                    </div>
+                </div>
+
+                <!-- /top tiles -->
+                <div class="row">
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="dashboard_graph">
+                            <div class="row x_title">
+                                <div class="col-md-6">
+                                    <h3>网站负荷情况
+                                        <small>cpu使用量</small>
+                                    </h3>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                        <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-9 col-sm-9 col-xs-12">
+                                <div id="chart_plot_01" class="demo-placeholder"></div>
+                            </div>
+
+                            <div class="col-md-3 col-sm-3 col-xs-12 bg-white">
+                                <div class="x_title">
+                                    <h2>服务器指标</h2>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-6">
+                                    <div>
+                                        <p>CPU</p>
+                                        <div class="">
+                                            <div class="progress progress_sm" style="width: 76%;">
+                                                <div class="progress-bar bg-green" role="progressbar"
+                                                    data-transitiongoal="80"></div>
+                                            </div>
+                                        </div>
+                                        <div class="progress progress-striped">
+                                            <div class="progress-bar progress-bar-warning" role="progressbar"
+                                                aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <p>内存</p>
+                                        <div class="">
+                                            <div class="progress progress_sm" style="width: 76%;">
+                                                <div class="progress-bar bg-green" role="progressbar"
+                                                    data-transitiongoal="60"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-6">
+                                    <div>
+                                        <p>硬盘</p>
+                                        <div class="">
+                                            <div class="progress progress_sm" style="width: 76%;">
+                                                <div class="progress-bar bg-green" role="progressbar"
+                                                    data-transitiongoal="50"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /top tiles -->
+                <br />
+
+                <div class="col-md-12 col-sm-12 col-xs-12">
+                    <div class="x_panel">
+                        <div class="x_title">
+                            <h2>访客信息
+                                <small>详情</small>
+                            </h2>
+                            <div class="clearfix"></div>
+                        </div>
+
+                        <div class="x_content">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>用户名</th>
+                                        <th>角色</th>
+                                        <th>用户IP</th>
+                                        <th>操作次数</th>
+                                        <th>时间</th>
+                                        <th>地域信息</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>张三</td>
+                                        <td>游客</td>
+                                        <td>0.0.0.0</td>
+                                        <td>12</td>
+                                        <td>2018-11-12 12:00:00</td>
+                                        <td>12</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">2</th>
+                                        <td>李四</td>
+                                        <td>VIP1</td>
+                                        <td>0.0.0.0</td>
+                                        <td>12</td>
+                                        <td>2018-11-12 12:00:00</td>
+                                        <td>12</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th scope="row">3</th>
+                                        <td>王五</td>
+                                        <td>VIP4</td>
+                                        <td>0.0.0.0</td>
+                                        <td>12</td>
+                                        <td>2018-11-12 12:00:00</td>
+                                        <td>12</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
+        </div>
+
+
+        <!-- footer content -->
+        <script type="text/javascript" th:src="@{/admin/footer-content.js}" src="../../static/admin/footer-content.js"></script>
+        <!-- /footer content -->
+    </div>
+    <!-- jQuery -->
+    <script th:src="@{/jquery/jquery.min.js}" src="../../static/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}" src="../../static/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Chart.js -->
+    <script th:src="@{/admin/Chart.js/dist/Chart.min.js}" src="../../static/admin/Chart.js/dist/Chart.min.js"></script>
+    <!-- DateJS -->
+    <script th:src="@{/admin/DateJS/build/date-zh-CN.js}" src="../../static/admin/DateJS/build/date-zh-CN.js"></script>
+    <!-- Flot -->
+    <script th:src="@{/admin/Flot/jquery.flot.js}" src="../../static/admin/Flot/jquery.flot.js"></script>
+    <script th:src="@{/admin/Flot/jquery.flot.time.js}" src="../../static/admin/Flot/jquery.flot.time.js"></script>
+    <script th:src="@{/admin/Flot/jquery.flot.time.js}" src="../../static/admin/Flot/jquery.flot.time.js"></script>
+    <script th:src="@{/admin/Flot/jquery.flot.stack.js}" src="../../static/admin/Flot/jquery.flot.stack.js"></script>
+    <script th:src="@{/admin/Flot/jquery.flot.resize.js}" src="../../static/admin/Flot/jquery.flot.resize.js"></script>
+    <!-- Flot plugins -->
+    <script th:src="@{/admin/flot.orderbars/js/jquery.flot.orderBars.js}" src="../../static/admin/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+    <script th:src="@{/admin/flot-spline/js/jquery.flot.spline.min.js}" src="../../static/admin/flot-spline/js/jquery.flot.spline.min.js"></script>
+    <script th:src="@{/admin/flot.curvedlines/curvedLines.js}" src="../../static/admin/flot.curvedlines/curvedLines.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script th:src="@{/admin/moment/min/moment.min.js}" src="../../static/admin/moment/min/moment.min.js"></script>
+    <script th:src="@{/admin/bootstrap-daterangepicker/daterangepicker.js}" src="../../static/admin/bootstrap-daterangepicker/daterangepicker.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script th:src="@{/admin/custom.js}" src="../../static/admin/custom.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="default/default">
+<head>
+    <link href="/css/mcss/read.css" rel="stylesheet"/>
+    <title>博客-系统设置</title>
+</head>
+<body>
+<div class="wcf-container" layout:fragment="content">
+    <div id="wrapper">
+        <div th:insert="~{show/read/left::blog-left('settings')}"></div>
+        <div class="read-management-container">
+            <div class="col-md-12">
+                <h4>系统设置</h4>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+</html>

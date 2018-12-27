@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <script type="text/javascript" th:src="@{/common/meta-icon.js}" src="../static/common/meta-icon.js"></script>
+    <title th:text="${article.title}"></title>
+    <link th:href="@{/blog/read.css}" href="../../static/blog/read.css" rel="stylesheet" />
+    <link th:href="@{/blog/solarized-dark.css}" href="../../static/blog/solarized-dark.css" rel="stylesheet" />
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" href="../../static/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script th:src="@{/jquery/jquery.min.js}" src="../../static/jquery/jquery.min.js"></script>
+</head>
+
+<body>
+    <script type="text/javascript" th:src="@{/common/header.js}" src="../../static/common/header.js"></script>
+    <div class="wcf-container">
+        <article class="main-content post-page">
+            <div class="post-header">
+                <h1 class="post-title" th:text="${article.title}"></h1>
+                <!--作者的头像-->
+                <div class="col-md-1">
+                    <img class="img-circle img-responsive" id="author-avatar" th:src="${author!=null and author.facePath !=null }?${author.facePath}:'/image/face/default.jpg'"
+                        th:title="${author!=null and author.username !=null }?${author.username}:'未知'" />
+                </div>
+                <div class="post-data col-md-6">
+                    <a href="#" id="author-name" th:text="${author!=null and author.username !=null }?${author.username}:'未知'"></a>
+                    <time th:text="'&nbsp;&nbsp;发布于&nbsp;&nbsp;'+ ${utils.fmtDate(article.createTime)}"></time>
+                    <th:block th:text="'&nbsp;&nbsp;评论&nbsp;&nbsp;'+${article.commentsNum ?: 0}" />
+                    <th:block th:text="'&nbsp;&nbsp;阅读&nbsp;&nbsp;'+ ${article.hits}" />
+                </div>
+                <div class="col-md-5">
+                    <input id="stars" type="hidden" th:value="${article.stars}" />
+                    <a class="col-md-6 like" th:onclick="'star('+${article.id}+')'">
+                        <span class="fa fa-heart-o like-flag" id="like-flag" th:text="'&nbsp;喜欢&nbsp;|&nbsp;&nbsp;'+${article.stars}"></span>
+                    </a>
+                </div>
+            </div>
+            <div id="post-content" class="post-content">
+                <p class="post-tags" th:utext="${utils.showTages(article.keywords)}"></p>
+                <th:block th:utext="${utils.showArticle(article.text)}" />
+                <p class="post-info">
+                    本站文章均为原创或翻译，转载必须标明出处<br />最后编辑时间为:
+                    <th:block th:text="${utils.fmtDate(article.modifyTime)}" />
+                </p>
+            </div>
+        </article>
+        <link rel="stylesheet" th:href="@{/sweetalert2/dist/sweetalert2.min.js}" href="../../static/sweetalert2/dist/sweetalert2.min.css" />
+        <script th:src="@{/sweetalert2/dist/sweetalert2.all.js}" src="../../static/sweetalert2/dist/sweetalert2.all.js"></script>
+        <script th:src="@{/common/tale.js}" src="../../static/common/tale.js"></script>
+        <script th:src="@{/blog/highlight.pack.js}" src="../../static/blog/highlight.pack.js"></script>
+        <script>hljs.initHighlightingOnLoad();</script>
+        <script>
+            function star(id) {
+                var stars = $("#stars").val();
+                $.post("/read/all/article/star", {
+                    "id": id,
+                    "stars": stars
+                },
+                    function (result) {
+                        if (result && result.success) {
+                            var newStars = result.msg;
+                            document.getElementById("like-flag").innerHTML = '&nbsp;喜欢&nbsp;|&nbsp;&nbsp;' + newStars;
+                            $("#stars").val(newStars);
+                        }
+                    });
+            }
+        </script>
+         <link rel="stylesheet" th:href="@{/sweetalert2/dist/sweetalert2.min.js}" href="../../static/sweetalert2/dist/sweetalert2.min.css" />
+         <script th:src="@{/sweetalert2/dist/sweetalert2.all.js}" src="../../static/sweetalert2/dist/sweetalert2.all.js"></script>
+         <script th:src="@{/common/tale.js}" src="../../static/common/tale.js"></script>
+        <script type="text/javascript" th:src="@{/blog/comments.js}" src="../../static/blog/comments.js"></script>
+    </div>
+
+</body>
+
+</html>

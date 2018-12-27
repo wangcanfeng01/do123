@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>我的文章</title>
+    <link href="/css/mcss/read.css" rel="stylesheet" />
+</head>
+
+<body>
+    <script type="text/javascript" th:src="@{/common/header.js}" src="../../static/common/header.js"></script>
+    <div class="wcf-container">
+        <div id="wrapper">
+            <script type="text/javascript" th:src="@{/blog/left.js}" src="../../static/blog/left.js"></script>
+            <div class="read-management-container">
+                <div class="col-md-12">
+                    <h4>文章列表</h4>
+                </div>
+                <div class="col-md-12">
+                    <div class="main-content clearfix">
+                        <div class="post-lists">
+                            <div class="post-lists-body">
+                                <div class="post-list-item" th:each="article:${articles.list}">
+                                    <div class="post-list-item-container">
+                                        <th:block th:if="${article.cover==null}">
+                                            <a th:href="${utils.articleLink(article.titleSimple)}" class="item-thumb  bg-deepgrey"
+                                                th:style="'background-image:url('+@{/image/article/cover/default.jpg}+');'">
+                                                <dir class="item-desc" th:text="${article.keywords}"></dir>
+                                            </a>
+                                        </th:block>
+                                        <th:block th:if="${article.cover!=null}">
+                                            <a th:href="${utils.articleLink(article.titleSimple)}" class="item-thumb  bg-deepgrey"
+                                                th:style="'background-image:url('+${article.cover}+');'">
+                                                <dir class="item-desc" th:text="${article.keywords}"></dir>
+                                            </a>
+                                        </th:block>
+                                        <div class="item-slant reverse-slant &lt; bg-deepgrey"></div>
+                                        <div class="item-slant"></div>
+                                        <div class="item-label">
+                                            <div class="item-title"><a th:href="${utils.articleLink(article.titleSimple)}"
+                                                    th:text="${article.title}"></a>
+                                            </div>
+                                            <div class="item-meta clearfix">
+                                                <div class="item-meta-cat" th:utext="${utils.showCategories(article.categories)}"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lists-navigator clearfix">
+                            <div th:insert="~{show/read/macros::pageNav(${articles},'上一页','下一页','read/all/page')}"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

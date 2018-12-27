@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="default/default">
+<head>
+    <title>博客-标签管理</title>
+    <link href="/css/mcss/read.css" rel="stylesheet"/>
+</head>
+
+<body>
+<div class="wcf-container" layout:fragment="content">
+    <div id="wrapper">
+        <div th:insert="~{show/read/left::blog-left('metas')}"></div>
+        <div class="read-management-container">
+            <div class="col-sm-12">
+                <h4 class="page-title">分类/关键词管理</h4>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">分类列表</h1>
+                    </div>
+                    <div class="panel-body">
+                        <th:block th:each="category:${categories}">
+                            <div class="btn-group mb-10">
+                                <th:block th:if="${category.name=='默认分类'}">
+                                    <button type="button" th:class="'btn btn-'+${utils.randColor()}+' dropdown-toggle'">
+                                        <th:block th:text="${category.name}"/>
+                                        <span class="badge bg-warning" th:title="'文章数'+${category.count}"
+                                              th:text="'  '+${category.count}"></span>
+                                    </button>
+                                </th:block>
+                                <th:block th:if="${category.name != '默认分类'}">
+                                    <button type="button" th:class="'btn btn-'+${utils.randColor()}+' dropdown-toggle'"
+                                            th:title="${category.description}"
+                                            data-toggle="dropdown" aria-expanded="false">
+                                        <th:block th:text="${category.name}"/>
+                                        <span class="badge bg-warning" th:title="'文章数'+${category.count}"
+                                              th:text="'  '+${category.count}"></span>
+                                        <th:block th:if="${category.cover!=null}">
+                                            <img class="meta-pic" th:src="${category.cover}" th:title="${category.name}"/>
+                                        </th:block>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="javascript:void(0)"
+                                               th:attr="mid=${category.id},mname=${category.name},mdes=${category.description},mcov=${category.cover}"
+                                               class="edit-category">修改</a>
+                                        </li>
+                                        <li><a href="javascript:void(0)" th:attr="mid=${category.id}"
+                                               class="del-category">删除</a></li>
+                                    </ul>
+                                </th:block>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="panel panel-danger">
+                    <div class="panel-heading">
+                        <h1 class="panel-title">关键词列表</h1>
+                    </div>
+                    <div class="panel-body">
+                        <th:block th:each="keyword:${keywords}">
+                            <div class="btn-group mb-10">
+                                <button type="button" th:class="'btn btn-'+${utils.randColor()}+' dropdown-toggle'"
+                                        th:title="${keyword.description}"
+                                        data-toggle="dropdown" aria-expanded="false">
+                                    <th:block th:text="${keyword.name}"/>
+                                    <span class="badge bg-warning" th:title="'文章数'+${keyword.count}"
+                                          th:text="'  '+${keyword.count}"></span>
+                                    <span class="caret"></span></button>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="javascript:void(0)" th:attr="mid=${keyword.id}"
+                                           class="del-category">删除</a></li>
+                                </ul>
+                            </div>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form id="meta-form" class="form-inline" enctype="multipart/form-data" role="form">
+                            <input type="hidden" name="metaId" id="meta-id"/>
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="metaName" id="meta-name"
+                                       placeholder="请输入分类名称"/>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control input-length-3" id="meta-description"
+                                       name="description"
+                                       placeholder="分类描述..."/>
+                            </div>
+                            <div class="form-group">
+                                <input type='text' class="form-control input-length-3"
+                                       name='textField' id='textField' placeholder="请选择要上传的图片..."/>
+                            </div>
+                            <div class="form-group">
+                                <input type="file" class="meta-file" name="metaCover" id="meta-cover"
+                                       onchange="getName(this.value)"/>
+                            </div>
+                            <button id="save-category-btn" type="button" class="btn btn-success ml-10">
+                                保存分类标签
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="default/insert::sweetalert2"></div>
+    <script>
+        var tale = new $.tale();
+
+        function getName(path) {
+            var text;
+            if (path != null) {
+                var arr;
+                if(path.indexOf("\\")){
+                    arr = path.split("/");
+                }
+                var length = arr.length;
+                if (length < 2) {
+                    text = path;
+                } else {
+                    text = arr[length - 1];
+                }
+            }
+            document.getElementById('textField').value = text;
+        }
+
+        $('#save-category-btn').click(function () {
+            var metaName = $('#meta-form #meta-name').val();
+            if (metaName && metaName != '') {
+                $.ajax({
+                    type: 'POST',
+                    url: '/read/admin/metas/save',
+                    data: new FormData($('#meta-form')[0]),
+                    async: false,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'json',
+                    success: function (result) {
+                        if (result && result.success) {
+                            $('#meta-form #meta-id').val('');
+                            $('#meta-form #meta-name').val('');
+                            $('#meta-form #meta-description').val('');
+                            $('#meta-form #meta-cover').val('');
+                            tale.alertOkAndReload('分类标签保存成功');
+                        } else {
+                            tale.alertError(result.msg || '分类标签保存失败');
+                        }
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        });
+
+        $('.edit-category').click(function () {
+            var mid = $(this).attr('mid');
+            var mname = $(this).attr('mname');
+            var mdes = $(this).attr('mdes');
+            var mcov = $(this).attr('mcov');
+            getName(mcov);
+            $('#meta-form #meta-id').val(mid);
+            $('#meta-form #meta-name').val(mname);
+            $('#meta-form #meta-description').val(mdes);
+        });
+
+        $('.del-category').click(function () {
+            var mid = $(this).attr('mid');
+            tale.alertConfirm({
+                title: '确定删除该项吗?',
+                then: function () {
+                    tale.delete({
+                        url: '/read/admin/metas/delete/' + mid,
+                        success: function (result) {
+                            if (result && result.success) {
+                                tale.alertOkAndReload('删除成功');
+                            } else {
+                                tale.alertError(result.msg || '删除失败');
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="sweetalert2">
+    <link rel="stylesheet" href="/webjars/sweetalert2/dist/sweetalert2.min.css"/>
+    <script src="/webjars/sweetalert2/dist/sweetalert2.all.js"></script>
+    <script src="/webjars/es6-promise-polyfill/promise.min.js"></script>
+    <script th:src="@{/js/mjs/tale.js}"></script>
+</div>
+<div th:fragment="bootstrap">
+    <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+    <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
+</div>
+<div th:fragment="jquery">
+    <script src="/webjars/jquery/jquery.min.js"></script>
+</div>
+</html>

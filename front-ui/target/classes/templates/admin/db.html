@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>CENTER</title>
+    <!-- Bootstrap -->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" href="../../static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link th:href="@{/font-awesome/css/font-awesome.min.css}" href="../../static/font-awesome/css/font-awesome.min.css"
+        rel="stylesheet">
+    <!-- bootstrap-daterangepicker -->
+    <link th:href="@{/admin/bootstrap-daterangepicker/daterangepicker.css}" href="../../static/admin/bootstrap-daterangepicker/daterangepicker.css"
+        rel="stylesheet">
+    <!-- Custom Theme Style -->
+    <link th:href="@{/admin/custom.min.css}" href="../../static/admin/custom.min.css" rel="stylesheet">
+</head>
+
+<body class="nav-md">
+    <div class="container body">
+        <div class="main_container">
+            <!-- left navigation -->
+            <script type="text/javascript" th:src="@{/admin/left-navigation.js}" src="../../static/admin/left-navigation.js"></script>
+            <!-- /left navigation -->
+
+            <!-- top navigation -->
+            <script type="text/javascript" th:src="@{/admin/top-navigation.js}" src="../../static/admin/top-navigation.js"></script>
+            <!-- /top navigation -->
+
+            <!-- page content -->
+            <div class="right_col" role="main">
+                <div class="">
+                    <div class="page-title">
+                        <div class="title_left">
+                            <h3>数据库状态
+                                <small>数据库状态查看</small>
+                            </h3>
+                        </div>
+
+                        <div class="title_right">
+                            <div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" placeholder="时间...">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-default" type="button"><span class="fa fa-search"></span></button>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="clearfix"></div>
+
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="x_panel">
+                                <div class="x_title">
+                                    <h2>状态列表
+                                        <small>显示数据数据库基本信息</small>
+                                    </h2>
+                                    <div class="clearfix"></div>
+                                </div>
+
+                                <div class="x_content">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>时间</th>
+                                                <th>表总量</th>
+                                                <th>连接打开数</th>
+                                                <th>最大可用连接</th>
+                                                <th>查询数</th>
+                                                <th>请求更新数</th>
+                                                <th>请求插入数</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">1</th>
+                                                <th>2019-01-01 12:00:00</th>
+                                                <th>100</th>
+                                                <th>12</th>
+                                                <th>100</th>
+                                                <th>202</th>
+                                                <th>45</th>
+                                                <th>35</th>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">2</th>
+                                                <th>2019-01-01 12:00:00</th>
+                                                <th>100</th>
+                                                <th>12</th>
+                                                <th>100</th>
+                                                <th>202</th>
+                                                <th>45</th>
+                                                <th>35</th>
+                                            </tr>
+
+                                            <tr>
+                                                <th scope="row">3</th>
+                                                <th>2019-01-01 12:00:00</th>
+                                                <th>100</th>
+                                                <th>12</th>
+                                                <th>100</th>
+                                                <th>202</th>
+                                                <th>45</th>
+                                                <th>35</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- /page content -->
+
+            <!-- footer content -->
+            <script type="text/javascript" th:src="@{/admin/footer-content.js}" src="../../static/admin/footer-content.js"></script>
+            <!-- /footer content -->
+        </div>
+    </div>
+    <!-- jQuery -->
+    <script th:src="@{/jquery/jquery.min.js}" src="../../static/jquery/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script th:src="@{/bootstrap/js/bootstrap.min.js}" src="../../static/bootstrap/js/bootstrap.min.js"></script>
+    <!-- Chart.js -->
+    <script th:src="@{/admin/Chart.js/dist/Chart.min.js}" src="../../static/admin/Chart.js/dist/Chart.min.js"></script>
+    <!-- Custom Theme Scripts -->
+    <script th:src="@{/admin/custom.js}" src="../../static/admin/custom.js"></script>
+</body>
+
+</html>

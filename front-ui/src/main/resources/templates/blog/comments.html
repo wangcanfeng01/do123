@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<body>
+<div th:fragment="comments">
+    <div th:if="${article}!=null">
+        <div th:id="${article.id ?: 0}" class="comment-container">
+            <p class="comment-line"></p>
+            <div id="comments" class="clearfix">
+                <div th:if="${article.allowComment}">
+                    <form method="post" id="comment-form" class="comment-form" role="form"
+                          onsubmit="return WCFComment.subComment();">
+                        <input type="hidden" name="id" id="id" th:value="${article.id}"/>
+                        <textarea name="text" id="textarea" class="form-control" placeholder="写下你的评论..."
+                                  required="required" minlength="5"
+                                  maxlength="2000"></textarea>
+                        <button type="submit" class="submit" id="btn-submit">发送</button>
+                    </form>
+                </div>
+                <div th:unless="${article.allowComment}">
+                    <span class="response">不允许评论.</span>
+                </div>
+                <div th:if="${comments}!=null" style="margin-top:100px">
+                    <ol class="comment-list">
+                        <th:block th:each="comment:${comments.list}">
+                            <li class="comment-body comment-parent comment-odd">
+                                <div class="comment-view">
+                                    <div class="comment-header">
+                                        <!--评论人的头像-->
+                                        <img class="img-circle img-responsive avatar"
+                                             th:src="${utils.showPhotoPath(comment.authorId)}"
+                                             th:title="${comment.author}"
+                                             width="80" height="80"/>
+                                        <!--评论人名字-->
+                                        <span class="comment-author">
+                                            <a href="##" rel="external nofollow" th:text="${comment.author}"></a>
+                                        </span>
+                                    </div>
+                                    <!--评论的内容-->
+                                    <div class="comment-content">
+                                        <span class="comment-author-at">
+                                            <p th:utext="${utils.showComment(comment.text)}"></p>
+                                        </span>
+                                    </div>
+                                    <!--评论时间-->
+                                    <div class="comment-meta">
+                                        <time th:text="${utils.fmtDate(comment.createTime)}"></time>
+                                        <span class="comment-reply">
+                                            <div th:if="${utils.isMyself(comment.author,loginUser)}">
+                                                <button  class="btn btn-danger btn-sm"
+                                                         th:onclick="'WCFComment.deleteComment('+${comment.id}+')'">删除</button>
+                                            </div>
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </li>
+                        </th:block>
+                    </ol>
+                    <div class="lists-navigator clearfix">
+                        <ol class="page-navigator">
+                            <!--通过PageInfo中的属性判断相关值-->
+                            <th:block th:if="${comments.hasPreviousPage}">
+                                <li class="prev">
+                                    <button class="btn btn-default">
+                                        <a th:href="'?cp='+${comments.prePage}+'#comments'">上一页</a>
+                                    </button>
+                                </li>
+                            </th:block>
+                            <!--显示5个标签选项页-->
+                            <th:block th:each="navIndex :${ comments.navigatepageNums}">
+                                <li th:if="${navIndex >= comments.pageNum -2 &amp;&amp; comments.pageNum +2 >= navIndex }"
+                                    th:class="${comments.pageNum==navIndex}?'current':''">
+                                    <button class="btn btn-default">
+                                        <a th:href="'?cp='+${navIndex}+'#comments'" th:text="${navIndex}"></a>
+                                    </button>
+                                </li>
+                            </th:block>
+
+                            <th:block th:if="${comments.hasNextPage}">
+                                <li class="next">
+                                    <button class="btn btn-default" id="btn1">
+                                        <a th:href="'?cp='+${comments.nextPage}+'#comments'">下一页</a>
+                                    </button>
+                                </li>
+                            </th:block>
+                        </ol>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:replace="default/insert::sweetalert2"></div>
+    <script type="text/javascript">
+        var tale = new $.tale();
+        (function () {
+            window.WCFComment = {
+                subComment: function () {
+                    $.ajax({
+                        type: 'post',
+                        url: '/read/comment/insert',
+                        data: $('#comment-form').serialize(),
+                        async: true,
+                        dataType: 'json',
+                        success: function (result) {
+                            if (result && result.success) {
+                                tale.alertOkAndReload(result.msg)
+                            } else {
+                                if (result.msg) {
+                                    tale.alertError(result.msg);
+                                }
+                            }
+                        }
+                    });
+                    return false;
+                },
+                deleteComment: function (id) {
+                    tale.alertConfirm({
+                        title: '确认删除该评论吗？',
+                        then: function () {
+                            var url = '/read/comment/delete/' + id;
+                            $.ajax({
+                                type: 'delete',
+                                url: url,
+                                success: function (result) {
+                                    if (result && result.success) {
+                                        tale.alertOkAndReload(result.msg);
+                                    } else {
+                                        if (result.msg) {
+                                            tale.alertError(result.msg);
+                                        }
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            }
+        })();
+    </script>
+</div>
+</body>
+</html>

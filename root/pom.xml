@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<parent>
+		<artifactId>do123</artifactId>
+		<groupId>com.wcf.funny</groupId>
+		<version>1.0-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>root</artifactId>
+	<description>Demo project for Spring Boot</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!--数据库相关依赖-start-->
+		<!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+		<!--数据库相关依赖-end-->
+
+		<dependency>
+			<groupId>com.wcf.funny</groupId>
+			<artifactId>admin</artifactId>
+			<version>${do123.funny.admin}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.wcf.funny</groupId>
+			<artifactId>blog</artifactId>
+			<version>${do123.funny.blog}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.wcf.funny</groupId>
+			<artifactId>config</artifactId>
+			<version>${do123.funny.config}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.wcf.funny</groupId>
+			<artifactId>core</artifactId>
+			<version>${do123.funny.core}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.wcf.funny</groupId>
+			<artifactId>front-ui</artifactId>
+			<version>${do123.funny.front-ui}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.wcf.funny</groupId>
+			<artifactId>video</artifactId>
+			<version>${do123.funny.video}</version>
+		</dependency>
+	</dependencies>
+
+	<packaging>war</packaging>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+		</plugins>
+		<finalName>ROOT</finalName>
+	</build>
+
+</project>

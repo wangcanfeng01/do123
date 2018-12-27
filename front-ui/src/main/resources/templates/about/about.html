@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>版本介绍</title>
+    <script type="text/javascript" th:src="@{/common/meta-icon.js}" src="../static/common/meta-icon.js"></script>
+    <link rel="stylesheet" th:href="@{/about/about.css}" href="../../static/about/about.css"> <!-- Resource style -->
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" href="../../static/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <script type="text/javascript" th:src="@{/common/header.js}" src="../../static/common/header.js"></script>
+    <div class="wcf-content" style="margin-top: 150px">
+        <div class="popup-modal popup-effect" id="modal">
+            <div class="popup-content">
+                <h3 id="popup-header"></h3>
+                <form id="version-form">
+                    <input type="hidden" name="id" id="id" />
+                    <input type="text" class="popup-version" name="version" id="version" placeholder="版本号" />
+                    <input type="date" class="popup-time" name="time" id="time" placeholder="发布时间" />
+                    <input type="hidden" name="publishTime" id="publishTime" />
+                    <textarea class="popup-description" name="description" id="description" placeholder="更新内容"></textarea>
+                </form>
+                <input type="button" class="popup-save" onclick="save()" value="保存" />
+                <button class="popup-close" id="close">取消</button>
+            </div>
+        </div>
+        <div class="popup-overlay"></div><!-- the overlay element -->
+        <div class="wcf-left" id="wcf-left">
+            <div class="inner">
+                <h2 class="wcf-label-font" style="font-size: 22px">作者信息</h2>
+                <img class="wcf-photo" th:src="@{/images/face/wcf.jpg}" src="../../static/images/face/wcf.jpg" />
+                <div class="col-md-8 col-md-offset-1 wcf-label-font" style="margin-top: 50px">
+                    <span class="glyphicon glyphicon-envelope"></span>
+                    <span th:text="${wangcanfeng.email}"></span>
+                </div>
+                <div class="col-md-8 col-md-offset-1 wcf-label-font">
+                    <span class="glyphicon glyphicon-file"></span>
+                    <a th:href="${wangcanfeng.jianli}" target="_blank" style="color: white">简历</a>
+                </div>
+                <div class="col-md-8 col-md-offset-1 wcf-label-font">
+                    <span class="glyphicon glyphicon-file"></span>
+                    <a th:href="${wangcanfeng.learning}" style="color: white">思维导图</a>
+                </div>
+                <div class="col-md-8 col-md-offset-1 wcf-label-font">
+                    <span class="glyphicon glyphicon-map-marker"></span>
+                    <span>杭州滨江</span>
+                </div>
+                <div class="col-md-8 col-md-offset-1 wcf-label-font-big">
+                    <span class="glyphicon glyphicon-wrench"></span>
+                    <span>技能点</span>
+                </div>
+                <div class="col-md-8 col-md-offset-1 wcf-skill-font">
+                    <span>前端</span>
+                    <div class="progress progress-striped">
+                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60"
+                            aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-md-offset-1 wcf-skill-font">
+                    <span>后端</span>
+                    <div class="progress progress-striped">
+                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60"
+                            aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-md-offset-1 wcf-skill-font">
+                    <span>大数据</span>
+                    <div class="progress progress-striped">
+                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60"
+                            aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 col-md-offset-1 wcf-skill-font">
+                    <span>机器学习</span>
+                    <div class="progress progress-striped">
+                        <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60"
+                            aria-valuemin="0" aria-valuemax="100" style="width: 20%;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="wcf-right" id="wcf-right">
+            <div class="inner">
+                <h2 class="wcf-label-font" style="font-size: 22px">版本信息</h2>
+                <section class="cd-horizontal-timeline">
+                    <div class="timeline">
+                        <div class="events-wrapper">
+                            <div class="events">
+                                <ol>
+                                    <th:block th:each="version:${versions}">
+                                        <li><a class="times" href="#0" th:data-date="${utils.fmtDate(version.publishTime)}"
+                                                th:text="'V'+${version.version}"></a></li>
+                                    </th:block>
+                                </ol>
+                                <span class="filling-line" aria-hidden="true"></span>
+                            </div> <!-- .events -->
+                        </div> <!-- .events-wrapper -->
+
+                        <ul class="cd-timeline-navigation">
+                            <li><a href="#0" class="prev inactive">Prev</a></li>
+                            <li><a href="#0" class="next">Next</a></li>
+                        </ul> <!-- .cd-timeline-navigation -->
+                    </div> <!-- .timeline -->
+
+                    <div class="events-content">
+                        <ol>
+                            <th:block th:each="version:${versions}">
+                                <li class="versions" th:data-date="${utils.fmtDate(version.publishTime)}">
+                                    <h3 th:text="'版本'+${version.version}"></h3>
+                                    <button class="popup-trigger add" data-modal="modal" onclick="saveHead()">新增版本</button>
+                                    <button th:id="${version.id}" class="popup-trigger update" data-modal="modal"
+                                        th:attr="des=${version.description},ver=${version.version},time=${utils.fmtDate(version.publishTime)}"
+                                        th:onclick="'updateHead('+${version.id}+')'">
+                                        修改信息
+                                    </button>
+                                    <em class="timeline__item__content__time">
+                                        <time th:text="'发布时间：'+ ${utils.fmtDate(version.publishTime)}"></time>
+                                    </em>
+                                    <pre class="timeline__item__content__description" th:utext="${version.description}"></pre>
+                                </li>
+                            </th:block>
+                        </ol>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <script th:src="@{/jquery/jquery.min.js}" src="../../static/jquery/jquery.min.js"></script>
+        <link rel="stylesheet" th:href="@{/sweetalert2/dist/sweetalert2.min.js}" href="../../static/sweetalert2/dist/sweetalert2.min.css" />
+        <script th:src="@{/sweetalert2/dist/sweetalert2.all.js}" src="../../static/sweetalert2/dist/sweetalert2.all.js"></script>
+        <script th:src="@{/common/tale.js}" src="../../static/common/tale.js"></script>
+        <script th:src="@{/about/about.js}" src="../../static/about/about.js"></script> <!-- Resource jQuery -->
+        <script type="text/javascript">
+            function saveHead() {
+                $('#version-form #id').val('');
+                $('#version-form #description').val('');
+                $('#version-form #version').val('');
+                $('#version-form #publishTime').val('');
+                $('#version-form #time').val('');
+                document.getElementById('popup-header').innerText = "新增版本";
+            }
+
+            function updateHead(id) {
+                var sss = '#' + id;
+                var des = $(sss).attr('des');
+                var version = $(sss).attr('ver');
+                var time = $(sss).attr('time');
+                $('#version-form #id').val(id);
+                $('#version-form #description').val(des);
+                $('#version-form #version').val(version);
+                $('#version-form #publishTime').val(time);
+                var date = time.split(' ')[0];
+                $('#version-form #time').val(date);
+                document.getElementById('popup-header').innerText = "修改信息";
+            }
+
+            var tale = new $.tale();
+
+            function save() {
+                var version = $('#version-form #version').val();
+                if (version == null || version == '' || version == "版本号不能为空") {
+                    $('#version-form #version').css({ color: "#a70500" });
+                    $('#version-form #version').val("版本号不能为空");
+                    return;
+                }
+                var str = document.getElementById('time').value;
+                if (str != null && str != '') {
+                    var year = str.substring(0, 4);
+                    var month = str.substring(5, 7);
+                    var day = str.substring(8, 10);
+                    var time = year + "-" + month + "-" + day + " " + "00:00:00";
+                    $('#version-form #publishTime').val(time);
+                }
+                var form = $('#version-form').serialize();
+                tale.post({
+                    url: "/save/version",
+                    data: form,
+                    success: function (result) {
+                        if (result && result.success) {
+                            window.location.href = "/about";
+                        } else {
+                            tale.alertError(result.msg || '版本信息发布失败');
+                        }
+                    }
+                });
+            }
+
+            var _leftheight = jQuery(".wcf-left").height();
+            var _rightheight = jQuery(".wcf-right").height();
+            if (_leftheight > _rightheight) {
+                jQuery(".wcf-right").height(_leftheight);
+            } else {
+                jQuery(".wcf-left").height(_rightheight);
+            }
+            $('a.times:last').addClass('selected')
+            $('li.versions:last').addClass('selected')
+        </script>
+    </div>
+</body>
+
+</html>

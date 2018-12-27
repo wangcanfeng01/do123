@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>无权限</title>
+    <link rel="shortcut icon" th:href="@{/image/home.jpg}"/>
+    <link href="../../static/css/common/bootstrap/bootstrap.min.css" rel="stylesheet"/>
+    <script src="../../static/js/common/jquery/jquery.min.js"></script>
+    <script src="../../static/js/common/bootstrap/bootstrap.min.js"></script>
+    <style>
+        p{
+            margin: 0;
+            padding: 6px 0;
+            font-size: 20px;
+            padding-bottom: 50px;
+            background-color: #f1f1f1;
+        }
+    </style>
+</head>
+<body>
+
+<div class="text-center">
+    <h1 style="padding-top: 80px">403!</h1>
+    <br/>
+    <h2>很抱歉，您没有权限访问该页面！</h2>
+    <br/>
+    <p>异常信息：<span th:text="${error}"></span></p>
+    <a class="btn btn-warning" href="/"><i class="fa fa-angle-left"></i> 返回首页</a>
+    <a class="btn btn-warning" href="/"><i class="fa fa-angle-right"></i> 我的简书</a>
+</div>
+</body>
+</html>
