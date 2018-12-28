@@ -23,19 +23,17 @@ public class FunnyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
     private OperationLogService logService;
 
     /**
-     *@note 登录成功后的处理
-     *@author WCF
-     *@time 2018/6/12 0:00
-     *@since v1.0
-     * @param request
-    * @param response
-    * @param authentication
-     *@return void
+     * 功能描述：  登录成功后的处理
+     *
+     * @return
+     * @author WCF
+     * @time 2018/12/28 23:33
+     * @since v1.0
      **/
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request,
-            HttpServletResponse response,
-            Authentication authentication) throws ServletException, IOException {
+                                        HttpServletResponse response,
+                                        Authentication authentication) throws ServletException, IOException {
         //用户信息来自 provider 中的 UsernamePasswordAuthenticationToken(userInfo, password, authorities)
         //所以可以强制转换类型
 //        UserDetailsInfo userDetailsInfo = (UserDetailsInfo) authentication.getPrincipal();

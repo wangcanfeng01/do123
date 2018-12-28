@@ -9,6 +9,13 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.1.RELEASE</version>
+        <relativePath/>
+    </parent>
+
     <modules>
         <module>video</module>
         <module>blog</module>
@@ -20,31 +27,26 @@
     </modules>
 
     <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
         <do123.funny.admin>1.0-SNAPSHOT</do123.funny.admin>
         <do123.funny.blog>1.0-SNAPSHOT</do123.funny.blog>
         <do123.funny.config>1.0-SNAPSHOT</do123.funny.config>
         <do123.funny.core>1.0-SNAPSHOT</do123.funny.core>
         <do123.funny.front-ui>1.0-SNAPSHOT</do123.funny.front-ui>
         <do123.funny.video>1.0-SNAPSHOT</do123.funny.video>
-        <spring-boot-starter>2.1.1.RELEASE</spring-boot-starter>
-        <spring-boot-starter-web>2.1.1.RELEASE</spring-boot-starter-web>
-        <spring-boot-starter-log4j2>2.1.1.RELEASE</spring-boot-starter-log4j2>
-        <spring-boot-starter-security>2.1.1.RELEASE</spring-boot-starter-security>
+        <spring-boot-relation>2.1.1.RELEASE</spring-boot-relation>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
     <dependencyManagement>
-
         <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter</artifactId>
-                <version>${spring-boot-starter}</version>
-            </dependency>
-
+            <!--web-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>${spring-boot-starter-web}</version>
+                <version>2.1.1.RELEASE</version>
                 <exclusions>
                     <exclusion>
                         <groupId>org.springframework</groupId>
@@ -54,29 +56,90 @@
                         <groupId>org.springframework</groupId>
                         <artifactId>spring-webmvc</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!--&lt;!&ndash;日志&ndash;&gt;-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-log4j2</artifactId>
+                <version>${spring-boot-relation}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>1.16.16</version>
+            </dependency>
+
+            <!--安全-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>${spring-boot-relation}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+
+            <!--view模版引擎-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-thymeleaf</artifactId>
+                <version>${spring-boot-relation}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-logging</artifactId>
+                    </exclusion>
                 </exclusions>
             </dependency>
 
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-log4j2</artifactId>
-                <version>${spring-boot-starter-log4j2}</version>
+                <groupId>com.wcf.funny</groupId>
+                <artifactId>admin</artifactId>
+                <version>${do123.funny.admin}</version>
             </dependency>
 
             <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-security</artifactId>
-                <version>${spring-boot-starter-security}</version>
+                <groupId>com.wcf.funny</groupId>
+                <artifactId>blog</artifactId>
+                <version>${do123.funny.blog}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.wcf.funny</groupId>
+                <artifactId>config</artifactId>
+                <version>${do123.funny.config}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wcf.funny</groupId>
+                <artifactId>core</artifactId>
+                <version>${do123.funny.core}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wcf.funny</groupId>
+                <artifactId>front-ui</artifactId>
+                <version>${do123.funny.front-ui}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wcf.funny</groupId>
+                <artifactId>video</artifactId>
+                <version>${do123.funny.video}</version>
+            </dependency>
+
 
             <!--数据库相关依赖-start-->
-            <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
-            <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>druid</artifactId>
-                <version>1.1.9</version>
-            </dependency>
-
             <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
@@ -90,6 +153,13 @@
                 <artifactId>mysql-connector-java</artifactId>
                 <version>8.0.8-dmr</version>
             </dependency>
+
+            <!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>1.1.9</version>
+            </dependency>
             <!--数据库相关依赖-end-->
 
             <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
@@ -98,6 +168,8 @@
                 <artifactId>spring-webmvc</artifactId>
                 <version>5.1.3.RELEASE</version>
             </dependency>
+
+
         </dependencies>
 
     </dependencyManagement>

@@ -16,7 +16,7 @@ public interface UserInfoService {
      * @time 2018/6/12 22:14
      * @since v1.0
      **/
-    boolean addNewUser(UserInfo userInfo) throws PgSqlException,UserException;
+    boolean addNewUser(UserInfo userInfo) ;
 
 
     /**
@@ -27,7 +27,7 @@ public interface UserInfoService {
      * @time 2018/6/12 22:15
      * @since v1.0
      **/
-    UserInfo getByUsername(String name) throws PgSqlException;
+    UserInfo getByUsername(String name) ;
 
 
     /**
@@ -38,5 +38,5 @@ public interface UserInfoService {
      * @time 2018/6/12 22:19
      * @since v1.0
      **/
-    UserInfo getUserByid(Integer id) throws PgSqlException;
+    UserInfo getUserByid(Integer id);
 }

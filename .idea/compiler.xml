@@ -17,15 +17,15 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="admin" target="1.8" />
-      <module name="blog" target="1.5" />
+      <module name="blog" target="1.8" />
       <module name="common" target="1.5" />
       <module name="config" target="1.8" />
       <module name="core" target="1.8" />
-      <module name="do123" target="1.5" />
-      <module name="front-ui" target="1.5" />
+      <module name="do123" target="1.8" />
+      <module name="front-ui" target="1.8" />
       <module name="frontui" target="1.5" />
-      <module name="root" target="1.5" />
-      <module name="video" target="1.5" />
+      <module name="root" target="1.8" />
+      <module name="video" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

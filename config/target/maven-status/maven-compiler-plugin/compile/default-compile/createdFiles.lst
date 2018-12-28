@@ -1,0 +1,2 @@
+com\wcf\funny\config\datasource\MyDataSource.class
+com\wcf\funny\config\mvc\MyWebMvcConfigurer.class
