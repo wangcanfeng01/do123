@@ -1,5 +1,6 @@
 package com.wcf.funny.config.security.handler;
 
+import com.wcf.funny.core.annotation.FunnyHandler;
 import com.wcf.funny.core.log.service.OperationLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -16,7 +17,7 @@ import java.io.IOException;
  * @time 2018/3/4
  * @why 登录成功处理，这个类里面还可以设置登录成功后根据角色类型页面跳转
  **/
-@Component
+@FunnyHandler
 public class FunnyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     @Autowired

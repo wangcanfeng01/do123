@@ -43,7 +43,7 @@ public enum  ErrorMessage implements CoreCode{
     UPDATE_VERSION_ERROR("0000001B", "Update operation data into database failed","更新版本异常"),
     DELETE_VERSION_ERROR("0000001C", "Delete operation data from database failed","删除版本异常"),
 
-    USER_ALREADY_EXIST("00010001", "The user name is already exist","用户名已存在"),
+
     USER_PRIVILEGE_LESS("00010002", "The user's privilege is not enough","用户权限不足");
 
     ErrorMessage(String code, String reason, String chinese) {

@@ -1,11 +1,13 @@
 package com.wcf.funny.core.exception;
 
+import com.wcf.funny.core.exception.errorcode.CoreCode;
+
 /**
  * @author WCF
  * @time 2018/6/15
  * @why 功能：基础异常
  **/
-public class BaseException extends Exception{
+public abstract class BaseException extends RuntimeException {
     /**
      * 错误信息
      */
@@ -16,9 +18,33 @@ public class BaseException extends Exception{
     private String code;
 
     /**
-     * 中文异常信息
+     * 功能描述：  枚举构造函数
+     *
+     * @param coreCode
+     * @return
+     * @authorwangcanfengg
+     * @2018/12/29123:5723:56
+     * @sin* @param coreCode
      */
-    private String chinese;
+     public BaseException(CoreCode coreCode) {
+        super(coreCode.getReason());
+        this.code = coreCode.getCode();
+    }
+
+    /**
+     * 功能描述：  携带异常信息的构造函数
+     *
+     * @param coreCode
+     * @return
+     * @author wangcanfeng
+     * @time 2018/12/29 23:56
+     * @since v1.0
+     **/
+    public BaseException(CoreCode coreCode, Throwable e) {
+        super(coreCode.getReason(), e);
+        this.code = coreCode.getCode();
+    }
+
 
     /**
      * @param msg
@@ -68,18 +94,6 @@ public class BaseException extends Exception{
 
 
     /**
-     * @param
-     * @return java.lang.String
-     * @note 获取中文异常信息
-     * @author WCF
-     * @time 2018/6/15 0:49
-     * @since v1.0
-     **/
-    public String getChinese() {
-        return this.chinese;
-    }
-
-    /**
      * @param msg
      * @return void
      * @note 错误信息
@@ -102,18 +116,4 @@ public class BaseException extends Exception{
     public void setCode(String code) {
         this.code = code;
     }
-
-    /**
-     * @param chinese
-     * @return void
-     * @note 中文错误信息
-     * @author WCF
-     * @time 2018/6/15 1:02
-     * @since v1.0
-     **/
-    public void setChinese(String chinese) {
-        this.chinese = chinese;
-    }
-
-
 }

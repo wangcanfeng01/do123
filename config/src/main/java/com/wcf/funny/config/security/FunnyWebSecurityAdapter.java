@@ -89,14 +89,14 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.
-                ignoring().antMatchers("/about/**")
-                .and().ignoring().antMatchers("/admin/**")
-                .and().ignoring().antMatchers("/blog/**")
-                .and().ignoring().antMatchers("/common/**")
-                .and().ignoring().antMatchers("/files/**")
-                .and().ignoring().antMatchers("/home/**")
-                .and().ignoring().antMatchers("/images/**")
-                .and().ignoring().antMatchers("/pdfjs/**")
-                .and().ignoring().antMatchers("/video/**");
+                ignoring().antMatchers("/static/about/**")
+                .and().ignoring().antMatchers("/static/admin/**")
+                .and().ignoring().antMatchers("/static/blog/**")
+                .and().ignoring().antMatchers("/static/common/**")
+                .and().ignoring().antMatchers("/static/files/**")
+                .and().ignoring().antMatchers("/static/home/**")
+                .and().ignoring().antMatchers("/static/images/**")
+                .and().ignoring().antMatchers("/static/pdfjs/**")
+                .and().ignoring().antMatchers("/static/video/**");
     }
 }

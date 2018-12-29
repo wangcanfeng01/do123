@@ -20,7 +20,7 @@ public class LogUtils {
      * @Date: 2018/12/27 16:40
      */
     public static String error(String code, String msg) {
-        return makeString(code, msg);
+        return makeString(code, msg,null);
     }
 
     /**
@@ -32,12 +32,12 @@ public class LogUtils {
      * @Author:wangcanfeng
      * @Date: 2018/12/27 16:39
      */
-    public static String error(CoreCode coreCode) {
-
+    public static String error(CoreCode coreCode,Throwable e) {
         if (ObjectUtils.isEmpty(coreCode)) {
             return "";
         }
-        return makeString(coreCode.getCode(), coreCode.getReason());
+        String details=e.getMessage();
+        return makeString(coreCode.getCode(), coreCode.getReason(),details);
     }
 
     /**
@@ -45,17 +45,16 @@ public class LogUtils {
      *
      * @param code  错误码
      * @param msg   错误信息
-     * @param param 参数
+     * @param details 详细
      * @return:java.lang.String
      * @since: v1.0
      * @Author:wangcanfeng
      * @Date: 2018/12/27 16:34
      */
-    private static String makeString(String code, String msg, final String... param) {
-        if(ObjectUtils.isEmpty(param)) {
+    private static String makeString(String code, String msg, String details) {
+        if(ObjectUtils.isEmpty(details)) {
             return "[code: " + code + ", reason: " + msg + "]";
         }
-        String details = String.format(msg, (Object[]) param);
-        return "[code: " + code + ", reason: " + details + "]";
+        return "[code: " + code + ",msg: "+ msg+", reason: " + details + "]";
     }
 }

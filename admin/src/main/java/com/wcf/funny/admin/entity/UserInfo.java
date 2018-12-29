@@ -1,6 +1,6 @@
 package com.wcf.funny.admin.entity;
 
-//import lombok.Data;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -11,7 +11,7 @@ import java.util.Random;
  * @time 2018/12/26
  * @function 用户信息
  **/
-//@Data
+@Data
 public class UserInfo {
     /**
      * 用户id
