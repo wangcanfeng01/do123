@@ -16,7 +16,7 @@ import java.util.Collection;
  * @description
  * @Date Created in 17:29-2018/12/27
  */
-@Service
+//@Service
 public class FunnyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
     @Override
     public Collection<ConfigAttribute> getAttributes(Object obj) throws IllegalArgumentException {

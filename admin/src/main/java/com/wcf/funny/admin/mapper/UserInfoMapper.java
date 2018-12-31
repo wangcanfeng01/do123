@@ -19,7 +19,7 @@ public interface UserInfoMapper {
      * @param name
      *@return com.wcf.hellohome.user.model.UserInfo
      **/
-    @Select("select id, name as username,password,face_path as facePath,register_time as registerTime," +
+    @Select("select id, name as username,password,face_name as faceName,register_time as registerTime," +
             " role, introduce from info_user where name = #{name}")
     UserInfo getUserByName(String name) throws Exception ;
 

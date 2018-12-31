@@ -17,7 +17,7 @@ import java.io.IOException;
  * @Date Created in 11:53-2018/12/27
  */
 @Log4j2
-@Configuration
+//@Configuration
 public class FunnySecurityFilterInterceptor extends AbstractSecurityInterceptor implements Filter {
 
     @Autowired

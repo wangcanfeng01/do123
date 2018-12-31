@@ -15,7 +15,7 @@ public class UserDetailsVo implements UserDetails {
     /**
      * 用户角色列表
      */
-    private  Collection<? extends GrantedAuthority> authorities;
+    private  Collection<GrantedAuthority> authorities;
 
     /**
      * 用户密码
@@ -53,13 +53,13 @@ public class UserDetailsVo implements UserDetails {
      */
     private Boolean isEnabled;
 
-    private UserDetailsVo setAuthorities(Collection<? extends GrantedAuthority> authorities){
+    public UserDetailsVo setAuthorities(Collection<GrantedAuthority> authorities){
         this.authorities=authorities;
         return this;
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
+    public Collection<GrantedAuthority> getAuthorities() {
         return authorities;
     }
 

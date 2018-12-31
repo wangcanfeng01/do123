@@ -19,7 +19,7 @@ import java.util.Iterator;
  * @time 2018/12/26
  * @function 用于决策是否用户的角色能通过当前的拦截器
  **/
-@FunnyManager
+//@FunnyManager
 @Log4j2
 public class FunnyAccessDecisionManager implements AccessDecisionManager {
     /**

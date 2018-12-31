@@ -95,7 +95,11 @@ public class UserInfoServiceImpl implements UserInfoService {
      **/
     @Override
     public UserInfo getByUsername(String name) {
-        return null;
+        try {
+            return mapper.getUserByName(name);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.SELECT_USER_ERROR,e);
+        }
     }
 
 
@@ -109,6 +113,10 @@ public class UserInfoServiceImpl implements UserInfoService {
      **/
     @Override
     public UserInfo getUserByid(Integer id) {
-        return null;
+        try {
+            return mapper.getUserById(id);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.SELECT_USER_ERROR,e);
+        }
     }
 }

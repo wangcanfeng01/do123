@@ -17,7 +17,7 @@ import java.io.IOException;
  * @time 2018/3/4
  * @why 登录成功处理，这个类里面还可以设置登录成功后根据角色类型页面跳转
  **/
-@FunnyHandler
+//@FunnyHandler
 public class FunnyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     @Autowired

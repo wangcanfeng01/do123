@@ -25,7 +25,7 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
     /**
      * 权限过滤器
      */
-    @Autowired
+//    @Autowired
     private FunnySecurityFilterInterceptor securityFilterInterceptor;
 
     /**
@@ -37,7 +37,7 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
     /**
      * 鉴权成功处理
      */
-    @Autowired
+//    @Autowired
     private FunnyAuthenticationSuccessHandler authenticationSuccessHandler;
 
 
@@ -63,13 +63,14 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
-                .addFilterBefore(securityFilterInterceptor, FilterSecurityInterceptor.class)
+//                .addFilterBefore(securityFilterInterceptor, FilterSecurityInterceptor.class)
                 .authorizeRequests()
                 .antMatchers("/", "/show/files/**", "/read/all/**").permitAll()
                 .antMatchers("/login").permitAll()
                 .antMatchers("/user/**", "/register").permitAll()
                 .anyRequest().authenticated().and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/home", true).successHandler(authenticationSuccessHandler)
+                .formLogin().loginPage("/login").defaultSuccessUrl("/home", true)
+//                .successHandler(authenticationSuccessHandler)
                 .failureUrl("/login?error=true").and()
                 .logout()
                 .invalidateHttpSession(true)

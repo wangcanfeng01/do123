@@ -6,6 +6,7 @@ package com.wcf.funny.core.exception.errorcode;
  * @function 错误信息枚举
  **/
 public enum  ErrorMessage implements CoreCode{
+
     UNKNOWN_ERROR("00000000", "Unknown error","未知异常"),
 
     INSERT_ARTICLE_ERROR("00000001", "Insert article data into database failed","插入文章异常"),
