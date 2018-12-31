@@ -26,9 +26,9 @@ public class UserInfo {
      */
     private String password;
     /**
-     * 用于存放头像路径
+     * 头像图片名称
      */
-    private String facePath;
+    private String faceName;
     /**
      * 登录的时间
      */
@@ -43,19 +43,4 @@ public class UserInfo {
      * 签名档
      */
     private String introduce;
-    /**
-     *@note 初始化用户信息
-     *@author WCF
-     *@time 2018/6/12 22:50
-     *@since v1.0
-     * @param username
-    * @param password
-     *@return
-     **/
-    public UserInfo(String username, String password) {
-        this.username = username;
-        this.password = password;
-        this.facePath = "/image/face/face" + new Random().nextInt(10) + ".jpg";
-        this.registerTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss"));
-    }
 }

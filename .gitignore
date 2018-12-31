@@ -21,3 +21,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+.idea/artifacts/root_war.xml
+video/video.iml
+*.xml
+*.md
+*.iml
+*.iml
+do123.iml

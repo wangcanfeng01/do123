@@ -9,14 +9,29 @@ import com.wcf.funny.admin.entity.UserInfo;
  **/
 public interface UserInfoService {
     /**
-     * @param userInfo
+     * @param name
+     * @param password
+     * @param faceName
      * @return boolean
      * @note 添加新的用户
      * @author WCF
      * @time 2018/6/12 22:14
      * @since v1.0
      **/
-    boolean addNewUser(UserInfo userInfo) ;
+    boolean addNewUser(String name,String password,String faceName);
+
+    /**
+     * @param name
+     * @param password
+     * @param faceName
+     * @param introduce
+     * @return boolean
+     * @note 添加新的用户
+     * @author WCF
+     * @time 2018/6/12 22:14
+     * @since v1.0
+     **/
+    boolean addNewUser(String name,String password,String faceName,String introduce);
 
 
     /**
