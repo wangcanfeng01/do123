@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 /**
  * @author WCF
@@ -52,6 +51,7 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(authenticationProvider);
     }
 
+
     /**
      * @param http
      * @return void
@@ -62,12 +62,10 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
      **/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http
 //                .addFilterBefore(securityFilterInterceptor, FilterSecurityInterceptor.class)
                 .authorizeRequests()
-                .antMatchers("/", "/show/files/**", "/read/all/**").permitAll()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/user/**", "/register").permitAll()
+                .antMatchers("/**","/login",  "/register").permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/home", true)
 //                .successHandler(authenticationSuccessHandler)
@@ -89,6 +87,7 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.
+
                 ignoring().antMatchers("/static/about/**")
                 .and().ignoring().antMatchers("/static/admin/**")
                 .and().ignoring().antMatchers("/static/blog/**")

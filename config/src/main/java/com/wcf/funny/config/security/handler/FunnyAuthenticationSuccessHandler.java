@@ -1,11 +1,9 @@
 package com.wcf.funny.config.security.handler;
 
-import com.wcf.funny.core.annotation.FunnyHandler;
 import com.wcf.funny.core.log.service.OperationLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

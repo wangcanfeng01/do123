@@ -2,7 +2,6 @@ package com.wcf.funny.config.security;
 
 import com.wcf.funny.config.exception.FunnyAccessDeniedException;
 import com.wcf.funny.config.exception.errorcode.ConfigErrorCode;
-import com.wcf.funny.core.annotation.FunnyManager;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.AccessDeniedException;

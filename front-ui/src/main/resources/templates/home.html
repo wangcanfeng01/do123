@@ -1,102 +1,105 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <title>首页</title>
-    <script type="text/javascript" th:src="@{/common/meta-icon.js}" src="../static/common/meta-icon.js"></script>
-    <link rel="stylesheet" th:href="@{/home/home.css}" href="../static/home/home.css" />
-    <link th:href="@{/font-awesome/css/font-awesome.min.css}" href="../static/font-awesome/css/font-awesome.min.css"
-        rel="stylesheet" />
-    <script th:src="@{/jquery/jquery.min.js}" src="../static/jquery/jquery.min.js"></script>
-    <script th:src="@{/home/slider.js}" src="../static/home/slider.js"></script>
-    <script th:src="@{/home/wow.js}" src="../static/home/wow.js"></script>
-    <script th:src="@{/home/home.js}" src="../static/home/home.js"></script>
-    <link th:href="@{/bootstrap/css/bootstrap.min.css}" href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <script type="text/javascript" src="../static/common/meta-icon.js"></script>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="../static/home/home.css"/>
+    <link href="../static/font-awesome/css/font-awesome.min.css" rel="stylesheet"/>
+    <script src="../static/jquery/jquery.min.js"></script>
+    <script src="../static/home/slider.js"></script>
+    <script src="../static/home/wow.js"></script>
+    <script src="../static/home/home.js"></script>
+    <link href="../static/bootstrap/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 
 <body>
-    <script type="text/javascript" th:src="@{/common/header.js}" src="../static/common/header.js"></script>
+<script src="../static/common/header.js"></script>
+<script type="text/javascript">
+    myHeader('../static/images/banner.gif')
+</script>
 
-    <div class="wcf-body-container">
-        <section class="slider_wrapper">
-            <div id="slides">
-                <div class="slide">
-                    <img th:src="@{/images/home/home.jpg}" src="../static/images/home/home.jpg" alt="" />
-                    <span class="caption">读书、写作、看视频</span>
-                </div>
-                <div class="slide">
-                    <img th:src="@{/images/home/lion.jpg}" src="../static/images/home/lion.jpg" alt="" />
-                    <span class="caption">读书、写作、看视频</span>
-                </div>
-                <div class="slide">
-                    <img th:src="@{/images/home/girl.jpg}" src="../static/images/home/girl.jpg" alt="" />
-                    <span class="caption">读书、写作、看视频</span>
-                </div>
-                <div class="slide">
-                    <img th:src="@{/images/home/mount.jpg}" src="../static/images/home/mount.jpg" alt="" />
-                    <span class="caption">读书、写作、看视频</span>
-                </div>
-                <div class="slide">
-                    <img th:src="@{/images/home/night.jpg}" src="../static/images/home/night.jpg" alt="" />
-                    <span class="caption">读书、写作、看视频</span>
-                </div>
+<div class="wcf-body-container">
+    <section class="slider_wrapper">
+        <div id="slides">
+            <div class="slide">
+                <img src="../static/images/home/home.jpg" alt=""/>
+                <span class="caption">读书、写作、看视频</span>
             </div>
-        </section>
-        <section>
-            <div class="header animated wow fadeInDown" data-wow-delay=".1s">
-                <h1 id="welcome">欢迎使用本站</h1>
-                <!--<p>本站不定时在博客中分享知识以及提供最方便的视频搜索服务</p>-->
+            <div class="slide">
+                <img src="../static/images/home/lion.jpg" alt=""/>
+                <span class="caption">读书、写作、看视频</span>
             </div>
-            <div class="feature left">
-                <a href="/read/all/personal" class="image icon fa-book animated wow fadeInLeft" data-wow-delay=".2s">
-                    <img th:src="@{/images/home/blog.jpg}" src="../static/images/home/blog.jpg" alt="" /></a>
-                <div class="content animated wow fadeInRight" data-wow-delay=".3s">
-                    <h3>博客分享</h3>
-                    <p>（1）在网络上收获了无数知识，因此在自己获得帮助的同时，想到了回报社会</p>
-                    <p>（2）写博客可以记录自己当前所学，方便回顾 ，利人利己</p>
+            <div class="slide">
+                <img src="../static/images/home/girl.jpg" alt=""/>
+                <span class="caption">读书、写作、看视频</span>
+            </div>
+            <div class="slide">
+                <img src="../static/images/home/mount.jpg" alt=""/>
+                <span class="caption">读书、写作、看视频</span>
+            </div>
+            <div class="slide">
+                <img src="../static/images/home/night.jpg" alt=""/>
+                <span class="caption">读书、写作、看视频</span>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="header animated wow fadeInDown" data-wow-delay=".1s">
+            <h1 id="welcome">欢迎使用本站</h1>
+            <!--<p>本站不定时在博客中分享知识以及提供最方便的视频搜索服务</p>-->
+        </div>
+        <div class="feature left">
+            <a href="/read/all/personal" class="image icon fa-book animated wow fadeInLeft" data-wow-delay=".2s">
+                <img src="../static/images/home/blog.jpg" alt=""/></a>
+            <div class="content animated wow fadeInRight" data-wow-delay=".3s">
+                <h3>博客分享</h3>
+                <p>（1）在网络上收获了无数知识，因此在自己获得帮助的同时，想到了回报社会</p>
+                <p>（2）写博客可以记录自己当前所学，方便回顾 ，利人利己</p>
+            </div>
+        </div>
+        <!-- <div class="feature right">
+        <a href="/album" class="image icon fa-camera animated wow fadeInLeft" data-wow-delay=".4s">
+            <img src="image/home/photo.jpg" alt=""/></a>
+        <div class="content animated wow fadeInRight"  data-wow-delay=".5s">
+            <h3>照片收藏</h3>
+            <p>（1）分享一些平时收集的图片资源</p>
+            <p>（2）分享个人出行，游戏等动态的图片</p>
+        </div>
+    </div> -->
+        <div class="feature right">
+            <a href="/video" class="image icon fa-youtube-play animated wow fadeInLeft" data-wow-delay=".6s">
+                <img src="../static/images/home/video.jpg" alt=""/></a>
+            <div class="content animated wow fadeInRight" data-wow-delay=".7s">
+                <h3>视频搜索</h3>
+                <p>（1）通过机器学习算法，智能推荐用户平时浏览量最高的视频</p>
+                <p>（2）提供智能搜索方法，方便中老年用户查找视频</p>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="header animated wow fadeInUp" data-wow-delay=".8s">
+            <h1 id="join">加入我们</h1>
+            <p>申请权限/关于本站的疑问</p>
+        </div>
+        <div class="message-form animated wow fadeInUp" data-wow-delay=".9s">
+            <form id="message">
+                <div class="col-md-12 input-group">
+                    <input class="form-control" type="text" name="name" id="name" placeholder="用户名"/>
+                    <input class="form-control" type="email" name="email" id="email" placeholder="邮箱"/>
                 </div>
-            </div>
-            <!-- <div class="feature right">
-            <a href="/album" class="image icon fa-camera animated wow fadeInLeft" data-wow-delay=".4s">
-                <img src="image/home/photo.jpg" alt=""/></a>
-            <div class="content animated wow fadeInRight"  data-wow-delay=".5s">
-                <h3>照片收藏</h3>
-                <p>（1）分享一些平时收集的图片资源</p>
-                <p>（2）分享个人出行，游戏等动态的图片</p>
-            </div>
-        </div> -->
-            <div class="feature right">
-                <a href="/video" class="image icon fa-youtube-play animated wow fadeInLeft" data-wow-delay=".6s">
-                    <img th:src="@{/images/home/video.jpg}" src="../static/images/home/video.jpg" alt="" /></a>
-                <div class="content animated wow fadeInRight" data-wow-delay=".7s">
-                    <h3>视频搜索</h3>
-                    <p>（1）通过机器学习算法，智能推荐用户平时浏览量最高的视频</p>
-                    <p>（2）提供智能搜索方法，方便中老年用户查找视频</p>
+                <div class="col-md-12 input-group">
+                    <textarea name="message" id="info" placeholder="申请加入我们，提供更多的操作权限和浏览权限"></textarea>
                 </div>
-            </div>
-        </section>
-        <section>
-            <div class="header animated wow fadeInUp" data-wow-delay=".8s">
-                <h1 id="join">加入我们</h1>
-                <p>申请权限/关于本站的疑问</p>
-            </div>
-            <div class="message-form animated wow fadeInUp" data-wow-delay=".9s">
-                <form id="message">
-                    <div class="col-md-12 input-group">
-                        <input class="form-control" type="text" name="name" id="name" placeholder="用户名" />
-                        <input class="form-control" type="email" name="email" id="email" placeholder="邮箱" />
-                    </div>
-                    <div class="col-md-12 input-group">
-                        <textarea name="message" id="info" placeholder="申请加入我们，提供更多的操作权限和浏览权限"></textarea>
-                    </div>
-                    <div class="col-md-12 input-group">
-                        <a href="#" class="btn btn-success fa fa-envelope"> 发送消息</a>
-                    </div>
-                </form>
-            </div>
-        </section>
-        <script type="text/javascript" th:src="@{/common/footer.js}" src="../static/common/footer.js"></script>
-    </div>
+                <div class="col-md-12 input-group">
+                    <a href="#" class="btn btn-success fa fa-envelope"> 发送消息</a>
+                </div>
+            </form>
+        </div>
+    </section>
+    <script type="text/javascript" src="../static/common/footer.js"></script>
+</div>
 </body>
 
 </html>
