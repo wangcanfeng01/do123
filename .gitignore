@@ -21,10 +21,14 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-.idea/artifacts/root_war.xml
-video/video.iml
-*.xml
-*.md
-*.iml
-*.iml
+#忽略要上传的文件
+/video/video.iml
+/root/root.iml
+/front-ui/front-ui.iml
+/.idea/
+/admin/admin.iml
+/blog/blog.iml
+/config/config.iml
+/core/core.iml
+/do123.iml
 do123.iml
