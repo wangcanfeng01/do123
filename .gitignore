@@ -32,3 +32,10 @@ hs_err_pid*
 /core/core.iml
 /do123.iml
 do123.iml
+/admin/target/
+/blog/target/
+/config/target/
+/core/target/
+/front-ui/target/
+/root/target/
+/video/target/
