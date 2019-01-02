@@ -65,7 +65,7 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
         http
 //                .addFilterBefore(securityFilterInterceptor, FilterSecurityInterceptor.class)
                 .authorizeRequests()
-                .antMatchers("/**","/login",  "/register").permitAll()
+                .antMatchers("/**","/login","/get/login",  "/register").permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/home", true)
 //                .successHandler(authenticationSuccessHandler)
@@ -87,7 +87,6 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.
-
                 ignoring().antMatchers("/static/about/**")
                 .and().ignoring().antMatchers("/static/admin/**")
                 .and().ignoring().antMatchers("/static/blog/**")
