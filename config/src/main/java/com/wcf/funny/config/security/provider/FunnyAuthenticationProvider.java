@@ -1,7 +1,10 @@
 package com.wcf.funny.config.security.provider;
 
+import com.wcf.funny.config.exception.UserAuthException;
 import com.wcf.funny.admin.vo.UserDetailsVo;
+import com.wcf.funny.config.exception.errorcode.ConfigErrorCode;
 import com.wcf.funny.core.annotation.FunnyProvider;
+import com.wcf.funny.core.utils.MD5Utils;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -31,9 +34,12 @@ public class FunnyAuthenticationProvider implements AuthenticationProvider {
         }
         String name = authentication.getName();
         UserDetailsVo details = (UserDetailsVo) userDetailsService.loadUserByUsername(name);
+        if (ObjectUtils.isEmpty(details)) {
+            throw new UserAuthException(ConfigErrorCode.USER_NOT_FOUND);
+        }
         boolean isPass = checkPassword(details.getPassword(), (String) authentication.getCredentials());
-        isPass=true;
         if (isPass) {
+            //后面改一下，这里需要从数据库中获取到角色信息
             Collection<GrantedAuthority> roles = details.getAuthorities();
             Authentication auth = new UsernamePasswordAuthenticationToken(details.getUsername(), details.getPassword(), roles);
             return auth;
@@ -43,12 +49,14 @@ public class FunnyAuthenticationProvider implements AuthenticationProvider {
 
     private boolean checkPassword(String password, String authPassword) {
         if (ObjectUtils.isEmpty(password) || ObjectUtils.isEmpty(authPassword)) {
-            return false;
+            throw new UserAuthException(ConfigErrorCode.NAME_OR_PASSWORD_NULL);
         }
+        authPassword = MD5Utils.encode(authPassword);
         if (password.equals(authPassword)) {
             return true;
+        }else {
+            throw new UserAuthException(ConfigErrorCode.PASSWORD_IS_ERROR);
         }
-        return false;
     }
 
     @Override

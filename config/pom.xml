@@ -63,5 +63,11 @@
             <groupId>com.wcf.funny</groupId>
             <artifactId>admin</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+
     </dependencies>
 </project>

@@ -1,5 +1,6 @@
 package com.wcf.funny.config.security;
 
+import com.wcf.funny.config.security.handler.FunnyAuthenticationFailureHandler;
 import com.wcf.funny.config.security.handler.FunnyAuthenticationSuccessHandler;
 import com.wcf.funny.config.security.provider.FunnyAuthenticationProvider;
 import lombok.extern.log4j.Log4j2;
@@ -36,8 +37,13 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
     /**
      * 鉴权成功处理
      */
-//    @Autowired
+    @Autowired
     private FunnyAuthenticationSuccessHandler authenticationSuccessHandler;
+    /**
+     * 鉴权失败处理器
+     */
+    @Autowired
+    private FunnyAuthenticationFailureHandler authenticationFailureHandler;
 
 
     /**
@@ -62,14 +68,13 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
      **/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
+        http.csrf().disable()
 //                .addFilterBefore(securityFilterInterceptor, FilterSecurityInterceptor.class)
                 .authorizeRequests()
-                .antMatchers("/**","/login","/get/login",  "/register").permitAll()
+                .antMatchers("/**","/login",  "/register").permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login").defaultSuccessUrl("/home", true)
-//                .successHandler(authenticationSuccessHandler)
-                .failureUrl("/login?error=true").and()
+                .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).and()
                 .logout()
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)

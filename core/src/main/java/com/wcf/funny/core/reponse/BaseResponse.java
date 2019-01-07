@@ -19,6 +19,11 @@ public class BaseResponse<T> {
         this.data=data;
     }
 
+    public BaseResponse(String code,String msg){
+        this.code=code;
+        this.msg=msg;
+    }
+
     public BaseResponse(CoreCode coreCode,T data){
         this.code=coreCode.getCode();
         this.msg=coreCode.getReason();

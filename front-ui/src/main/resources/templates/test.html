@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Login</title>
+    <script src="../static/common/vue/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="../static/common/vue/vue-axios.js"></script>
+</head>
+
+<body>
+    <div id="box">
+        <input type="button" @click="get()" value="点我异步获取数据(Get)">
+        <p>{{ msg }}</p>
+    </div>
+
+    <script>
+        var vue = new Vue({
+            el: '#box',
+            data: {
+                msg: 'dssss',
+            },
+            methods: {
+                get: function () {
+                    get('http://localhost/get/login',(data)=>{
+                        this.msg=data.msg;
+                    });
+                }
+            }
+        })
+    </script>
+</body>
+</html>
