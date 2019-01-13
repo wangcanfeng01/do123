@@ -19,8 +19,8 @@ public interface UserInfoMapper {
      * @param name
      *@return com.wcf.hellohome.user.model.UserInfo
      **/
-    @Select("select id, name as username,password,face_name as faceName,register_time as registerTime," +
-            " role, introduce from info_user where name = #{name}")
+    @Select("select id, name as username,password,face_name as faceName,register_time as registerTime, " +
+            "update_time as updateTime, role, introduce, score from info_user where name = #{name}")
     UserInfo getUserByName(String name) throws Exception ;
 
     /**
@@ -31,8 +31,8 @@ public interface UserInfoMapper {
      * @param id
      *@return com.wcf.hellohome.user.model.UserInfo
      **/
-    @Select("select id, name as username,password,face_path as facePath,register_time as registerTime, " +
-            "role, introduce from info_user where id = #{id}")
+    @Select("select id, name as username,password,face_name as faceName,register_time as registerTime, " +
+            "update_time as updateTime, role, introduce, score from info_user where id = #{id}")
     UserInfo getUserById(Integer id)throws Exception;
 
     /**
@@ -43,8 +43,8 @@ public interface UserInfoMapper {
      * @param info
      *@return int
      **/
-    @Insert("insert into info_user (name,password,face_path,register_time,role,introduce) " +
-            "VALUES (#{username},#{password},#{facePath},#{registerTime},#{role},#{introduce})")
+    @Insert("insert into info_user (name, password, face_name, register_time, update_time, role, introduce, score) " +
+            "VALUES (#{username},#{password},#{faceName},#{registerTime}, #{updateTime}, #{role},#{introduce},#{score})")
     int insertUserInfo(UserInfo info)throws Exception;
 
     /**

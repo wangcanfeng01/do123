@@ -9,10 +9,6 @@ import com.wcf.funny.core.exception.errorcode.CoreCode;
  **/
 public abstract class BaseException extends RuntimeException {
     /**
-     * 错误信息
-     */
-    private String msg;
-    /**
      * 错误码
      */
     private String code;
@@ -68,17 +64,6 @@ public abstract class BaseException extends RuntimeException {
         super();
     }
 
-    /**
-     * @param
-     * @return java.lang.String
-     * @note 获取信息
-     * @author WCF
-     * @time 2018/6/14 22:35
-     * @since v1.0
-     **/
-    public String getMsg() {
-        return this.msg;
-    }
 
     /**
      * @param
@@ -92,18 +77,6 @@ public abstract class BaseException extends RuntimeException {
         return this.code;
     }
 
-
-    /**
-     * @param msg
-     * @return void
-     * @note 错误信息
-     * @author WCF
-     * @time 2018/6/15 1:02
-     * @since v1.0
-     **/
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
 
     /**
      * @param code

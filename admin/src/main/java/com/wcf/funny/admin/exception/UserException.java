@@ -31,6 +31,7 @@ public class UserException extends BaseException {
      **/
     public UserException(CoreCode errorMessage) {
         super(errorMessage);
+
     }
 
 }

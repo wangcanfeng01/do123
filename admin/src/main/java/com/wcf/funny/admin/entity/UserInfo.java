@@ -33,6 +33,10 @@ public class UserInfo {
      * 登录的时间
      */
     private String registerTime;
+    /**
+     * 更新时间
+     */
+    private String updateTime;
 
     /**
      * 用户角色
@@ -43,4 +47,9 @@ public class UserInfo {
      * 签名档
      */
     private String introduce;
+
+    /**
+     * 积分
+     */
+    private Integer score;
 }

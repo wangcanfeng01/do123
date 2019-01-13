@@ -43,8 +43,11 @@ public class UserInfoServiceImpl implements UserInfoService {
         info.setPassword(password);
         info.setIntroduce(introduce);
         info.setFaceName(faceName);
-        info.setRegisterTime(FunnyTimeUtils.nowString());
+        info.setRegisterTime(FunnyTimeUtils.now());
+        info.setUpdateTime(FunnyTimeUtils.now());
         info.setRole(UserConstant.DEFAULT_ROLE);
+        //初始0分
+        info.setScore(0);
         //判断这个用户是否存在
         UserInfo user = null;
         try {

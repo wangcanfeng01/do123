@@ -15,8 +15,8 @@ public class UserConstant {
     public final static String NULL_INRODUCE="";
 
     /**
-     *
+     * 默认角色
      */
-    public final static String DEFAULT_ROLE="GUESS";
+    public final static String DEFAULT_ROLE="guest";
 
 }

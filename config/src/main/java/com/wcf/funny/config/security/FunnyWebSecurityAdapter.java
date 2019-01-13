@@ -2,6 +2,7 @@ package com.wcf.funny.config.security;
 
 import com.wcf.funny.config.security.handler.FunnyAuthenticationFailureHandler;
 import com.wcf.funny.config.security.handler.FunnyAuthenticationSuccessHandler;
+import com.wcf.funny.config.security.handler.FunnyLogoutHandler;
 import com.wcf.funny.config.security.provider.FunnyAuthenticationProvider;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+
 
 /**
  * @author WCF
@@ -45,6 +47,12 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
     @Autowired
     private FunnyAuthenticationFailureHandler authenticationFailureHandler;
 
+    /**
+     * 退出登录处理
+     */
+    @Autowired
+    private FunnyLogoutHandler logoutHandler;
+
 
     /**
      * 配置授权提供
@@ -68,14 +76,15 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
      **/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.csrf().disable().cors().disable()
 //                .addFilterBefore(securityFilterInterceptor, FilterSecurityInterceptor.class)
                 .authorizeRequests()
-                .antMatchers("/**","/login",  "/register").permitAll()
+                .antMatchers("/ui/login","/ui/get/login", "/ui/register").permitAll()
+                //默认首页不做拦截
+                .antMatchers("/","/home","/index.html").permitAll()
                 .anyRequest().authenticated().and()
-                .formLogin().loginPage("/login").defaultSuccessUrl("/home", true)
-                .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).and()
-                .logout()
+                .formLogin().loginPage("/ui/login").successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).and()
+                .logout().addLogoutHandler(logoutHandler)
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .and().httpBasic();
@@ -91,15 +100,10 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
      **/
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.
-                ignoring().antMatchers("/static/about/**")
-                .and().ignoring().antMatchers("/static/admin/**")
-                .and().ignoring().antMatchers("/static/blog/**")
-                .and().ignoring().antMatchers("/static/common/**")
-                .and().ignoring().antMatchers("/static/files/**")
-                .and().ignoring().antMatchers("/static/home/**")
-                .and().ignoring().antMatchers("/static/images/**")
-                .and().ignoring().antMatchers("/static/pdfjs/**")
-                .and().ignoring().antMatchers("/static/video/**");
+        web.ignoring().antMatchers("/index.html")
+                .and().ignoring().antMatchers("/static/css/**")
+                .and().ignoring().antMatchers("/static/fonts/**")
+                .and().ignoring().antMatchers("/static/img/**")
+                .and().ignoring().antMatchers("/static/js/**");
     }
 }

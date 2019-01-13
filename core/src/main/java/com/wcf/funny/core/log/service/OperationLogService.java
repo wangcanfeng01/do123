@@ -1,5 +1,6 @@
 package com.wcf.funny.core.log.service;
 
+import com.github.pagehelper.PageInfo;
 import com.wcf.funny.core.exception.PgSqlException;
 import com.wcf.funny.core.log.entity.OperationLogInfo;
 
@@ -12,16 +13,14 @@ import java.util.List;
  **/
 public interface OperationLogService {
     /**
-     * @param action
-     * @param ip
-     * @param author
+     * @param logInfo 日志信息
      * @return void
      * @note 插入新的操作日志
      * @author WCF
      * @time 2018/6/14 22:15
      * @since v1.0
      **/
-    void insertLog(String action, String ip, String author) throws PgSqlException;
+    void insertLog(OperationLogInfo logInfo) ;
 
     /**
      * @param page
@@ -32,5 +31,5 @@ public interface OperationLogService {
      * @time 2018/6/14 22:16
      * @since v1.0
      **/
-    List<OperationLogInfo> getLogs(int page, int limit) throws PgSqlException;
+    PageInfo<OperationLogInfo> getLogs(int page, int limit);
 }

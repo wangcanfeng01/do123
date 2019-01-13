@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication(scanBasePackages = "com.wcf.funny")
-@MapperScan("com.wcf.funny.*.mapper")
+@MapperScan("com.wcf.funny.**.mapper")
 public class RootApplication {
 
 	public static void main(String[] args) {

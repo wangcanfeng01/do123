@@ -1,15 +1,21 @@
 package com.wcf.funny.config.security.handler;
 
+import com.alibaba.fastjson.JSON;
+import com.wcf.funny.config.exception.UserAuthException;
 import com.wcf.funny.core.annotation.FunnyHandler;
+import com.wcf.funny.core.exception.errorcode.CommonCode;
 import com.wcf.funny.core.log.service.OperationLogService;
+import com.wcf.funny.core.reponse.BaseResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * @author WCF
@@ -21,6 +27,14 @@ public class FunnyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
 
     @Autowired
     private OperationLogService logService;
+
+    private final static String DEFAULT_SUCCESS_URL = "/home";
+
+    @PostConstruct
+    public void init() {
+        //设置一下默认的成功路径
+        setDefaultTargetUrl(DEFAULT_SUCCESS_URL);
+    }
 
     /**
      * 功能描述：  登录成功后的处理
@@ -34,15 +48,15 @@ public class FunnyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
     public void onAuthenticationSuccess(HttpServletRequest request,
                                         HttpServletResponse response,
                                         Authentication authentication) throws ServletException, IOException {
-        //用户信息来自 provider 中的 UsernamePasswordAuthenticationToken(userInfo, password, authorities)
-        //所以可以强制转换类型
-//        UserDetailsInfo userDetailsInfo = (UserDetailsInfo) authentication.getPrincipal();
-//        try {
-//            wcfOperationService.insertLog("用户登录", request.getRemoteAddr(), userDetailsInfo.getNickname());
-//        } catch (PgSqlException e) {
-//            log.error(ErrorMessage.INSERT_USER_ERROR,e);
-//        }
-//        log.info("此次登录用户：" + userDetailsInfo.getUsername());
-        super.onAuthenticationSuccess(request, response, authentication);
+
+        //设置返回格式
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json; charset=utf-8");
+        String targetUrl = determineTargetUrl(request, response);
+        try (PrintWriter writer = response.getWriter()) {
+            BaseResponse<String> res = new BaseResponse<>(CommonCode.DEFAULT_SUCCESS_CODE, targetUrl);
+            String json = JSON.toJSONString(res);
+            writer.append(json);
+        }
     }
 }

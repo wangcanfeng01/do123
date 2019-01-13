@@ -14,19 +14,19 @@ public class OperationLogInfo {
      */
     private Integer id;
     /**
-     * 操作
+     * 操作类型
      */
-    private String action;
+    private Integer actionType;
 
     /**
-     * 操作者名
+     * 操作名
      */
-    private String author;
+    private String authorName;
 
     /**
-     * 操作模块
+     * 操作对象
      */
-    private String module;
+    private String object;
 
     /**
      * 操作者ip
@@ -36,4 +36,13 @@ public class OperationLogInfo {
      * 操作时间
      */
     private Integer createTime;
+    /**
+     * 操作详情
+     */
+    private String details;
+
+    /**
+     * 操作结果
+     */
+    private Integer actionResult;
 }

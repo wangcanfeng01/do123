@@ -23,13 +23,10 @@ public class FunnyWebMvcConfigurer implements WebMvcConfigurer {
      **/
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/static/about/**").addResourceLocations("classpath:/static/about/");
-        registry.addResourceHandler("/static/admin/**").addResourceLocations("classpath:/static/admin/");
-        registry.addResourceHandler("/static/blog/**").addResourceLocations("classpath:/static/blog/");
-        registry.addResourceHandler("/static/common/**").addResourceLocations("classpath:/static/common/");
-        registry.addResourceHandler("/static/files/**").addResourceLocations("classpath:/static/files/");
-        registry.addResourceHandler("/static/home/**").addResourceLocations("classpath:/static/home/");
-        registry.addResourceHandler("/static/images/**").addResourceLocations("classpath:/static/images/");
-        registry.addResourceHandler("/static/pdfjs/**").addResourceLocations("classpath:/static/pdfjs/");
+        registry.addResourceHandler("/index.html").addResourceLocations("classpath:/index.html");
+        registry.addResourceHandler("/static/css/**").addResourceLocations("classpath:/static/css/");
+        registry.addResourceHandler("/static/fonts/**").addResourceLocations("classpath:/static/fonts/");
+        registry.addResourceHandler("/static/img/**").addResourceLocations("classpath:/static/img/");
+        registry.addResourceHandler("/static/js/**").addResourceLocations("classpath:/static/js/");
     }
 }

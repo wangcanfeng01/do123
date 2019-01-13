@@ -40,7 +40,6 @@ public class FunnyAuthenticationFailureHandler extends SimpleUrlAuthenticationFa
         //设置返回格式
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json; charset=utf-8");
-        response.setHeader("Access-Control-Allow-Origin", "*");
         try (PrintWriter writer = response.getWriter()) {
             UserAuthException exception=(UserAuthException)e;
             String code = exception.getCode();

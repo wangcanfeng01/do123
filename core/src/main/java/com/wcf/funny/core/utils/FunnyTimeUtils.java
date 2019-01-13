@@ -15,7 +15,6 @@ public class FunnyTimeUtils {
         COMMON_TIME_FORMATTER("yyyy-MM-dd hh:mm:ss"),
         SHORT_TIME_FORMATTER("yyyyMMddhhmmss"),
         ;
-
         private String name;
         Formatter(String name){
             this.name=name;
@@ -45,8 +44,19 @@ public class FunnyTimeUtils {
      *@since v1.0
      *@return java.lang.String
      **/
-    public static String nowString(){
+    public static String now(){
         return nowString(null);
     }
 
+    /**
+     * 功能描述：  获取当前系统时间的10位数
+     *@author wangcanfeng
+     *@time 2019/1/13 21:08
+     *@since v1.0
+     * @param
+     *@return int
+     **/
+    public static int nowUnix(){
+        return (int)(System.currentTimeMillis()/1000L);
+    }
 }
