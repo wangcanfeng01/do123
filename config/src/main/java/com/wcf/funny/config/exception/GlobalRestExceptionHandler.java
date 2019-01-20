@@ -25,7 +25,7 @@ public class GlobalRestExceptionHandler {
      **/
     @ExceptionHandler(value = {BaseException.class})
     public BaseResponse unknownException(BaseException e) {
-        log.error("异常：" + e.getMessage());
+        log.error("error details :" + e.getMessage());
         return new BaseResponse(e.getCode(), e.getMessage());
     }
 

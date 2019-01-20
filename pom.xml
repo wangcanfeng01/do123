@@ -24,6 +24,7 @@
         <module>core</module>
         <module>admin</module>
         <module>root</module>
+        <module>home</module>
     </modules>
 
     <properties>

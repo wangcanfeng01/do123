@@ -3,9 +3,14 @@ package com.wcf.funny.config.security.handler;
 import com.alibaba.fastjson.JSON;
 import com.wcf.funny.config.exception.UserAuthException;
 import com.wcf.funny.core.annotation.FunnyHandler;
+import com.wcf.funny.core.constant.ActionObject;
+import com.wcf.funny.core.constant.ActionResult;
+import com.wcf.funny.core.constant.ActionType;
 import com.wcf.funny.core.exception.errorcode.CommonCode;
+import com.wcf.funny.core.log.entity.OperationLogInfo;
 import com.wcf.funny.core.log.service.OperationLogService;
 import com.wcf.funny.core.reponse.BaseResponse;
+import com.wcf.funny.core.utils.FunnyTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -57,6 +62,17 @@ public class FunnyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
             BaseResponse<String> res = new BaseResponse<>(CommonCode.DEFAULT_SUCCESS_CODE, targetUrl);
             String json = JSON.toJSONString(res);
             writer.append(json);
+        } finally {
+            OperationLogInfo info = new OperationLogInfo();
+            info.setActionResult(ActionResult.SUCCESS.getCode());
+            info.setObject(ActionObject.USER.getObject());
+            info.setIp(request.getRemoteHost());
+            info.setActionType(ActionType.LOGIN.getCode());
+            info.setDetails("");
+            info.setCreateTime(FunnyTimeUtils.nowUnix());
+            info.setAuthorName(request.getRemoteUser());
+            logService.insertLog(info);
         }
+
     }
 }

@@ -1,11 +1,9 @@
 package com.wcf.funny.admin.controller;
 
-import com.wcf.funny.admin.entity.UserInfo;
 import com.wcf.funny.admin.service.UserInfoService;
 import com.wcf.funny.core.annotation.OperationLog;
 import com.wcf.funny.core.constant.ActionObject;
 import com.wcf.funny.core.constant.ActionType;
-import com.wcf.funny.core.constant.CoreConstant;
 import com.wcf.funny.core.controller.BaseController;
 import com.wcf.funny.core.exception.errorcode.CommonCode;
 import com.wcf.funny.core.reponse.BaseResponse;

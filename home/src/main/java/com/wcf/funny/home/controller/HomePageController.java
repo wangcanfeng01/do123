@@ -1,15 +1,18 @@
-package com.wcf.funny.admin.controller;
+package com.wcf.funny.home.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * @author wangcanfeng
+ * @time 2019/1/20
+ * @function 主页页面路由
+ **/
 @Controller
-public class UserInfoController {
-
+public class HomePageController {
     /**
      * 主页跳转
      *

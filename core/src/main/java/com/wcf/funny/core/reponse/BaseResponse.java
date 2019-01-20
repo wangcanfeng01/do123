@@ -13,26 +13,40 @@ public class BaseResponse<T> {
     private String msg;
     private T data;
 
-    public BaseResponse(String code,String msg,T data){
-        this.code=code;
-        this.msg=msg;
-        this.data=data;
+    public BaseResponse(String code, String msg, T data) {
+        this.code = code;
+        this.msg = msg;
+        this.data = data;
     }
 
-    public BaseResponse(String code,String msg){
-        this.code=code;
-        this.msg=msg;
+    public BaseResponse(String code, String msg) {
+        this.code = code;
+        this.msg = msg;
     }
 
-    public BaseResponse(CoreCode coreCode,T data){
-        this.code=coreCode.getCode();
-        this.msg=coreCode.getReason();
-        this.data=data;
+    public BaseResponse(CoreCode coreCode, T data) {
+        this.code = coreCode.getCode();
+        this.msg = coreCode.getReason();
+        this.data = data;
     }
 
 
-    public static BaseResponse ok(){
-        return new BaseResponse(CommonCode.DEFAULT_SUCCESS_CODE,null);
+    public static BaseResponse ok() {
+        return new BaseResponse(CommonCode.DEFAULT_SUCCESS_CODE, null);
+    }
+
+
+    /**
+     * 功能描述：  默认的返回正确结果
+     *
+     * @wangcanfeng     * @re2019/1/20 17:42thor wangcanfeng
+* @param data2019/1/20 17:31
+     * @since v1.0
+     **/
+    public BaseResponse(T data) {
+        this.code = CommonCode.DEFAULT_SUCCESS_CODE.getCode();
+        this.msg = CommonCode.DEFAULT_SUCCESS_CODE.getReason();
+        this.data = data;
     }
 
     public String getCode() {
