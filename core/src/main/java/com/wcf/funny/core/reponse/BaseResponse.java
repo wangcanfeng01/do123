@@ -35,17 +35,16 @@ public class BaseResponse<T> {
         return new BaseResponse(CommonCode.DEFAULT_SUCCESS_CODE, null);
     }
 
-
     /**
      * 功能描述：  默认的返回正确结果
-     *
-     * @wangcanfeng     * @re2019/1/20 17:42thor wangcanfeng
-* @param data2019/1/20 17:31
-     * @since v1.0
+     *@author wangcanfeng
+     *@time 2019/1/27 22:53
+     *@since v1.0
+     * @param data
+     *@return
      **/
     public BaseResponse(T data) {
         this.code = CommonCode.DEFAULT_SUCCESS_CODE.getCode();
-        this.msg = CommonCode.DEFAULT_SUCCESS_CODE.getReason();
         this.data = data;
     }
 
