@@ -45,6 +45,7 @@ public class BaseResponse<T> {
      **/
     public BaseResponse(T data) {
         this.code = CommonCode.DEFAULT_SUCCESS_CODE.getCode();
+        this.msg=CommonCode.DEFAULT_SUCCESS_CODE.getReason();
         this.data = data;
     }
 

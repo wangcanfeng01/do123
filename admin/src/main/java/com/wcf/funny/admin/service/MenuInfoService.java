@@ -2,6 +2,7 @@ package com.wcf.funny.admin.service;
 
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.admin.entity.MenuInfo;
+import com.wcf.funny.admin.vo.MenuVo;
 
 
 /**
@@ -30,7 +31,7 @@ public interface MenuInfoService {
      * @time 2019/1/27 21:51
      * @since v1.0
      **/
-    PageInfo<MenuInfo> selectMenu();
+    PageInfo<MenuVo> selectMenu(Integer pageSize,Integer currentPage);
 
     /**
      * 功能描述：根据菜单名称查询菜单信息
@@ -41,7 +42,7 @@ public interface MenuInfoService {
      * @time 2019/1/27 21:51
      * @since v1.0
      **/
-    PageInfo<MenuInfo> selectMenuByName(String name);
+    PageInfo<MenuVo> selectMenuByName(String name);
 
     /**
      * 功能描述：  根据id删除指定菜单信息

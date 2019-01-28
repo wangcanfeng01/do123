@@ -1,14 +1,14 @@
-package com.wcf.funny.admin.entity;
+package com.wcf.funny.admin.vo;
 
 import lombok.Data;
 
 /**
  * @author wangcanfeng
- * @time 2019/1/27
- * @function 菜单信息
+ * @time 2019/1/28
+ * @function 菜单返回页面信息
  **/
 @Data
-public class MenuInfo {
+public class MenuVo {
     /**
      * id
      */
@@ -24,7 +24,7 @@ public class MenuInfo {
     /**
      * 菜单路径
      */
-    private String path;
+    private String menuPath;
     /**
      * 菜单创建者
      */
@@ -32,11 +32,11 @@ public class MenuInfo {
     /**
      * 创建时间
      */
-    private Integer createTime;
+    private String createTime;
     /**
      * 修改时间
      */
-    private Integer modifyTime;
+    private String updateTime;
     /**
      * 备注信息
      */

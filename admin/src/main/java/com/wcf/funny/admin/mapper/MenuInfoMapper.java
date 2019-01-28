@@ -71,6 +71,6 @@ public interface MenuInfoMapper {
      *@return void
      **/
     @Update("update info_menu set menu_name=#{menuName},menu_level=#{menuLevel},path=#{path}, creator=#{creator}," +
-            " modify_time=#{modifyTime},mark=#{mark} where where id=#{id}")
+            " modify_time=#{modifyTime},mark=#{mark} where id=#{id}")
     void updateMenuById(MenuInfo info);
 }

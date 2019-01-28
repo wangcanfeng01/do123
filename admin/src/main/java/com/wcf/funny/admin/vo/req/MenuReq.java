@@ -10,6 +10,10 @@ import lombok.Data;
 @Data
 public class MenuReq {
     /**
+     * id
+     */
+    private Integer id;
+    /**
      * 菜单名称
      */
     private String name;

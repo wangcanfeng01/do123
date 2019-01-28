@@ -3,6 +3,7 @@ package com.wcf.funny.core.utils;
 import org.springframework.util.ObjectUtils;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -20,6 +21,11 @@ public class FunnyTimeUtils {
             this.name=name;
         }
     }
+
+    /**
+     * 日期格式
+     */
+    private static DateTimeFormatter dtFormatterCommon = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     /**
      *@note 返回当前时间字符串
@@ -58,5 +64,18 @@ public class FunnyTimeUtils {
      **/
     public static int nowUnix(){
         return (int)(System.currentTimeMillis()/1000L);
+    }
+
+    /**
+     * 功能描述：  根据10位的时间戳获取时间字符串
+     *@author wangcanfeng
+     *@time 2019/1/28 22:25
+     *@since v1.0
+     * @param unixTime
+     *@return java.lang.String
+     **/
+    public static String getTimeByUnixTime(Integer unixTime) {
+        LocalDateTime time = LocalDateTime.ofEpochSecond(unixTime, 0, ZoneOffset.ofHours(8));
+        return dtFormatterCommon.format(time);
     }
 }
