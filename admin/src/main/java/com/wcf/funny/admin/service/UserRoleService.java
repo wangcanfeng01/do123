@@ -2,6 +2,7 @@ package com.wcf.funny.admin.service;
 
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.admin.entity.UserRole;
+import com.wcf.funny.admin.vo.RoleVo;
 
 /**
  * @author wangcanfeng
@@ -40,7 +41,7 @@ public interface UserRoleService {
      * @time 2019/1/20 13:39
      * @since v1.0
      **/
-    PageInfo<UserRole> getRoleList(int page, int limit);
+    PageInfo<RoleVo> getRoleList(int page, int limit);
 
     /**
      * 功能描述： 根据id删除角色

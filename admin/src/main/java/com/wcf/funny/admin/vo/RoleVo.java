@@ -1,14 +1,17 @@
-package com.wcf.funny.admin.entity;
+package com.wcf.funny.admin.vo;
 
+import com.wcf.funny.admin.entity.SimpleMenuInfo;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author wangcanfeng
- * @time 2018/12/30
- * @function 用户角色信息-数据库
+ * @time 2019/1/30
+ * @function 角色信息视图
  **/
 @Data
-public class UserRole {
+public class RoleVo {
     /**
      * 主键
      */
@@ -22,24 +25,23 @@ public class UserRole {
      */
     private String roleType;
     /**
-     * 角色权限
+     * 角色权限菜单列表
      */
-    private String roleAuth;
+    private List<SimpleMenuInfo> roleAuth;
     /**
      * 角色创建者
      */
-    private String roleCreator;
+    private String creator;
     /**
      * 创建时间
      */
-    private Integer createTime;
+    private String createTime;
     /**
      * 更新时间
      */
-    private Integer updateTime;
+    private String updateTime;
     /**
      * 描述信息
      */
     private String description;
-
 }

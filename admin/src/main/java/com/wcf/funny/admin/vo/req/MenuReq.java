@@ -18,6 +18,10 @@ public class MenuReq {
      */
     private String name;
     /**
+     * 父菜单的id
+     */
+    private Integer parent;
+    /**
      * 菜单路径
      */
     private String path;

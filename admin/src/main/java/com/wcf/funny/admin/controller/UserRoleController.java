@@ -3,12 +3,13 @@ package com.wcf.funny.admin.controller;
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.admin.entity.UserRole;
 import com.wcf.funny.admin.service.UserRoleService;
+import com.wcf.funny.admin.vo.RoleVo;
 import com.wcf.funny.core.reponse.BaseResponse;
+import com.wcf.funny.core.reponse.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * @author wangcanfeng
@@ -31,7 +32,7 @@ public class UserRoleController {
      * @time 2019/1/20 17:37
      * @since v1.0
      **/
-    @RequestMapping("/get/role/{id}")
+    @RequestMapping("/role/{id}")
     public BaseResponse<UserRole> getRoleById(@PathVariable("id") Integer id) {
         UserRole role = roleService.getUserInfoById(id);
         return new BaseResponse<>(role);
@@ -40,17 +41,19 @@ public class UserRoleController {
     /**
      * 功能描述：  根据分页信息获取角色列表
      *
-     * @param page
-     * @param limit
+     * @param pageSize
+     * @param currentPage
      * @return com.wcf.funny.core.reponse.BaseResponse<com.github.pagehelper.PageInfo<com.wcf.funny.admin.entity.UserRole>>
      * @author wangcanfeng
      * @time 2019/1/20 17:38
      * @since v1.0
      **/
-    @RequestMapping("/get/roleList")
-    public BaseResponse<PageInfo<UserRole>> getRoleList(Integer page, Integer limit) {
-        PageInfo<UserRole> roles = roleService.getRoleList(page, limit);
-        return new BaseResponse<>(roles);
+    @RequestMapping("/roleList")
+    public BaseResponse<List<RoleVo>> getRoleList(
+            @RequestParam("pageSize") Integer pageSize,
+            @RequestParam("currentPage") Integer currentPage) {
+        PageInfo<RoleVo> roles = roleService.getRoleList(currentPage, pageSize);
+        return new PageResponse<>(roles);
     }
 
     /**
@@ -62,7 +65,7 @@ public class UserRoleController {
      * @time 2019/1/20 17:38
      * @since v1.0
      **/
-    @RequestMapping("/add/role")
+    @RequestMapping("/add")
     public BaseResponse<PageInfo<UserRole>> getRoleList(@RequestBody UserRole role) {
         roleService.insertRole(role);
         return BaseResponse.ok();

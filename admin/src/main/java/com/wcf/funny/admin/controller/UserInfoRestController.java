@@ -59,4 +59,6 @@ public class UserInfoRestController extends BaseController {
         userInfoService.addNewUser(username,password,faceName);
         return BaseResponse.ok();
     }
+
+
 }

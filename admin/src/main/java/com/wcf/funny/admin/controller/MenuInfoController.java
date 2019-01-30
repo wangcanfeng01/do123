@@ -2,10 +2,12 @@ package com.wcf.funny.admin.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.admin.entity.MenuInfo;
+import com.wcf.funny.admin.entity.SimpleMenuInfo;
 import com.wcf.funny.admin.service.MenuInfoService;
 import com.wcf.funny.admin.vo.MenuVo;
 import com.wcf.funny.admin.vo.req.MenuReq;
 import com.wcf.funny.core.reponse.BaseResponse;
+import com.wcf.funny.core.reponse.ListResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
 import com.wcf.funny.core.utils.RequestUtils;
@@ -45,6 +47,7 @@ public class MenuInfoController {
         info.setMenuName(req.getName());
         info.setModifyTime(FunnyTimeUtils.nowUnix());
         info.setPath(req.getPath());
+        info.setPNode(req.getParent());
         menuInfoService.insertMenu(info);
         return BaseResponse.ok();
     }
@@ -68,6 +71,20 @@ public class MenuInfoController {
     }
 
     /**
+     * 功能描述：
+     *@author wangcanfeng
+     *@time 2019/1/30 22:31
+     *@since v1.0
+     * @param
+     *@return com.wcf.funny.core.reponse.BaseResponse<java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>>
+     **/
+    @GetMapping("/menuList/simple")
+    public BaseResponse<List<SimpleMenuInfo>> getMenuList() {
+        List<SimpleMenuInfo> pageInfo = menuInfoService.simpleMenuList();
+        return new ListResponse<>(pageInfo);
+    }
+
+    /**
      * 功能描述：  根据id修改菜单信息
      *@author wangcanfeng
      *@time 2019/1/28 23:11
@@ -85,6 +102,7 @@ public class MenuInfoController {
         info.setMenuName(req.getName());
         info.setModifyTime(FunnyTimeUtils.nowUnix());
         info.setPath(req.getPath());
+        info.setPNode(req.getParent());
         menuInfoService.updateMenuById(info);
         return BaseResponse.ok();
     }

@@ -2,7 +2,10 @@ package com.wcf.funny.admin.service;
 
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.admin.entity.MenuInfo;
+import com.wcf.funny.admin.entity.SimpleMenuInfo;
 import com.wcf.funny.admin.vo.MenuVo;
+
+import java.util.List;
 
 
 /**
@@ -31,7 +34,17 @@ public interface MenuInfoService {
      * @time 2019/1/27 21:51
      * @since v1.0
      **/
-    PageInfo<MenuVo> selectMenu(Integer pageSize,Integer currentPage);
+    PageInfo<MenuVo> selectMenu(Integer pageSize, Integer currentPage);
+
+    /**
+     * 功能描述：  菜单的简易信息用来展示
+     *
+     * @return java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>
+     * @author wangcanfeng
+     * @time 2019/1/30 22:05
+     * @since v1.0
+     **/
+    List<SimpleMenuInfo> simpleMenuList();
 
     /**
      * 功能描述：根据菜单名称查询菜单信息

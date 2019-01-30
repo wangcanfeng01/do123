@@ -18,6 +18,14 @@ public class MenuVo {
      */
     private String menuName;
     /**
+     * 父菜单的id
+     */
+    private Integer parentNode;
+    /**
+     * 父菜单的名称
+     */
+    private String parentName;
+    /**
      * 菜单层级
      */
     private Integer menuLevel;

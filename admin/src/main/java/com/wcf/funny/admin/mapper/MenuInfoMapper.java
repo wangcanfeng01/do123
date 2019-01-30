@@ -1,6 +1,7 @@
 package com.wcf.funny.admin.mapper;
 
 import com.wcf.funny.admin.entity.MenuInfo;
+import com.wcf.funny.admin.entity.SimpleMenuInfo;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -15,62 +16,83 @@ public interface MenuInfoMapper {
 
     /**
      * 功能描述：  插入菜单信息
-     *@author wangcanfeng
-     *@time 2019/1/27 21:50
-     *@since v1.0
+     *
      * @param info
-     *@return void
+     * @return void
+     * @author wangcanfeng
+     * @time 2019/1/27 21:50
+     * @since v1.0
      **/
-    @Insert("insert into info_menu (menu_name, menu_level, path, creator, create_time, modify_time, mark) " +
-            "VALUES (#{menuName}, #{menuLevel}, #{path}, creator=#{creator}, #{createTime}, #{modifyTime}, #{mark})")
+    @Insert("insert into info_menu (menu_name, menu_level, parent_node, path, creator, create_time, modify_time, mark) " +
+            "VALUES (#{menuName}, #{menuLevel}, #{pNode}, #{path}, creator=#{creator}, #{createTime}, #{modifyTime}, #{mark})")
     void insertMenu(MenuInfo info);
 
     /**
      * 功能描述： 查询菜单列表
-     *@author wangcanfeng
-     *@time 2019/1/27 21:51
-     *@since v1.0
+     *
      * @param
-     *@return java.util.List<com.wcf.funny.admin.entity.MenuInfo>
+     * @return java.util.List<com.wcf.funny.admin.entity.MenuInfo>
+     * @author wangcanfeng
+     * @time 2019/1/27 21:51
+     * @since v1.0
      **/
-    @Select("SELECT id, menu_name as menuName, menu_level as menuLevel, path, creator, create_time as createTime," +
-            " modify_time as modifyTime, mark " +
-            " FROM info_menu")
+    @Select("SELECT a.id, a.menu_name as menuName, a.menu_level as menuLevel, " +
+            " a.parent_node as pNode, b.menu_name as pName, a.path, a.creator,  " +
+            "a.create_time as createTime, a.modify_time as modifyTime, a.mark  " +
+            "FROM info_menu as a LEFT JOIN info_menu as b ON a.parent_node=b.id")
     List<MenuInfo> selectMenu();
+
+
+    /**
+     * 功能描述：  查询简单的菜单信息
+     *
+     * @param
+     * @return java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>
+     * @author wangcanfeng
+     * @time 2019/1/30 22:07
+     * @since v1.0
+     **/
+    @Select("SELECT id, menu_name as menuName, path FROM info_menu")
+    List<SimpleMenuInfo> simpleMenu();
 
     /**
      * 功能描述：根据菜单名称查询菜单信息
-     *@author wangcanfeng
-     *@time 2019/1/27 21:51
-     *@since v1.0
+     *
      * @param name
-     *@return java.util.List<com.wcf.funny.admin.entity.MenuInfo>
+     * @return java.util.List<com.wcf.funny.admin.entity.MenuInfo>
+     * @author wangcanfeng
+     * @time 2019/1/27 21:51
+     * @since v1.0
      **/
-    @Select("SELECT id, menu_name as menuName, menu_level as menuLevel, path, creator, create_time as createTime," +
-            " modify_time as modifyTime, mark " +
-            " FROM info_menu where menu_name=#{menuName}")
+    @Select( "SELECT a.id, a.menu_name as menuName, a.menu_level as menuLevel, " +
+            " a.parent_node as pNode, b.menu_name as pName, a.path, a.creator,  " +
+            "a.create_time as createTime, a.modify_time as modifyTime, a.mark  " +
+            "FROM info_menu as a LEFT JOIN info_menu as b ON a.parent_node=b.id " +
+            "where menu_name=#{menuName}")
     List<MenuInfo> selectMenuByName(@Param("menuName") String name);
 
     /**
      * 功能描述：  根据id删除指定菜单信息
-     *@author wangcanfeng
-     *@time 2019/1/27 21:52
-     *@since v1.0
+     *
      * @param id
-     *@return void
+     * @return void
+     * @author wangcanfeng
+     * @time 2019/1/27 21:52
+     * @since v1.0
      **/
     @Delete("delete from info_menu where id=#{id}")
     void deleteMenuById(@Param("id") Integer id);
 
     /**
      * 功能描述：  根据id更新菜单信息
-     *@author wangcanfeng
-     *@time 2019/1/27 21:52
-     *@since v1.0
+     *
      * @param info
-     *@return void
+     * @return void
+     * @author wangcanfeng
+     * @time 2019/1/27 21:52
+     * @since v1.0
      **/
-    @Update("update info_menu set menu_name=#{menuName},menu_level=#{menuLevel},path=#{path}, creator=#{creator}," +
-            " modify_time=#{modifyTime},mark=#{mark} where id=#{id}")
+    @Update("update info_menu set menu_name=#{menuName}, menu_level=#{menuLevel}, parent_node=#{pNode}, " +
+            " path=#{path}, creator=#{creator}, modify_time=#{modifyTime}, mark=#{mark} where id=#{id}")
     void updateMenuById(MenuInfo info);
 }
