@@ -92,7 +92,7 @@ public class MenuInfoController {
      * @param req
      *@return com.wcf.funny.core.reponse.BaseResponse
      **/
-    @PostMapping("/modify")
+    @PutMapping("/modify")
     public BaseResponse updateMenu(@RequestBody MenuReq req) {
         MenuInfo info = new MenuInfo();
         info.setId(req.getId());

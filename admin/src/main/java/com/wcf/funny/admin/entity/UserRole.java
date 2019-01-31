@@ -2,6 +2,8 @@ package com.wcf.funny.admin.entity;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author wangcanfeng
  * @time 2018/12/30
@@ -25,6 +27,11 @@ public class UserRole {
      * 角色权限
      */
     private String roleAuth;
+
+    /**
+     * 角色权限菜单列表
+     */
+    private List<SimpleMenuInfo> menuInfos;
     /**
      * 角色创建者
      */

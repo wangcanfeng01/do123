@@ -2,6 +2,7 @@ package com.wcf.funny.admin.mapper;
 
 import com.wcf.funny.admin.entity.MenuInfo;
 import com.wcf.funny.admin.entity.SimpleMenuInfo;
+import com.wcf.funny.admin.mapper.provider.MenuInfoProvider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -52,8 +53,12 @@ public interface MenuInfoMapper {
      * @time 2019/1/30 22:07
      * @since v1.0
      **/
-    @Select("SELECT id, menu_name as menuName, path FROM info_menu")
+    @Select("SELECT id, menu_name as menuName, path as menuPath FROM info_menu")
     List<SimpleMenuInfo> simpleMenu();
+
+
+    @SelectProvider(type = MenuInfoProvider.class,method = "simpleMenuByIdsSQL")
+    List<SimpleMenuInfo> simpleMenuByIds(@Param("ids") String ids);
 
     /**
      * 功能描述：根据菜单名称查询菜单信息
@@ -64,11 +69,9 @@ public interface MenuInfoMapper {
      * @time 2019/1/27 21:51
      * @since v1.0
      **/
-    @Select( "SELECT a.id, a.menu_name as menuName, a.menu_level as menuLevel, " +
-            " a.parent_node as pNode, b.menu_name as pName, a.path, a.creator,  " +
-            "a.create_time as createTime, a.modify_time as modifyTime, a.mark  " +
-            "FROM info_menu as a LEFT JOIN info_menu as b ON a.parent_node=b.id " +
-            "where menu_name=#{menuName}")
+    @Select("SELECT a.id, a.menu_name as menuName, a.menu_level as menuLevel, a.parent_node as pNode, b.parent_name as pName," +
+            " a.path, a.creator, a.create_time as createTime, a.modify_time as modifyTime, a.mark " +
+            " FROM info_menu as a LEFT JOIN (select id, menu_name as parent_name from info_menu) as b ON a.parent_node=b.id ")
     List<MenuInfo> selectMenuByName(@Param("menuName") String name);
 
     /**

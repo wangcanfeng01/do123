@@ -57,11 +57,11 @@ public interface UserRoleService {
     /**
      * 功能描述：  根据id更新角色信息
      *
-     * @param id
+     * @param role
      * @return int
      * @author wangcanfeng
      * @time 2019/1/20 13:42
      * @since v1.0
      **/
-    int updateRoleById(Integer id);
+    int updateRoleById(UserRole role);
 }

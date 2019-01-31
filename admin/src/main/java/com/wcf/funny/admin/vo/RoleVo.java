@@ -25,9 +25,13 @@ public class RoleVo {
      */
     private String roleType;
     /**
+     * 角色权限的菜单id列表
+     */
+    private List<Integer> roleAuth;
+    /**
      * 角色权限菜单列表
      */
-    private List<SimpleMenuInfo> roleAuth;
+    private List<SimpleMenuInfo> menuInfos;
     /**
      * 角色创建者
      */

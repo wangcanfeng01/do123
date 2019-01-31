@@ -11,8 +11,10 @@ import com.wcf.funny.core.exception.PgSqlException;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -105,16 +107,16 @@ public class UserRoleServiceImpl implements UserRoleService {
     /**
      * 功能描述：  根据id更新角色信息
      *
-     * @param id
+     * @param role
      * @return int
      * @author wangcanfeng
      * @time 2019/1/20 13:42
      * @since v1.0
      **/
     @Override
-    public int updateRoleById(Integer id) {
+    public int updateRoleById(UserRole role) {
         try {
-            return roleMapper.updateRoleById(id);
+            return roleMapper.updateRoleById(role);
         } catch (Exception e) {
             throw new PgSqlException(UserErrorCode.UPDATE_ROLR_ERROR, e);
         }
@@ -122,17 +124,18 @@ public class UserRoleServiceImpl implements UserRoleService {
 
     /**
      * 功能描述：  将数据库信息转换成视图信息
-     *@author wangcanfeng
-     *@time 2019/1/28 21:28
-     *@since v1.0
+     *
      * @param roles
-     *@return com.github.pagehelper.PageInfo<com.wcf.funny.admin.vo.MenuVo>
+     * @return com.github.pagehelper.PageInfo<com.wcf.funny.admin.vo.MenuVo>
+     * @author wangcanfeng
+     * @time 2019/1/28 21:28
+     * @since v1.0
      **/
-    private PageInfo<RoleVo> convertPageInfo(PageInfo<UserRole> roles){
-        List<UserRole> roleList=roles.getList();
-        List<RoleVo> roleVos=new ArrayList<>(roleList.size());
-        for(UserRole role:roleList){
-            RoleVo vo=new RoleVo();
+    private PageInfo<RoleVo> convertPageInfo(PageInfo<UserRole> roles) {
+        List<UserRole> roleList = roles.getList();
+        List<RoleVo> roleVos = new ArrayList<>(roleList.size());
+        for (UserRole role : roleList) {
+            RoleVo vo = new RoleVo();
             vo.setId(role.getId());
             vo.setCreateTime(FunnyTimeUtils.getTimeByUnixTime(role.getCreateTime()));
             vo.setUpdateTime(FunnyTimeUtils.getTimeByUnixTime(role.getUpdateTime()));
@@ -140,12 +143,31 @@ public class UserRoleServiceImpl implements UserRoleService {
             vo.setDescription(role.getDescription());
             vo.setRoleType(role.getRoleType());
             vo.setRoleName(role.getRoleName());
-            vo.setRoleAuth(new ArrayList<>());
+            vo.setRoleAuth(getAuthList(role.getRoleAuth()));
+            vo.setMenuInfos(role.getMenuInfos());
             roleVos.add(vo);
         }
-        PageInfo<RoleVo> pageInfo=new PageInfo<>();
+        PageInfo<RoleVo> pageInfo = new PageInfo<>();
         pageInfo.setTotal(roles.getTotal());
         pageInfo.setList(roleVos);
         return pageInfo;
+    }
+
+    /**
+     * 功能描述：  将权限id的字符串改写成list
+     *
+     * @param auth
+     * @return java.util.List<java.lang.Integer>
+     * @author wangcanfeng
+     * @time 2019/1/31 22:48
+     * @since v1.0
+     **/
+    private List<Integer> getAuthList(String auth) {
+        List<Integer> authList = new ArrayList<>();
+        if (!ObjectUtils.isEmpty(auth)) {
+            String[] auths = auth.split(",");
+            Arrays.asList(auths).forEach(info -> authList.add(Integer.valueOf(info)));
+        }
+        return authList;
     }
 }

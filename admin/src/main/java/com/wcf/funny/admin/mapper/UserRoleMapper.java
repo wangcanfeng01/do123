@@ -49,11 +49,11 @@ public interface UserRoleMapper {
      * @time 2019/1/20 13:39
      * @since v1.0
      **/
-    @Select("SELECT id, role_name as roleName, role_type as roleType, role_auth as roleAuth, role_creator as roleCreator," +
-            " create_time as createTime, update_time as updateTime, description" +
+    @Select("SELECT id, role_name as roleName, role_type as roleType, role_auth as roleAuth,role_auth as roleMenu," +
+            " role_creator as roleCreator, create_time as createTime, update_time as updateTime, description" +
             " FROM info_role")
-     @Results({@Result(property ="subTestInfos",column="age"
-            ,many =@Many(select ="com.wcf.funny.admin.mapper.UserInfoMapper.getSub"))})
+     @Results({@Result(property ="menuInfos",column="roleMenu"
+            ,many =@Many(select ="com.wcf.funny.admin.mapper.MenuInfoMapper.simpleMenuByIds"))})
     List<UserRole> getRoleList();
 
     /**
@@ -71,7 +71,7 @@ public interface UserRoleMapper {
     /**
      * 功能描述：  根据id更新角色信息
      *
-     * @param id
+     * @param role
      * @return int
      * @author wangcanfeng
      * @time 2019/1/20 13:42
@@ -79,5 +79,5 @@ public interface UserRoleMapper {
      **/
     @Update("update info_role set role_name=#{roleName},role_type=#{roleType},role_auth=#{roleAuth}, " +
             " role_creator=#{roleCreator},update_time=#{updateTime}, description=#{description} where id=#{id}")
-    int updateRoleById(Integer id);
+    int updateRoleById(UserRole role);
 }
