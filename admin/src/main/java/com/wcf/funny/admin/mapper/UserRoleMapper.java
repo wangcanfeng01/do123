@@ -52,6 +52,8 @@ public interface UserRoleMapper {
     @Select("SELECT id, role_name as roleName, role_type as roleType, role_auth as roleAuth, role_creator as roleCreator," +
             " create_time as createTime, update_time as updateTime, description" +
             " FROM info_role")
+     @Results({@Result(property ="subTestInfos",column="age"
+            ,many =@Many(select ="com.wcf.funny.admin.mapper.UserInfoMapper.getSub"))})
     List<UserRole> getRoleList();
 
     /**
