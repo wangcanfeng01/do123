@@ -7,5 +7,7 @@ package com.wcf.funny.core.constant;
  **/
 public class CoreConstant {
     //访客
-    public final static String GUEST="guest";
+    public final static String GUEST = "guest";
+    //文件大小1MB
+    public final static long MB = 1048576;
 }
