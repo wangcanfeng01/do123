@@ -1,6 +1,8 @@
 package com.wcf.funny.admin.mapper;
 
+import com.wcf.funny.admin.entity.SimpleRoleInfo;
 import com.wcf.funny.admin.entity.UserRole;
+import com.wcf.funny.admin.mapper.provider.RoleInfoProvider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -55,6 +57,29 @@ public interface UserRoleMapper {
      @Results({@Result(property ="menuInfos",column="roleMenu"
             ,many =@Many(select ="com.wcf.funny.admin.mapper.MenuInfoMapper.simpleMenuByIds"))})
     List<UserRole> getRoleList();
+
+    /**
+     * 功能描述：  查询简单的菜单信息
+     *
+     * @param
+     * @return java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>
+     * @author wangcanfeng
+     * @time 2019/1/30 22:07
+     * @since v1.0
+     **/
+    @Select("SELECT id, role_name as roleName, role_type as roleType FROM info_role")
+    List<SimpleRoleInfo> simpleRoleList();
+
+    /**
+     * 功能描述：  查询简单的角色列表信息
+     *@author wangcanfeng
+     *@time 2019/2/3 14:08
+     *@since v1.0
+     * @param ids
+     *@return java.util.List<com.wcf.funny.admin.entity.SimpleRoleInfo>
+     **/
+    @SelectProvider(type = RoleInfoProvider.class,method = "simpleRoleByIdsSQL")
+    List<SimpleRoleInfo> simpleRoleByIds(@Param("ids") String ids);
 
     /**
      * 功能描述： 根据id删除角色

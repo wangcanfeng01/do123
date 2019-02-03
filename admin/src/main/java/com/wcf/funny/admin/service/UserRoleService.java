@@ -1,8 +1,11 @@
 package com.wcf.funny.admin.service;
 
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.admin.entity.SimpleRoleInfo;
 import com.wcf.funny.admin.entity.UserRole;
 import com.wcf.funny.admin.vo.RoleVo;
+
+import java.util.List;
 
 /**
  * @author wangcanfeng
@@ -42,6 +45,17 @@ public interface UserRoleService {
      * @since v1.0
      **/
     PageInfo<RoleVo> getRoleList(int page, int limit);
+
+
+    /**
+     * 功能描述：  查询简单的角色列表信息
+     *@author wangcanfeng
+     *@time 2019/2/3 14:47
+     *@since v1.0
+     * @param
+     *@return java.util.List<com.wcf.funny.admin.entity.SimpleRoleInfo>
+     **/
+    List<SimpleRoleInfo> simpleRoleList();
 
     /**
      * 功能描述： 根据id删除角色

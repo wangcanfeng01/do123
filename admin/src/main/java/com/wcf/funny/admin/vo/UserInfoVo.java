@@ -1,19 +1,17 @@
-package com.wcf.funny.admin.entity;
+package com.wcf.funny.admin.vo;
 
+import com.wcf.funny.admin.entity.SimpleRoleInfo;
 import lombok.Data;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Random;
 
 /**
- * @author WCF
- * @time 2018/12/26
+ * @author wangcanfeng
+ * @time 2019/2/3
  * @function 用户信息
  **/
 @Data
-public class UserInfo {
+public class UserInfoVo {
     /**
      * 用户id
      */
@@ -22,10 +20,7 @@ public class UserInfo {
      * 用户名
      */
     private String username;
-    /**
-     * 密码
-     */
-    private String password;
+
     /**
      * 头像图片路径
      */
@@ -38,20 +33,20 @@ public class UserInfo {
      * 更新时间
      */
     private String updateTime;
-
-    /**
-     * 用户角色
-     */
-    private String role;
-    /**
-     * 用户角色列表
-     */
-    private List<SimpleRoleInfo> roleInfos;
-
     /**
      * 用户等级
      */
     private Integer userLevel;
+
+    /**
+     * 用户角色
+     */
+    private List<Integer> userAuth;
+
+    /**
+     * 用户有权限的角色列表
+     */
+    private List<SimpleRoleInfo> roleInfos;
 
     /**
      * 签名档
@@ -65,5 +60,5 @@ public class UserInfo {
     /**
      * 是否禁用
      */
-    private Integer isEnable;
+    private String isEnable;
 }

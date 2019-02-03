@@ -28,6 +28,7 @@ public class FunnyWebMvcConfigurer implements WebMvcConfigurer {
         registry.addResourceHandler("/static/fonts/**").addResourceLocations("classpath:/static/fonts/");
         registry.addResourceHandler("/static/img/**").addResourceLocations("classpath:/static/img/");
         registry.addResourceHandler("/static/js/**").addResourceLocations("classpath:/static/js/");
-        registry.addResourceHandler("/upload/**").addResourceLocations("classpath:/");
+        //静态图片资源存放路径映射
+        registry.addResourceHandler("/upload/image/face/**").addResourceLocations("classpath:/upload/image/face/");
     }
 }

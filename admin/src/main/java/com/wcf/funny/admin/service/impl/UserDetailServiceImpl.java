@@ -41,7 +41,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         }
 //        String facePath = UserConstant.FACE_PATH_PREFIX + new Random().nextInt(10) + ".jpg";
         //获取头像图片路径
-        String facePath = UserConstant.FACE_PATH_PREFIX + info.getFaceName();
+        String facePath =info.getFacePath();
         Collection<GrantedAuthority> authorities = new ArrayList<>();
         userDetails.setEnabled(true).setFace(facePath).setUsername(info.getUsername())
                 .setRegisterTime(info.getRegisterTime()).setPassword(info.getPassword())

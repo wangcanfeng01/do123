@@ -3,6 +3,8 @@ package com.wcf.funny.admin.mapper;
 import com.wcf.funny.admin.entity.UserInfo;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 /**
  * @author wangcanfeng
  * @time 2018/12/29
@@ -12,6 +14,20 @@ import org.apache.ibatis.annotations.*;
 public interface UserInfoMapper {
 
     /**
+     *@note 查询用户信息列表
+     *@author WCF
+     *@time 2018/6/12 22:23
+     *@since v1.0
+     *@return com.wcf.hellohome.user.model.UserInfo
+     **/
+    @Select("select id, name as username,password,face_path as facePath,register_time as registerTime, " +
+            "update_time as updateTime, user_level as userLevel, role, role as userRole, introduce, score," +
+            " is_enable as isEnable from info_user")
+    @Results({@Result(property ="roleInfos",column="userRole"
+            ,many =@Many(select ="com.wcf.funny.admin.mapper.UserRoleMapper.simpleRoleByIds"))})
+    List<UserInfo> selectUserList();
+
+    /**
      *@note 根据用户名称查询用户信息
      *@author WCF
      *@time 2018/6/12 22:23
@@ -19,9 +35,9 @@ public interface UserInfoMapper {
      * @param name
      *@return com.wcf.hellohome.user.model.UserInfo
      **/
-    @Select("select id, name as username,password,face_name as faceName,register_time as registerTime, " +
-            "update_time as updateTime, role, introduce, score from info_user where name = #{name}")
-    UserInfo getUserByName(String name) throws Exception ;
+    @Select("select id, name as username,password,face_path as facePath,register_time as registerTime, " +
+            "update_time as updateTime, user_level as userLevel, role, introduce, score, is_enable as isEnable from info_user where name = #{name}")
+    UserInfo getUserByName(String name);
 
     /**
      *@note 根据id查询用户信息
@@ -31,9 +47,10 @@ public interface UserInfoMapper {
      * @param id
      *@return com.wcf.hellohome.user.model.UserInfo
      **/
-    @Select("select id, name as username,password,face_name as faceName,register_time as registerTime, " +
-            "update_time as updateTime, role, introduce, score from info_user where id = #{id}")
-    UserInfo getUserById(Integer id)throws Exception;
+    @Select("select id, name as username,password, face_path as facePath, register_time as registerTime, " +
+            "update_time as updateTime, user_level as userLevel, role, introduce, score," +
+            " is_enable as isEnable from info_user where id = #{id}")
+    UserInfo getUserById(Integer id);
 
     /**
      *@note 插入用户信息
@@ -43,30 +60,30 @@ public interface UserInfoMapper {
      * @param info
      *@return int
      **/
-    @Insert("insert into info_user (name, password, face_name, register_time, update_time, role, introduce, score) " +
-            "VALUES (#{username},#{password},#{faceName},#{registerTime}, #{updateTime}, #{role},#{introduce},#{score})")
-    int insertUserInfo(UserInfo info)throws Exception;
+    @Insert("insert into info_user (name, password, face_path, register_time, update_time, user_level, role, introduce, score, is_enable) " +
+            "VALUES (#{username},#{password},#{facePath},#{registerTime}, #{updateTime}, #{userLevel}, #{role},#{introduce},#{score},#{isEnable})")
+    int insertUserInfo(UserInfo info);
 
     /**
-     *@note 根据名称删除用户
-     *@author WCF
-     *@time 2018/6/12 22:38
+     * 功能描述：  根据id启用/禁用当前用户
+     *@author wangcanfeng
+     *@time 2019/2/3 15:17
      *@since v1.0
-     * @param name
+     * @param isEnable
+     * @param  id
      *@return void
      **/
-    @Delete("delete from info_user where name=#{name}")
-    void deleteByName(String name)throws Exception;
+    @Update("update info_user set is_enable=#{isEnable} where id=#{id}")
+   void changeUserStatus(@Param("isEnable") Integer isEnable,@Param("id") Integer id);
 
     /**
-     *@note 更新用户信息
-     *@author WCF
-     *@time 2018/6/12 22:38
+     * 功能描述：  修改用户密码
+     *@author wangcanfeng
+     *@time 2019/2/3 15:52
      *@since v1.0
-     * @param info
+     * @param password
      *@return void
      **/
-    @Update("update info_user set password=#{password},face_path=#{facePath},register_time=#{registerTime}," +
-            "role=#{role},introduce=#{introduce} where name=#{username}")
-    void updateByName(UserInfo info)throws Exception;
+    @Update("update info_user set password=#{password} where id=#{id}")
+    void changePassword(@Param("password")String password,Integer id);
 }

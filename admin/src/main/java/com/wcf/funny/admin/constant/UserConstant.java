@@ -4,10 +4,6 @@ package com.wcf.funny.admin.constant;
  * 用户常量信息
  */
 public class UserConstant {
-    /**
-     * 头像路径前缀
-     */
-    public final static String FACE_PATH_PREFIX="/static/images/face/";
 
     /**
      * 空的个人简介
@@ -18,5 +14,16 @@ public class UserConstant {
      * 默认角色
      */
     public final static String DEFAULT_ROLE="guest";
+
+    /**
+     * 默认头像
+     */
+    public final static String DEFAULT_FACE="/upload/image/face/default.jpg";
+    /**
+     * 用户启用
+     */
+    public final static Integer USER_ENABLE=1;
+
+    public final static String DEFAULT_PASSWORD="123456+";
 
 }

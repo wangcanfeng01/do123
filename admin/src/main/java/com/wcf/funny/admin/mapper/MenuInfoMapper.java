@@ -56,7 +56,14 @@ public interface MenuInfoMapper {
     @Select("SELECT id, menu_name as menuName, path as menuPath FROM info_menu")
     List<SimpleMenuInfo> simpleMenu();
 
-
+    /**
+     * 功能描述：  根据id查询简单的菜单列表
+     *@author wangcanfeng
+     *@time 2019/2/3 14:44
+     *@since v1.0
+     * @param ids
+     *@return java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>
+     **/
     @SelectProvider(type = MenuInfoProvider.class,method = "simpleMenuByIdsSQL")
     List<SimpleMenuInfo> simpleMenuByIds(@Param("ids") String ids);
 

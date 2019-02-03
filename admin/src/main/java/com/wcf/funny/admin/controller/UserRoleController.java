@@ -1,11 +1,13 @@
 package com.wcf.funny.admin.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.admin.entity.SimpleRoleInfo;
 import com.wcf.funny.admin.entity.UserRole;
 import com.wcf.funny.admin.service.UserRoleService;
 import com.wcf.funny.admin.vo.RoleVo;
 import com.wcf.funny.admin.vo.req.RoleReq;
 import com.wcf.funny.core.reponse.BaseResponse;
+import com.wcf.funny.core.reponse.ListResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +60,21 @@ public class UserRoleController {
             @RequestParam("currentPage") Integer currentPage) {
         PageInfo<RoleVo> roles = roleService.getRoleList(currentPage, pageSize);
         return new PageResponse<>(roles);
+    }
+
+
+    /**
+     * 功能描述：
+     *@author wangcanfeng
+     *@time 2019/1/30 22:31
+     *@since v1.0
+     * @param
+     *@return com.wcf.funny.core.reponse.BaseResponse<java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>>
+     **/
+    @GetMapping("/roleList/simple")
+    public BaseResponse<List<SimpleRoleInfo>> getMenuList() {
+        List<SimpleRoleInfo> pageInfo = roleService.simpleRoleList();
+        return new ListResponse<>(pageInfo);
     }
 
     /**

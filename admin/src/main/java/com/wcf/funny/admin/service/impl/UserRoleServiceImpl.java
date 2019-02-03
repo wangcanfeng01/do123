@@ -2,6 +2,7 @@ package com.wcf.funny.admin.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.admin.entity.SimpleRoleInfo;
 import com.wcf.funny.admin.entity.UserRole;
 import com.wcf.funny.admin.exception.errorcode.UserErrorCode;
 import com.wcf.funny.admin.mapper.UserRoleMapper;
@@ -81,6 +82,23 @@ public class UserRoleServiceImpl implements UserRoleService {
             List<UserRole> roles = roleMapper.getRoleList();
             PageInfo<UserRole> pageInfo = new PageInfo<>(roles);
             return convertPageInfo(pageInfo);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.SELECT_ROLR_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  查询简单的角色列表信息
+     *
+     * @return java.util.List<com.wcf.funny.admin.entity.SimpleRoleInfo>
+     * @author wangcanfeng
+     * @time 2019/2/3 14:47
+     * @since v1.0
+     **/
+    @Override
+    public List<SimpleRoleInfo> simpleRoleList() {
+        try {
+            return roleMapper.simpleRoleList();
         } catch (Exception e) {
             throw new PgSqlException(UserErrorCode.SELECT_ROLR_ERROR, e);
         }
