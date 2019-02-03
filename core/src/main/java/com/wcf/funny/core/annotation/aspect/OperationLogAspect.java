@@ -117,6 +117,7 @@ public class OperationLogAspect {
         }
         //默认操作结果为成功
         logInfo.setActionResult(ActionResult.SUCCESS.getCode());
+        logInfo.setActionInfo(operationLog.info());
         String details = RequestUtils.getActionDetails();
         if (ObjectUtils.isEmpty(details)) {
             logInfo.setDetails(operationLog.details());
@@ -124,7 +125,7 @@ public class OperationLogAspect {
             logInfo.setDetails(details);
         }
         logInfo.setIp(request.getRemoteHost());
-        logInfo.setObject(operationLog.object().getObject());
+        logInfo.setActionObject(operationLog.object().getObject());
         return logInfo;
     }
 }

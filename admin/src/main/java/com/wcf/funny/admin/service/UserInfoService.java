@@ -97,4 +97,15 @@ public interface UserInfoService {
      *@return void
      **/
     void changePassword(String password,Integer id);
+
+    /**
+     * 功能描述：  根据id修改用户角色信息
+     *@author wangcanfeng
+     *@time 2019/2/3 19:49
+     *@since v1.0
+     * @param role
+    * @param id
+     *@return void
+     **/
+    void changeRole(String role,Integer id);
 }

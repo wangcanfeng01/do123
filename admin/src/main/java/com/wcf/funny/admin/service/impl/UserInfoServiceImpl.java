@@ -201,6 +201,26 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     /**
+     * 功能描述：  根据id修改用户角色信息
+     *
+     * @param role
+     * @param id
+     * @param id
+     * @return void
+     * @author wangcanfeng
+     * @time 2019/2/3 19:49
+     * @since v1.0
+     **/
+    @Override
+    public void changeRole(String role, Integer id) {
+        try {
+            mapper.changeRole(role,id);
+        }catch (Exception e){
+            throw new PgSqlException(UserErrorCode.UPDATE_USER_ERROR,e);
+        }
+    }
+
+    /**
      * 功能描述：  将数据库信息转换成视图信息
      *
      * @param infos

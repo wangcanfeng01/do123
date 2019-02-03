@@ -48,13 +48,6 @@ public class OperationLogServiceImpl implements OperationLogService {
      * @since v1.0
      **/
     public PageInfo<OperationLogInfo> getLogs(int page, int limit) {
-        //设置默认信息
-        if (page <= 0) {
-            page = 1;
-        }
-        if (limit <= 0) {
-            limit = 20;
-        }
         //设置分页
         PageHelper.startPage(page, limit);
         try {

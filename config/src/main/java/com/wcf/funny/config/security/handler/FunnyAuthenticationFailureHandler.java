@@ -59,7 +59,7 @@ public class FunnyAuthenticationFailureHandler extends SimpleUrlAuthenticationFa
         }finally {
             OperationLogInfo info = new OperationLogInfo();
             info.setActionResult(ActionResult.FAIL.getCode());
-            info.setObject(ActionObject.USER.getObject());
+            info.setActionObject(ActionObject.USER.getObject());
             info.setIp(request.getRemoteHost());
             info.setActionType(ActionType.LOGIN.getCode());
             info.setDetails("");

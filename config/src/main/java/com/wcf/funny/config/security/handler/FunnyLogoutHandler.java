@@ -37,7 +37,7 @@ public class FunnyLogoutHandler implements LogoutHandler {
         } finally {
             OperationLogInfo info = new OperationLogInfo();
             info.setActionResult(ActionResult.SUCCESS.getCode());
-            info.setObject(ActionObject.USER.getObject());
+            info.setActionObject(ActionObject.USER.getObject());
             info.setIp(request.getRemoteHost());
             info.setActionType(ActionType.LOGOUT.getCode());
             info.setDetails("");

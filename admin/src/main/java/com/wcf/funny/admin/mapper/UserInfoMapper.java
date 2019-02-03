@@ -85,5 +85,17 @@ public interface UserInfoMapper {
      *@return void
      **/
     @Update("update info_user set password=#{password} where id=#{id}")
-    void changePassword(@Param("password")String password,Integer id);
+    void changePassword(@Param("password")String password,@Param("id") Integer id);
+
+    /**
+     * 功能描述：  根据id修改用户角色信息
+     *@author wangcanfeng
+     *@time 2019/2/3 19:49
+     *@since v1.0
+     * @param role
+    * @param id
+     *@return void
+     **/
+    @Update("update info_user set role=#{role} where id=#{id}")
+    void changeRole(@Param("role") String role,@Param("id") Integer id);
 }

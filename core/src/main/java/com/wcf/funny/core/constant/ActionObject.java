@@ -10,7 +10,7 @@ public enum ActionObject {
     USER("user");
 
     ActionObject(String object) {
-
+        this.object=object;
     }
 
     private String object;

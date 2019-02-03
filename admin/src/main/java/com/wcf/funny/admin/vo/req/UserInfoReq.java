@@ -12,6 +12,10 @@ import java.util.List;
 @Data
 public class UserInfoReq {
     /**
+     * 用户id
+     */
+    private Integer id;
+    /**
      * 用户名
      */
     private String username;

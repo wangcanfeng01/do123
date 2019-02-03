@@ -17,18 +17,27 @@ public @interface OperationLog {
 
     /**
      * 操作类型
+     *
      * @return
      */
     ActionType action();
 
     /**
      * 操作对象
+     *
      * @return
      */
     ActionObject object();
 
     /**
+     * 操作内容信息
+     * @return
+     */
+    String info() default "";
+
+    /**
      * 操作详情
+     *
      * @return
      */
     String details() default "";

@@ -1,14 +1,14 @@
-package com.wcf.funny.core.log.entity;
+package com.wcf.funny.admin.vo;
 
 import lombok.Data;
 
 /**
- * @author WCF
- * @time 2018/12/26
- * @function 操作日志
+ * @author wangcanfeng
+ * @time 2019/2/3
+ * @function 操作日志展示的视图信息
  **/
 @Data
-public class OperationLogInfo {
+public class OpsLogVo {
     /**
      * 主键
      */
@@ -16,14 +16,15 @@ public class OperationLogInfo {
     /**
      * 操作类型
      */
-    private Integer actionType;
+    private String actionType;
 
     /**
      * 操作名
      */
     private String authorName;
+
     /**
-     * 头像存储路径
+     * 人脸图片路径
      */
     private String facePath;
 
@@ -39,7 +40,7 @@ public class OperationLogInfo {
     /**
      * 操作时间
      */
-    private Integer createTime;
+    private String createTime;
     /**
      * 操作内容信息
      */
@@ -52,5 +53,5 @@ public class OperationLogInfo {
     /**
      * 操作结果 1表示成功  0表示失败
      */
-    private Integer actionResult;
+    private String actionResult;
 }

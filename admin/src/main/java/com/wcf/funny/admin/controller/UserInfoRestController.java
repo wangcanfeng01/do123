@@ -8,6 +8,7 @@ import com.wcf.funny.admin.service.UserInfoService;
 import com.wcf.funny.admin.vo.UserInfoVo;
 import com.wcf.funny.admin.vo.req.UserInfoReq;
 import com.wcf.funny.core.annotation.OperationLog;
+import com.wcf.funny.core.constant.ActionInfo;
 import com.wcf.funny.core.constant.ActionObject;
 import com.wcf.funny.core.constant.ActionType;
 import com.wcf.funny.core.constant.CoreConstant;
@@ -127,6 +128,7 @@ public class UserInfoRestController extends BaseController {
      *@return com.wcf.funny.core.reponse.BaseResponse
      **/
     @PutMapping("/status/{id}/{isEnable}")
+    @OperationLog(action = ActionType.UPDATE, object = ActionObject.USER,info = ActionInfo.User.CHANGE_USER_STATUS)
     public BaseResponse changeUserStatus(@PathVariable("isEnable") Integer isEnable, @PathVariable("id") Integer id) {
         userInfoService.changeStatus(isEnable, id);
         return BaseResponse.ok();
@@ -141,13 +143,15 @@ public class UserInfoRestController extends BaseController {
      *@return com.wcf.funny.core.reponse.BaseResponse
      **/
     @PutMapping("/modify/role")
+    @OperationLog(action = ActionType.UPDATE, object = ActionObject.USER,info = ActionInfo.User.UPDATE_USER_ROLE)
     public BaseResponse modifyBase(@RequestBody UserInfoReq req){
-
+        String role=ConvertIdUtils.getString(req.getRole());
+        userInfoService.changeRole(role,req.getId());
         return BaseResponse.ok();
     }
 
     /**
-     * 功能描述：
+     * 功能描述：使用默认密码进行重置当前用户的密码
      *@author wangcanfeng
      *@time 2019/2/3 15:50
      *@since v1.0
@@ -155,6 +159,7 @@ public class UserInfoRestController extends BaseController {
      *@return com.wcf.funny.core.reponse.BaseResponse
      **/
     @PutMapping("/resetPass/{id}")
+    @OperationLog(action = ActionType.UPDATE, object = ActionObject.USER,info = ActionInfo.User.RESET_USER_PASSWORD)
     public BaseResponse resetPass(@PathVariable("id")Integer id){
         String password=MD5Utils.encode(UserConstant.DEFAULT_PASSWORD);
         userInfoService.changePassword(password,id);

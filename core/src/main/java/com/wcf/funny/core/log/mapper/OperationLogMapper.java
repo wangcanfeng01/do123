@@ -22,8 +22,9 @@ public interface OperationLogMapper {
      * @time 2018/6/13 22:31
      * @since v1.0
      **/
-    @Insert("INSERT INTO info_operation_log(author_name, ip, create_time, action_type, object, action_result, details)" +
-            "VALUES(#{authorName},#{ip},#{createTime},#{actionType},#{object},#{actionResult},#{details})")
+    @Insert("INSERT INTO info_operation_log(author_name, ip, create_time, action_type, action_object, action_result," +
+            " details,action_info) VALUES(#{authorName},#{ip},#{createTime},#{actionType},#{object},#{actionResult}," +
+            " #{details},#{actionInfo})")
     void insertLog(OperationLogInfo info) throws Exception;
 
 
@@ -35,9 +36,9 @@ public interface OperationLogMapper {
      * @time 2018/6/13 22:32
      * @since v1.0
      **/
-    @Select("SELECT id, author_name as authorName, ip, create_time as createTime, action_type as actionType, " +
-            "object, action_result as action_result, details " +
-            "FROM info_operation_log " +
-            "ORDER BY create_time DESC")
+    @Select("SELECT a.id, a.author_name as authorName, a.ip, a.create_time as createTime, a.action_type as actionType, " +
+            "a.action_object as actionObject, a.action_result as actionResult, a.details, a.action_info as actionInfo, " +
+            "b.face_path as facePath FROM info_operation_log as a LEFT JOIN info_user as b ON a.author_name=b.name" +
+            " ORDER BY create_time DESC")
     List<OperationLogInfo> getLogsList() throws Exception;
 }
