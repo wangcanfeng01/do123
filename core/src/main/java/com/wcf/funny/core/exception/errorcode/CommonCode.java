@@ -2,7 +2,8 @@ package com.wcf.funny.core.exception.errorcode;
 
 public enum  CommonCode implements CoreCode{
 
-    DEFAULT_SUCCESS_CODE("0","success");
+    DEFAULT_SUCCESS_CODE("0","success"),
+    TIME_FORMAT_ERROR("00000001001","time format is not right");
 
     /**
      * 原因

@@ -3,12 +3,11 @@ package com.wcf.funny.core.exception;
 import com.wcf.funny.core.exception.errorcode.CoreCode;
 
 /**
- * @author WCF
- * @time 2018/6/12
- * @function: 功能：pg数据库异常
+ * @author wangcanfeng
+ * @time 2019/2/4
+ * @function 通用时间异常处理
  **/
-public class PgSqlException extends BaseException {
-
+public class TimeException extends BaseException {
 
     /**
      * 抛出携带错误码和错误信息的异常
@@ -16,7 +15,7 @@ public class PgSqlException extends BaseException {
      * @param code
      * @param msg
      */
-    public PgSqlException(String code, String msg) {
+    public TimeException(String code, String msg) {
         super(msg);
         setCode(code);
     }
@@ -29,7 +28,7 @@ public class PgSqlException extends BaseException {
      * @time 2018/6/13 22:48
      * @since v1.0
      **/
-    public PgSqlException(CoreCode errorMessage,Throwable e) {
+    public TimeException(CoreCode errorMessage, Throwable e) {
         super(errorMessage,e);
     }
 }

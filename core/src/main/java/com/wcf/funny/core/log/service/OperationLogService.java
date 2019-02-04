@@ -32,4 +32,17 @@ public interface OperationLogService {
      * @since v1.0
      **/
     PageInfo<OperationLogInfo> getLogs(int page, int limit);
+
+    /**
+     * @param page 页码
+     * @param limit 单页大小
+     * @param start 起始时间
+     * @param end 结束时间
+     * @return java.util.List<com.wcf.hellohome.read.model.WcfOperationLogInfo>
+     * @note 获取日志信息
+     * @author WCF
+     * @time 2018/6/14 22:16
+     * @since v1.0
+     **/
+    PageInfo<OperationLogInfo> getLogsByTime(int page, int limit,int start ,int end);
 }

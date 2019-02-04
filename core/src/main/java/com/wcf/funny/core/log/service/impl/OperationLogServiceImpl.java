@@ -56,4 +56,26 @@ public class OperationLogServiceImpl implements OperationLogService {
             throw new PgSqlException(LogErrorCode.SELECT_OPERATION_ERROR, e);
         }
     }
+
+    /**
+     * @param page  页码
+     * @param limit 单页大小
+     * @param start 起始时间
+     * @param end   结束时间
+     * @return java.util.List<com.wcf.hellohome.read.model.WcfOperationLogInfo>
+     * @note 获取日志信息
+     * @author WCF
+     * @time 2018/6/14 22:16
+     * @since v1.0
+     **/
+    @Override
+    public PageInfo<OperationLogInfo> getLogsByTime(int page, int limit, int start, int end) {
+        //设置分页
+        PageHelper.startPage(page, limit);
+        try {
+            return new PageInfo<>(logMapper.getLogsListByTime(start,end));
+        } catch (Exception e) {
+            throw new PgSqlException(LogErrorCode.SELECT_OPERATION_ERROR, e);
+        }
+    }
 }

@@ -29,6 +29,16 @@ public class OperationLogController {
     @Autowired
     private OperationLogService logService;
 
+    /**
+     * 功能描述：  无条件分页查询日志信息
+     *
+     * @param currentPage
+     * @param pageSize
+     * @return com.wcf.funny.core.reponse.BaseResponse<java.util.List<com.wcf.funny.admin.vo.OpsLogVo>>
+     * @author wangcanfeng
+     * @time 2019/2/4 12:27
+     * @since v1.0
+     **/
     @GetMapping("/logList")
     public BaseResponse<List<OpsLogVo>> getOpsLogList(
             @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
@@ -38,12 +48,34 @@ public class OperationLogController {
     }
 
     /**
+     * 功能描述：  带时间条件查询操作日志信息
+     *
+     * @param currentPage
+     * @param pageSize
+     * @return com.wcf.funny.core.reponse.BaseResponse<java.util.List<com.wcf.funny.admin.vo.OpsLogVo>>
+     * @author wangcanfeng
+     * @time 2019/2/4 12:27
+     * @since v1.0
+     **/
+    @GetMapping("/logList/time")
+    public BaseResponse<List<OpsLogVo>> getOpsLogListByTime(
+            @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
+            @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize,
+            @RequestParam("start") String start, @RequestParam("end") String end) {
+        Integer startTime = FunnyTimeUtils.getUnixTime(start);
+        Integer endTime = FunnyTimeUtils.getUnixTime(end);
+        PageInfo<OpsLogVo> logs = convertPageInfo(logService.getLogsByTime(currentPage, pageSize, startTime, endTime));
+        return new PageResponse<>(logs);
+    }
+
+    /**
      * 功能描述：  将数据库中查询的结果转成需要展示的样式
-     *@author wangcanfeng
-     *@time 2019/2/3 21:07
-     *@since v1.0
+     *
      * @param logs
-     *@return com.github.pagehelper.PageInfo<com.wcf.funny.admin.vo.OpsLogVo>
+     * @return com.github.pagehelper.PageInfo<com.wcf.funny.admin.vo.OpsLogVo>
+     * @author wangcanfeng
+     * @time 2019/2/3 21:07
+     * @since v1.0
      **/
     private PageInfo<OpsLogVo> convertPageInfo(PageInfo<OperationLogInfo> logs) {
         List<OperationLogInfo> logList = logs.getList();
