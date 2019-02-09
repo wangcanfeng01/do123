@@ -36,8 +36,21 @@ public interface UserInfoMapper {
      *@return com.wcf.hellohome.user.model.UserInfo
      **/
     @Select("select id, name as username,password,face_path as facePath,register_time as registerTime, " +
-            "update_time as updateTime, user_level as userLevel, role, introduce, score, is_enable as isEnable from info_user where name = #{name}")
+            "update_time as updateTime, user_level as userLevel, role, introduce, score, is_enable as isEnable" +
+            " from info_user where name = #{name}")
     UserInfo getUserByName(String name);
+
+
+    /**
+     *@note 根据用户名称查询用户头像
+     *@author WCF
+     *@time 2018/6/12 22:23
+     *@since v1.0
+     * @param name
+     *@return String
+     **/
+    @Select("SELECT face_path from info_user where name = #{name}")
+    String getFaceByName(String name);
 
     /**
      *@note 根据id查询用户信息

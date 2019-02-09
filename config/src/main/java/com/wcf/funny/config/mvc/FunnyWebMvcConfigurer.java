@@ -23,7 +23,7 @@ public class FunnyWebMvcConfigurer implements WebMvcConfigurer {
      **/
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/index.html").addResourceLocations("classpath:/index.html");
+        registry.addResourceHandler("/index.html").addResourceLocations("classpath:/templates/index.html");
         registry.addResourceHandler("/static/css/**").addResourceLocations("classpath:/static/css/");
         registry.addResourceHandler("/static/fonts/**").addResourceLocations("classpath:/static/fonts/");
         registry.addResourceHandler("/static/img/**").addResourceLocations("classpath:/static/img/");

@@ -58,6 +58,23 @@ public interface UserRoleMapper {
             ,many =@Many(select ="com.wcf.funny.admin.mapper.MenuInfoMapper.simpleMenuByIds"))})
     List<UserRole> getRoleList();
 
+
+    /**
+     * 功能描述：  获取角色列表,仅携带需要权限的菜单
+     *
+     * @param
+     * @return java.util.List<com.wcf.funny.admin.entity.UserRole>
+     * @author wangcanfeng
+     * @time 2019/1/20 13:39
+     * @since v1.0
+     **/
+    @Select("SELECT id, role_name as roleName, role_type as roleType, role_auth as roleAuth,role_auth as roleMenu," +
+            " role_creator as roleCreator, create_time as createTime, update_time as updateTime, description" +
+            " FROM info_role")
+    @Results({@Result(property ="menuInfos",column="roleMenu"
+            ,many =@Many(select ="com.wcf.funny.admin.mapper.MenuInfoMapper.simpleMenuWithAuthByIds"))})
+    List<UserRole> getRoleListWithAuth();
+
     /**
      * 功能描述：  查询简单的菜单信息
      *

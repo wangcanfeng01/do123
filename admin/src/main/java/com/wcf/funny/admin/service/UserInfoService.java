@@ -108,4 +108,14 @@ public interface UserInfoService {
      *@return void
      **/
     void changeRole(String role,Integer id);
+
+    /**
+     * @param name
+     * @return String
+     * @note 通过用户名获取用户头像
+     * @author WCF
+     * @time 2018/6/12 22:15
+     * @since v1.0
+     **/
+    String getFaceByUsername(String name) ;
 }

@@ -47,6 +47,16 @@ public interface MenuInfoService {
     List<SimpleMenuInfo> simpleMenuList();
 
     /**
+     * 功能描述：  查询需要配置权限的菜单信息
+     *
+     * @return java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>
+     * @author wangcanfeng
+     * @time 2019/1/30 22:05
+     * @since v1.0
+     **/
+    List<SimpleMenuInfo> simpleMenuAuthList();
+
+    /**
      * 功能描述：根据菜单名称查询菜单信息
      *
      * @param name
@@ -78,4 +88,28 @@ public interface MenuInfoService {
      * @since v1.0
      **/
     void updateMenuById(MenuInfo info);
+
+    /**
+     * 功能描述：  根据id更新菜单是否需要权限
+     *
+     * @param auth
+     * @param id
+     * @return void
+     * @author wangcanfeng
+     * @time 2019/1/27 21:52
+     * @since v1.0
+     **/
+    void updateMenuAuthById(Integer auth,Integer id);
+
+    /**
+     * 功能描述：  根据id更新菜单是否为空
+     *
+     * @param type
+     * @param id
+     * @return void
+     * @author wangcanfeng
+     * @time 2019/1/27 21:52
+     * @since v1.0
+     **/
+    void updateMenuTypeById(Integer type,Integer id);
 }

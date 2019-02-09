@@ -13,6 +13,6 @@ import org.springframework.security.web.access.AccessDeniedHandlerImpl;
 public class FunnyAccessDeniedHandler extends AccessDeniedHandlerImpl {
     @Autowired
     public void setError() {
-        super.setErrorPage("/500");
+        super.setErrorPage("/403");
     }
 }

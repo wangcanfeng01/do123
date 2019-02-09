@@ -24,7 +24,7 @@ public interface OperationLogMapper {
      * @since v1.0
      **/
     @Insert("INSERT INTO info_operation_log(author_name, ip, create_time, action_type, action_object, action_result," +
-            " details,action_info) VALUES(#{authorName},#{ip},#{createTime},#{actionType},#{object},#{actionResult}," +
+            " details,action_info) VALUES(#{authorName},#{ip},#{createTime},#{actionType},#{actionObject},#{actionResult}," +
             " #{details},#{actionInfo})")
     void insertLog(OperationLogInfo info) throws Exception;
 

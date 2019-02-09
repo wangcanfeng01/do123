@@ -52,6 +52,11 @@
             <groupId>com.wcf.funny</groupId>
             <artifactId>video</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.wcf.funny</groupId>
+            <artifactId>home</artifactId>
+        </dependency>
     </dependencies>
 
     <packaging>war</packaging>

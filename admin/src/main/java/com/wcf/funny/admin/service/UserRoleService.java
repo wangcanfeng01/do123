@@ -48,6 +48,17 @@ public interface UserRoleService {
 
 
     /**
+     * 功能描述：  获取角色列表
+     *
+     * @param
+     * @return java.util.List<com.wcf.funny.admin.entity.UserRole>
+     * @author wangcanfeng
+     * @time 2019/1/20 13:39
+     * @since v1.0
+     **/
+    List<UserRole> getRoleList();
+
+    /**
      * 功能描述：  查询简单的角色列表信息
      *@author wangcanfeng
      *@time 2019/2/3 14:47

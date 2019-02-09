@@ -43,8 +43,8 @@ public class UserInfoServiceImpl implements UserInfoService {
      * @since v1.0
      **/
     @Override
-    public PageInfo<UserInfoVo> getUserList(Integer currentPage,Integer pageSize) {
-        PageHelper.startPage(currentPage,pageSize);
+    public PageInfo<UserInfoVo> getUserList(Integer currentPage, Integer pageSize) {
+        PageHelper.startPage(currentPage, pageSize);
         try {
             List<UserInfo> infos = mapper.selectUserList();
             PageInfo<UserInfo> pageInfo = new PageInfo<>(infos);
@@ -100,7 +100,7 @@ public class UserInfoServiceImpl implements UserInfoService {
      **/
     @Override
     public boolean addNewUser(String name, String password, String facePath) {
-        UserInfo info=new UserInfo();
+        UserInfo info = new UserInfo();
         info.setUsername(name);
         info.setPassword(password);
         info.setIntroduce(UserConstant.NULL_INRODUCE);
@@ -129,7 +129,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         try {
             return mapper.getUserByName(name);
         } catch (Exception e) {
-            throw new PgSqlException(UserErrorCode.SELECT_USER_ERROR,e);
+            throw new PgSqlException(UserErrorCode.SELECT_USER_ERROR, e);
         }
     }
 
@@ -147,7 +147,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         try {
             return mapper.getUserById(id);
         } catch (Exception e) {
-            throw new PgSqlException(UserErrorCode.SELECT_USER_ERROR,e);
+            throw new PgSqlException(UserErrorCode.SELECT_USER_ERROR, e);
         }
     }
 
@@ -160,11 +160,11 @@ public class UserInfoServiceImpl implements UserInfoService {
      * @since v1.0
      **/
     @Override
-    public void changeStatus(Integer isEnable,Integer id) {
+    public void changeStatus(Integer isEnable, Integer id) {
         try {
-            mapper.changeUserStatus(isEnable,id);
-        }catch (Exception e){
-            throw new PgSqlException(UserErrorCode.UPDATE_USER_ERROR,e);
+            mapper.changeUserStatus(isEnable, id);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.UPDATE_USER_ERROR, e);
         }
     }
 
@@ -192,11 +192,11 @@ public class UserInfoServiceImpl implements UserInfoService {
      * @since v1.0
      **/
     @Override
-    public void changePassword(String password,Integer id) {
+    public void changePassword(String password, Integer id) {
         try {
-            mapper.changePassword(password,id);
-        }catch (Exception e){
-            throw new PgSqlException(UserErrorCode.UPDATE_USER_ERROR,e);
+            mapper.changePassword(password, id);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.UPDATE_USER_ERROR, e);
         }
     }
 
@@ -214,9 +214,26 @@ public class UserInfoServiceImpl implements UserInfoService {
     @Override
     public void changeRole(String role, Integer id) {
         try {
-            mapper.changeRole(role,id);
-        }catch (Exception e){
-            throw new PgSqlException(UserErrorCode.UPDATE_USER_ERROR,e);
+            mapper.changeRole(role, id);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.UPDATE_USER_ERROR, e);
+        }
+    }
+
+    /**
+     * @param name
+     * @return String
+     * @note 通过用户名获取用户头像
+     * @author WCF
+     * @time 2018/6/12 22:15
+     * @since v1.0
+     **/
+    @Override
+    public String getFaceByUsername(String name) {
+        try {
+            return mapper.getFaceByName(name);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.SELECT_USER_ERROR, e);
         }
     }
 
@@ -240,9 +257,9 @@ public class UserInfoServiceImpl implements UserInfoService {
             vo.setIntroduce(user.getIntroduce());
             vo.setFacePath(user.getFacePath());
             vo.setUserAuth(ConvertIdUtils.getList(user.getRole()));
-            if(ObjectUtils.isEmpty(user.getIsEnable())||user.getIsEnable()!=UserConstant.USER_ENABLE){
+            if (ObjectUtils.isEmpty(user.getIsEnable()) || user.getIsEnable() != UserConstant.USER_ENABLE) {
                 vo.setIsEnable("已禁用");
-            }else {
+            } else {
                 vo.setIsEnable("已启用");
             }
             vo.setUsername(user.getUsername());

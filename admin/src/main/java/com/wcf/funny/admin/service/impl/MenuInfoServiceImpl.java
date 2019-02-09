@@ -87,6 +87,23 @@ public class MenuInfoServiceImpl implements MenuInfoService {
     }
 
     /**
+     * 功能描述：  查询需要配置权限的菜单信息
+     *
+     * @return java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>
+     * @author wangcanfeng
+     * @time 2019/1/30 22:05
+     * @since v1.0
+     **/
+    @Override
+    public List<SimpleMenuInfo> simpleMenuAuthList() {
+        try {
+            return menuInfoMapper.authMenu();
+        } catch (Exception e) {
+            throw new PgSqlException(MenuErrorCode.SELECT_MENU_ERROR, e);
+        }
+    }
+
+    /**
      * 功能描述：根据菜单名称查询菜单信息
      *
      * @param name
@@ -146,6 +163,44 @@ public class MenuInfoServiceImpl implements MenuInfoService {
     }
 
     /**
+     * 功能描述：  根据id更新菜单是否需要权限
+     *
+     * @param auth
+     * @param id
+     * @return void
+     * @author wangcanfeng
+     * @time 2019/1/27 21:52
+     * @since v1.0
+     **/
+    @Override
+    public void updateMenuAuthById(Integer auth, Integer id) {
+        try {
+            menuInfoMapper.updateMenuAuthById(auth, id);
+        } catch (Exception e) {
+            throw new PgSqlException(MenuErrorCode.UPDATE_MENU_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  根据id更新菜单是否为空
+     *
+     * @param type
+     * @param id
+     * @return void
+     * @author wangcanfeng
+     * @time 2019/1/27 21:52
+     * @since v1.0
+     **/
+    @Override
+    public void updateMenuTypeById(Integer type, Integer id) {
+        try {
+            menuInfoMapper.updateMenuTypeById(type, id);
+        } catch (Exception e) {
+            throw new PgSqlException(MenuErrorCode.UPDATE_MENU_ERROR, e);
+        }
+    }
+
+    /**
      * 功能描述：  将数据库信息转换成视图信息
      *
      * @param menus
@@ -169,6 +224,16 @@ public class MenuInfoServiceImpl implements MenuInfoService {
             vo.setMenuPath(menu.getPath());
             vo.setParentNode(menu.getPNode());
             vo.setParentName(menu.getPName());
+            if (ObjectUtils.isEmpty(menu.getNeedAuth()) || menu.getNeedAuth() == 0) {
+                vo.setNeedAuth("否");
+            } else {
+                vo.setNeedAuth("是");
+            }
+            if (ObjectUtils.isEmpty(menu.getMenuType()) || menu.getMenuType() == 0) {
+                vo.setMenuType("空");
+            } else {
+                vo.setMenuType("非空");
+            }
             menuVos.add(vo);
         }
         PageInfo<MenuVo> pageInfo = new PageInfo<>();

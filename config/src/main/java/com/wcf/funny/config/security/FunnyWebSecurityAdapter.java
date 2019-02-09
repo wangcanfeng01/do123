@@ -2,7 +2,7 @@ package com.wcf.funny.config.security;
 
 import com.wcf.funny.config.security.handler.FunnyAuthenticationFailureHandler;
 import com.wcf.funny.config.security.handler.FunnyAuthenticationSuccessHandler;
-import com.wcf.funny.config.security.handler.FunnyLogoutHandler;
+import com.wcf.funny.config.security.handler.FunnyLogoutSuccessHandler;
 import com.wcf.funny.config.security.provider.FunnyAuthenticationProvider;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 
 /**
@@ -27,7 +28,7 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
     /**
      * 权限过滤器
      */
-//    @Autowired
+    @Autowired
     private FunnySecurityFilterInterceptor securityFilterInterceptor;
 
     /**
@@ -51,7 +52,7 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
      * 退出登录处理
      */
     @Autowired
-    private FunnyLogoutHandler logoutHandler;
+    private FunnyLogoutSuccessHandler logoutHandler;
 
 
     /**
@@ -77,14 +78,15 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().cors().disable()
-//                .addFilterBefore(securityFilterInterceptor, FilterSecurityInterceptor.class)
+                .addFilterBefore(securityFilterInterceptor, FilterSecurityInterceptor.class)
                 .authorizeRequests()
-                .antMatchers("/**","/ui/login","/ui/get/login", "/ui/register").permitAll()
+                .antMatchers("/ui/user/get/login", "/ui/user/register").permitAll()
                 //默认首页不做拦截
                 .antMatchers("/","/home","/index.html").permitAll()
                 .anyRequest().authenticated().and()
-                .formLogin().loginPage("/ui/login").successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).and()
-                .logout().addLogoutHandler(logoutHandler)
+                .formLogin().loginPage("/login").loginProcessingUrl("/ui/user/login").permitAll()
+                .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).and()
+                .logout().logoutUrl("/ui/user/logout").permitAll().logoutSuccessHandler(logoutHandler)
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .and().httpBasic();
@@ -100,7 +102,7 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
      **/
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/index.html")
+        web.ignoring().antMatchers("/templates/index.html")
                 .and().ignoring().antMatchers("/static/css/**")
                 .and().ignoring().antMatchers("/static/fonts/**")
                 .and().ignoring().antMatchers("/static/img/**")
