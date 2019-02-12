@@ -37,6 +37,7 @@
         <do123.funny.core>1.0-SNAPSHOT</do123.funny.core>
         <do123.funny.front-ui>1.0-SNAPSHOT</do123.funny.front-ui>
         <do123.funny.video>1.0-SNAPSHOT</do123.funny.video>
+        <do123.funny.home>1.0-SNAPSHOT</do123.funny.home>
         <spring-boot-relation>2.1.1.RELEASE</spring-boot-relation>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -103,8 +104,6 @@
                 <version>1.16.16</version>
             </dependency>
 
-
-
             <dependency>
                 <groupId>com.wcf.funny</groupId>
                 <artifactId>admin</artifactId>
@@ -141,6 +140,11 @@
                 <version>${do123.funny.video}</version>
             </dependency>
 
+            <dependency>
+                <groupId>com.wcf.funny</groupId>
+                <artifactId>home</artifactId>
+                <version>${do123.funny.home}</version>
+            </dependency>
 
             <!--数据库相关依赖-start-->
             <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->

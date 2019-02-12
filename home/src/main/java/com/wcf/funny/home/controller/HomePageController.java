@@ -22,4 +22,14 @@ public class HomePageController {
     public void home(HttpServletResponse response) throws IOException {
         response.sendRedirect("/index.html");
     }
+
+//    /**
+//     * 主页跳转
+//     *
+//     * @return
+//     */
+//    @RequestMapping("/**")
+//    public String home() throws IOException {
+//        return "/index.html";
+//    }
 }

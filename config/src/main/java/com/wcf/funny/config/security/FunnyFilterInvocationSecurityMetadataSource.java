@@ -6,17 +6,20 @@ import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 /**
  * @author wangcanfeng
- * @description
+ * @description 加载角色权限列表，有部分页面是权限角色才能访问的
  * @Date Created in 17:29-2018/12/27
  */
-//@Service
+@Service
 public class FunnyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+
+
     @Override
     public Collection<ConfigAttribute> getAttributes(Object obj) throws IllegalArgumentException {
         Collection<ConfigAttribute> collection = new ArrayList<>();

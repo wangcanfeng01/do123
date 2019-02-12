@@ -10,8 +10,9 @@ import com.wcf.funny.core.utils.FunnyTimeUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -23,13 +24,16 @@ import java.io.IOException;
  **/
 @FunnyHandler
 @Log4j2
-public class FunnyLogoutHandler implements LogoutHandler {
+public class FunnyLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Autowired
     private OperationLogService logService;
 
+
     @Override
-    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+    public void onLogoutSuccess(HttpServletRequest request,
+                                HttpServletResponse response,
+                                Authentication authentication) throws IOException, ServletException {
         try {
             response.sendRedirect("/home");
         } catch (IOException e) {

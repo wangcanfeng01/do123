@@ -1,6 +1,11 @@
 package com.wcf.funny.config.mvc;
 
+import org.springframework.boot.web.server.ErrorPage;
+import org.springframework.boot.web.server.WebServerFactoryCustomizer;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.config.annotation.*;
 
 
@@ -13,6 +18,14 @@ import org.springframework.web.servlet.config.annotation.*;
 @Configuration
 public class FunnyWebMvcConfigurer implements WebMvcConfigurer {
 
+    @Bean
+    public WebServerFactoryCustomizer webServerFactoryCustomizer() {
+        return (WebServerFactoryCustomizer<ConfigurableServletWebServerFactory>) factory -> {
+            ErrorPage error404Page = new ErrorPage(HttpStatus.NOT_FOUND, "/index.html");
+            factory.addErrorPages(error404Page);
+        };
+    }
+
     /**
      * @param registry
      * @return void
@@ -23,7 +36,7 @@ public class FunnyWebMvcConfigurer implements WebMvcConfigurer {
      **/
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/index.html").addResourceLocations("classpath:/index.html");
+        registry.addResourceHandler("/index.html").addResourceLocations("classpath:/templates/index.html");
         registry.addResourceHandler("/static/css/**").addResourceLocations("classpath:/static/css/");
         registry.addResourceHandler("/static/fonts/**").addResourceLocations("classpath:/static/fonts/");
         registry.addResourceHandler("/static/img/**").addResourceLocations("classpath:/static/img/");
