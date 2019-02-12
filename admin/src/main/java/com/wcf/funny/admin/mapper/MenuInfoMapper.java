@@ -24,8 +24,9 @@ public interface MenuInfoMapper {
      * @time 2019/1/27 21:50
      * @since v1.0
      **/
-    @Insert("insert into info_menu (menu_name, menu_level, parent_node, path, creator, create_time, modify_time, mark) " +
-            "VALUES (#{menuName}, #{menuLevel}, #{pNode}, #{path}, creator=#{creator}, #{createTime}, #{modifyTime}, #{mark})")
+    @Insert("insert into info_menu (menu_name, menu_level, parent_node, need_auth, menu_type, path, creator, " +
+            " create_time, modify_time, mark)  VALUES (#{menuName}, #{menuLevel}, #{pNode}, #{needAuth}, #{menuType}," +
+            " #{path}, creator=#{creator}, #{createTime}, #{modifyTime}, #{mark})")
     void insertMenu(MenuInfo info);
 
     /**
@@ -38,8 +39,8 @@ public interface MenuInfoMapper {
      * @since v1.0
      **/
     @Select("SELECT a.id, a.menu_name as menuName, a.menu_level as menuLevel, " +
-            " a.parent_node as pNode, b.menu_name as pName, a.path, a.creator,  " +
-            "a.create_time as createTime, a.modify_time as modifyTime, a.mark  " +
+            " a.parent_node as pNode, b.menu_name as pName, a.need_auth as needAuth, a.menu_type as menuType, " +
+            "a.path, a.creator,  a.create_time as createTime, a.modify_time as modifyTime, a.mark  " +
             "FROM info_menu as a LEFT JOIN info_menu as b ON a.parent_node=b.id")
     List<MenuInfo> selectMenu();
 
@@ -57,7 +58,19 @@ public interface MenuInfoMapper {
     List<SimpleMenuInfo> simpleMenu();
 
     /**
-     * 功能描述：  根据id查询简单的菜单列表
+     * 功能描述：  查询需要权限的菜单信息
+     *
+     * @param
+     * @return java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>
+     * @author wangcanfeng
+     * @time 2019/1/30 22:07
+     * @since v1.0
+     **/
+    @Select("SELECT id, menu_name as menuName, path as menuPath FROM info_menu WHERE need_auth=1")
+    List<SimpleMenuInfo> authMenu();
+
+    /**
+     * 功能描述：  根据id查询简单的菜单列表,无论是否需要权限
      *@author wangcanfeng
      *@time 2019/2/3 14:44
      *@since v1.0
@@ -66,6 +79,18 @@ public interface MenuInfoMapper {
      **/
     @SelectProvider(type = MenuInfoProvider.class,method = "simpleMenuByIdsSQL")
     List<SimpleMenuInfo> simpleMenuByIds(@Param("ids") String ids);
+
+    /**
+     * 功能描述：  根据id查询简单的菜单列表,仅查询需要权限的
+     *@author wangcanfeng
+     *@time 2019/2/3 14:44
+     *@since v1.0
+     * @param ids
+     *@return java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>
+     **/
+    @SelectProvider(type = MenuInfoProvider.class,method = "simpleMenuWithAuthByIdsSQL")
+    List<SimpleMenuInfo> simpleMenuWithAuthByIds(@Param("ids") String ids);
+
 
     /**
      * 功能描述：根据菜单名称查询菜单信息
@@ -105,4 +130,30 @@ public interface MenuInfoMapper {
     @Update("update info_menu set menu_name=#{menuName}, menu_level=#{menuLevel}, parent_node=#{pNode}, " +
             " path=#{path}, creator=#{creator}, modify_time=#{modifyTime}, mark=#{mark} where id=#{id}")
     void updateMenuById(MenuInfo info);
+
+    /**
+     * 功能描述：  根据id更新菜单信息
+     *
+     * @param needAuth
+     * @return void
+     * @author wangcanfeng
+     * @time 2019/1/27 21:52
+     * @since v1.0
+     **/
+    @Update("update info_menu set need_auth=#{needAuth} where id=#{id}")
+    void updateMenuAuthById(@Param("needAuth") Integer needAuth,@Param("id") Integer id);
+
+    /**
+     * 功能描述：  根据id更新菜单为空与否
+     *
+     * @param menuType
+     * @param id
+     * @return void
+     * @author wangcanfeng
+     * @time 2019/1/27 21:52
+     * @since v1.0
+     **/
+    @Update("update info_menu set menu_type=#{menuType}  where id=#{id}")
+    void updateMenuTypeById(@Param("menuType") Integer menuType,@Param("id") Integer id);
+
 }

@@ -44,6 +44,8 @@ public class MenuInfoController {
         info.setCreator(RequestUtils.getUserName());
         info.setMark(req.getMark());
         info.setMenuLevel(req.getLevel());
+        info.setMenuType(req.getMenuType());
+        info.setNeedAuth(req.getNeedAuth());
         info.setMenuName(req.getName());
         info.setModifyTime(FunnyTimeUtils.nowUnix());
         info.setPath(req.getPath());
@@ -57,7 +59,7 @@ public class MenuInfoController {
      *
      * @param pageSize
      * @param currentPage
-     * @return com.wcf.funny.core.reponse.BaseResponse<java.util.List<com.wcf.funny.admin.vo.MenuVo>>
+     * @return com.wcf.funny.core.reponse.BaseResponse<java.util.List < com.wcf.funny.admin.vo.MenuVo>>
      * @author wangcanfeng
      * @time 2019/1/28 22:49
      * @since v1.0
@@ -71,12 +73,13 @@ public class MenuInfoController {
     }
 
     /**
-     * 功能描述：
-     *@author wangcanfeng
-     *@time 2019/1/30 22:31
-     *@since v1.0
+     * 功能描述：查询简单的菜单信息
+     *
      * @param
-     *@return com.wcf.funny.core.reponse.BaseResponse<java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>>
+     * @return com.wcf.funny.core.reponse.BaseResponse<java.util.List   <   com.wcf.funny.admin.entity.SimpleMenuInfo>>
+     * @author wangcanfeng
+     * @time 2019/1/30 22:31
+     * @since v1.0
      **/
     @GetMapping("/menuList/simple")
     public BaseResponse<List<SimpleMenuInfo>> getMenuList() {
@@ -85,12 +88,28 @@ public class MenuInfoController {
     }
 
     /**
+     * 功能描述：查询需要配置权限的菜单信息
+     *
+     * @param
+     * @return com.wcf.funny.core.reponse.BaseResponse<java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>>
+     * @author wangcanfeng
+     * @time 2019/1/30 22:31
+     * @since v1.0
+     **/
+    @GetMapping("/menuList/auth")
+    public BaseResponse<List<SimpleMenuInfo>> getMenuAuthList() {
+        List<SimpleMenuInfo> pageInfo = menuInfoService.simpleMenuAuthList();
+        return new ListResponse<>(pageInfo);
+    }
+
+    /**
      * 功能描述：  根据id修改菜单信息
-     *@author wangcanfeng
-     *@time 2019/1/28 23:11
-     *@since v1.0
+     *
      * @param req
-     *@return com.wcf.funny.core.reponse.BaseResponse
+     * @return com.wcf.funny.core.reponse.BaseResponse
+     * @author wangcanfeng
+     * @time 2019/1/28 23:11
+     * @since v1.0
      **/
     @PutMapping("/modify")
     public BaseResponse updateMenu(@RequestBody MenuReq req) {
@@ -108,12 +127,46 @@ public class MenuInfoController {
     }
 
     /**
-     * 功能描述：  根据ID删除菜单
-     *@author wangcanfeng
-     *@time 2019/1/28 23:11
-     *@since v1.0
+     * 功能描述：  根据id修改菜单是否需要权限
+     *
      * @param id
-     *@return com.wcf.funny.core.reponse.BaseResponse
+     * @param auth
+     * @return com.wcf.funny.core.reponse.BaseResponse
+     * @author wangcanfeng
+     * @time 2019/1/28 23:11
+     * @since v1.0
+     **/
+    @PutMapping("/auth/{id}/{auth}")
+    public BaseResponse updateMenuAuth(@PathVariable("id") Integer id, @PathVariable("auth") Integer auth) {
+        menuInfoService.updateMenuAuthById(auth, id);
+        return BaseResponse.ok();
+    }
+
+
+    /**
+     * 功能描述：  根据id修改菜单是否空菜单
+     *
+     * @param id
+     * @param type
+     * @return com.wcf.funny.core.reponse.BaseResponse
+     * @author wangcanfeng
+     * @time 2019/1/28 23:11
+     * @since v1.0
+     **/
+    @PutMapping("/type/{id}/{type}")
+    public BaseResponse updateMenu(@PathVariable("id") Integer id, @PathVariable("type") Integer type) {
+        menuInfoService.updateMenuTypeById(type, id);
+        return BaseResponse.ok();
+    }
+
+    /**
+     * 功能描述：  根据ID删除菜单
+     *
+     * @param id
+     * @return com.wcf.funny.core.reponse.BaseResponse
+     * @author wangcanfeng
+     * @time 2019/1/28 23:11
+     * @since v1.0
      **/
     @DeleteMapping("/delete/{id}")
     public BaseResponse deleteMenu(@PathVariable("id") Integer id) {

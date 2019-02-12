@@ -20,7 +20,37 @@ public class HomePageController {
      */
     @RequestMapping({"/home", "/"})
     public void home(HttpServletResponse response) throws IOException {
-        response.sendRedirect("/index.html");
+       response.sendRedirect("/index.html");
+    }
+
+    @RequestMapping("/login")
+    public String login(){
+        return "/index.html";
+    }
+
+    @RequestMapping("/logout")
+    public String logout(){
+        return "/index.html";
+    }
+
+    @RequestMapping("/admin/**")
+    public String admin(){
+        return "/index.html";
+    }
+
+    @RequestMapping("/blog/**")
+    public String blog(){
+        return "/index.html";
+    }
+
+    @RequestMapping("/video/**")
+    public String video(){
+        return "/index.html";
+    }
+
+    @RequestMapping("/about/**")
+    public String about(){
+        return "/index.html";
     }
 
 //    /**

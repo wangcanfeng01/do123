@@ -52,7 +52,11 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
      * 退出登录处理
      */
     @Autowired
+<<<<<<< HEAD
     private FunnyLogoutSuccessHandler logoutSuccessHandler;
+=======
+    private FunnyLogoutSuccessHandler logoutHandler;
+>>>>>>> dbe92b545ca4db17c938429bc525792603f0e757
 
 
     /**
@@ -84,9 +88,15 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
                 //默认首页不做拦截
                 .antMatchers("/","/home","/index.html").permitAll()
                 .anyRequest().authenticated().and()
+<<<<<<< HEAD
                 .formLogin().loginPage("/login").loginProcessingUrl("/ui/login").permitAll()
                 .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).and()
                 .logout().logoutUrl("/ui/logout").permitAll().logoutSuccessHandler(logoutSuccessHandler)
+=======
+                .formLogin().loginPage("/login").loginProcessingUrl("/ui/user/login").permitAll()
+                .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).and()
+                .logout().logoutUrl("/ui/user/logout").permitAll().logoutSuccessHandler(logoutHandler)
+>>>>>>> dbe92b545ca4db17c938429bc525792603f0e757
                 .invalidateHttpSession(true)
                 .clearAuthentication(true)
                 .and().httpBasic();

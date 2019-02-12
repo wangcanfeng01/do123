@@ -88,6 +88,23 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     /**
+     * 功能描述：  获取角色列表
+     *
+     * @return java.util.List<com.wcf.funny.admin.entity.UserRole>
+     * @author wangcanfeng
+     * @time 2019/1/20 13:39
+     * @since v1.0
+     **/
+    @Override
+    public List<UserRole> getRoleList() {
+        try {
+            return roleMapper.getRoleListWithAuth();
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.SELECT_ROLR_ERROR, e);
+        }
+    }
+
+    /**
      * 功能描述：  查询简单的角色列表信息
      *
      * @return java.util.List<com.wcf.funny.admin.entity.SimpleRoleInfo>

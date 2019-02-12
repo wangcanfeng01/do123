@@ -5,6 +5,7 @@ import com.wcf.funny.admin.constant.UserConstant;
 import com.wcf.funny.admin.entity.UserInfo;
 import com.wcf.funny.admin.exception.errorcode.UploadErrorCode;
 import com.wcf.funny.admin.service.UserInfoService;
+import com.wcf.funny.admin.vo.SimpleUserVo;
 import com.wcf.funny.admin.vo.UserInfoVo;
 import com.wcf.funny.admin.vo.req.UserInfoReq;
 import com.wcf.funny.core.annotation.OperationLog;
@@ -21,6 +22,7 @@ import com.wcf.funny.core.utils.ConvertIdUtils;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
 import com.wcf.funny.core.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -49,9 +51,17 @@ public class UserInfoRestController extends BaseController {
      * @since v1.0
      **/
     @GetMapping("/get/login")
-    public BaseResponse<String> getLoginUser(HttpServletRequest request) {
+    public BaseResponse<SimpleUserVo> getLoginUser(HttpServletRequest request) {
         String username = request.getRemoteUser();
-        return new BaseResponse<>(CommonCode.DEFAULT_SUCCESS_CODE, username);
+        if (ObjectUtils.isEmpty(username)) {
+            return new BaseResponse<>(CommonCode.DEFAULT_SUCCESS_CODE, null);
+        }
+       String face= userInfoService.getFaceByUsername(username);
+        SimpleUserVo vo = new SimpleUserVo();
+        vo.setUsername(username);
+        vo.setFacePath(face);
+        return new BaseResponse<>(CommonCode.DEFAULT_SUCCESS_CODE, vo);
+
     }
 
     /**
@@ -59,7 +69,7 @@ public class UserInfoRestController extends BaseController {
      *
      * @param pageSize
      * @param currentPage
-     * @return com.wcf.funny.core.reponse.BaseResponse<java.util.List<com.wcf.funny.admin.vo.UserInfoVo>>
+     * @return com.wcf.funny.core.reponse.BaseResponse<java.util.List   <   com.wcf.funny.admin.vo.UserInfoVo>>
      * @author wangcanfeng
      * @time 2019/2/3 13:32
      * @since v1.0
@@ -120,15 +130,16 @@ public class UserInfoRestController extends BaseController {
 
     /**
      * 功能描述：  根据用户的id修改用户状态
-     *@author wangcanfeng
-     *@time 2019/2/3 15:22
-     *@since v1.0
+     *
      * @param isEnable
-    * @param id
-     *@return com.wcf.funny.core.reponse.BaseResponse
+     * @param id
+     * @return com.wcf.funny.core.reponse.BaseResponse
+     * @author wangcanfeng
+     * @time 2019/2/3 15:22
+     * @since v1.0
      **/
     @PutMapping("/status/{id}/{isEnable}")
-    @OperationLog(action = ActionType.UPDATE, object = ActionObject.USER,info = ActionInfo.User.CHANGE_USER_STATUS)
+    @OperationLog(action = ActionType.UPDATE, object = ActionObject.USER, info = ActionInfo.User.CHANGE_USER_STATUS)
     public BaseResponse changeUserStatus(@PathVariable("isEnable") Integer isEnable, @PathVariable("id") Integer id) {
         userInfoService.changeStatus(isEnable, id);
         return BaseResponse.ok();
@@ -136,37 +147,37 @@ public class UserInfoRestController extends BaseController {
 
     /**
      * 功能描述：修改用户角色信息
-     *@author wangcanfeng
-     *@time 2019/2/3 15:37
-     *@since v1.0
+     *
      * @param req
-     *@return com.wcf.funny.core.reponse.BaseResponse
+     * @return com.wcf.funny.core.reponse.BaseResponse
+     * @author wangcanfeng
+     * @time 2019/2/3 15:37
+     * @since v1.0
      **/
     @PutMapping("/modify/role")
-    @OperationLog(action = ActionType.UPDATE, object = ActionObject.USER,info = ActionInfo.User.UPDATE_USER_ROLE)
-    public BaseResponse modifyBase(@RequestBody UserInfoReq req){
-        String role=ConvertIdUtils.getString(req.getRole());
-        userInfoService.changeRole(role,req.getId());
+    @OperationLog(action = ActionType.UPDATE, object = ActionObject.USER, info = ActionInfo.User.UPDATE_USER_ROLE)
+    public BaseResponse modifyBase(@RequestBody UserInfoReq req) {
+        String role = ConvertIdUtils.getString(req.getRole());
+        userInfoService.changeRole(role, req.getId());
         return BaseResponse.ok();
     }
 
     /**
      * 功能描述：使用默认密码进行重置当前用户的密码
-     *@author wangcanfeng
-     *@time 2019/2/3 15:50
-     *@since v1.0
+     *
      * @param id
-     *@return com.wcf.funny.core.reponse.BaseResponse
+     * @return com.wcf.funny.core.reponse.BaseResponse
+     * @author wangcanfeng
+     * @time 2019/2/3 15:50
+     * @since v1.0
      **/
     @PutMapping("/resetPass/{id}")
-    @OperationLog(action = ActionType.UPDATE, object = ActionObject.USER,info = ActionInfo.User.RESET_USER_PASSWORD)
-    public BaseResponse resetPass(@PathVariable("id")Integer id){
-        String password=MD5Utils.encode(UserConstant.DEFAULT_PASSWORD);
-        userInfoService.changePassword(password,id);
+    @OperationLog(action = ActionType.UPDATE, object = ActionObject.USER, info = ActionInfo.User.RESET_USER_PASSWORD)
+    public BaseResponse resetPass(@PathVariable("id") Integer id) {
+        String password = MD5Utils.encode(UserConstant.DEFAULT_PASSWORD);
+        userInfoService.changePassword(password, id);
         return BaseResponse.ok();
     }
-
-
 
 
     /**

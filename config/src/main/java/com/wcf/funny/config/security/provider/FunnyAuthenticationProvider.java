@@ -1,5 +1,6 @@
 package com.wcf.funny.config.security.provider;
 
+import com.wcf.funny.admin.constant.UserConstant;
 import com.wcf.funny.config.exception.UserAuthException;
 import com.wcf.funny.admin.vo.UserDetailsVo;
 import com.wcf.funny.config.exception.errorcode.ConfigErrorCode;
@@ -37,9 +38,14 @@ public class FunnyAuthenticationProvider implements AuthenticationProvider {
         if (ObjectUtils.isEmpty(details)) {
             throw new UserAuthException(ConfigErrorCode.USER_NOT_FOUND);
         }
-        boolean isPass = checkPassword(details.getPassword(), (String) authentication.getCredentials());
+        boolean isPass = false;
+        if (name.equals(UserConstant.VISITOR_NAME)) {
+            isPass = true;
+        } else {
+            isPass = checkPassword(details.getPassword(), (String) authentication.getCredentials());
+        }
         if (isPass) {
-            //后面改一下，这里需要从数据库中获取到角色信息
+            //这里需要提取从数据库中获取到角色信息
             Collection<GrantedAuthority> roles = details.getAuthorities();
             Authentication auth = new UsernamePasswordAuthenticationToken(details.getUsername(), details.getPassword(), roles);
             return auth;
@@ -54,7 +60,7 @@ public class FunnyAuthenticationProvider implements AuthenticationProvider {
         authPassword = MD5Utils.encode(authPassword);
         if (password.equals(authPassword)) {
             return true;
-        }else {
+        } else {
             throw new UserAuthException(ConfigErrorCode.PASSWORD_IS_ERROR);
         }
     }

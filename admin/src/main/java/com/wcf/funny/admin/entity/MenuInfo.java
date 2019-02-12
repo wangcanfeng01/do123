@@ -37,6 +37,17 @@ public class MenuInfo {
      * 菜单创建者
      */
     private String creator;
+
+    /**
+     * 菜单是否需要权限
+     */
+    private Integer needAuth;
+
+    /**
+     * 菜单类型
+     */
+    private Integer menuType;
+
     /**
      * 创建时间
      */

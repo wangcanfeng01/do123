@@ -29,6 +29,16 @@ public class MenuVo {
      * 菜单层级
      */
     private Integer menuLevel;
+
+    /**
+     * 菜单类型
+     */
+    private String menuType;
+
+    /**
+     * 是否需要权限
+     */
+    private String needAuth;
     /**
      * 菜单路径
      */

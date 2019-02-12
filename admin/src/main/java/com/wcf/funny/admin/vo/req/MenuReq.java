@@ -21,6 +21,17 @@ public class MenuReq {
      * 父菜单的id
      */
     private Integer parent;
+
+    /**
+     * 是否需要权限 1需要 2不需要
+     */
+    private Integer needAuth;
+
+    /**
+     * 菜单类型  0空菜单 1非空菜单
+     */
+    private Integer menuType;
+
     /**
      * 菜单路径
      */

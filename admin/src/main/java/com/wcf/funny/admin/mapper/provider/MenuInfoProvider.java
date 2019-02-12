@@ -15,10 +15,27 @@ public class MenuInfoProvider {
         String sql = new SQL() {{
             SELECT("id, menu_name as menuName, path as menuPath");
             FROM("info_menu");
-            StringBuilder sb=new StringBuilder();
-            if(!ObjectUtils.isEmpty(ids)){
-                WHERE("id in ("+ids+")");
-            }else {
+            StringBuilder sb = new StringBuilder();
+            if (!ObjectUtils.isEmpty(ids)) {
+                //查询到指定id对应的菜单以及不需要权限的菜单
+                WHERE("id in (" + ids + ") OR need_auth=0");
+            } else {
+                //设置一个根本不存在id，让他查不到
+                WHERE("id in (-1) OR need_auth=0");
+            }
+        }}.toString();
+        return sql;
+    }
+
+    public String simpleMenuWithAuthByIdsSQL(@Param("ids") String ids) {
+        String sql = new SQL() {{
+            SELECT("id, menu_name as menuName, path as menuPath");
+            FROM("info_menu");
+            StringBuilder sb = new StringBuilder();
+            if (!ObjectUtils.isEmpty(ids)) {
+                //查询到指定id对应的菜单
+                WHERE("id in (" + ids + ")");
+            } else {
                 //设置一个根本不存在id，让他查不到
                 WHERE("id in (-1)");
             }
