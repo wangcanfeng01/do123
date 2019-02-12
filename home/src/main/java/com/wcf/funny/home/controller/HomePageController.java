@@ -53,13 +53,4 @@ public class HomePageController {
         return "/index.html";
     }
 
-//    /**
-//     * 主页跳转
-//     *
-//     * @return
-//     */
-//    @RequestMapping("/**")
-//    public String home() throws IOException {
-//        return "/index.html";
-//    }
 }

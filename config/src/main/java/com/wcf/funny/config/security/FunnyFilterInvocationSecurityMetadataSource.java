@@ -1,6 +1,5 @@
 package com.wcf.funny.config.security;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.wcf.funny.admin.entity.UserRole;
 import com.wcf.funny.admin.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +9,9 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Service;
-<<<<<<< HEAD
-=======
 import org.springframework.util.ObjectUtils;
->>>>>>> dbe92b545ca4db17c938429bc525792603f0e757
 
-import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
@@ -27,15 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author wangcanfeng
-<<<<<<< HEAD
  * @description 加载角色权限列表，有部分页面是权限角色才能访问的
- * @Date Created in 17:29-2018/12/27
- */
-@Service
-public class FunnyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
-
-=======
- * @description 从数据库中加载权限信息
  * @Date Created in 17:29-2018/12/27
  */
 @Service
@@ -50,6 +35,14 @@ public class FunnyFilterInvocationSecurityMetadataSource implements FilterInvoca
      */
     private static ConcurrentHashMap<String, HashSet<String>> authMap = new ConcurrentHashMap<>();
 
+    /**
+     * 功能描述：  初始化权限的map
+     *@author wangcanfeng
+     *@time 2019/2/12 16:20
+     *@since v1.0
+     * @param
+     *@return java.lang.Boolean
+     **/
     @Bean
     public Boolean setAuthMap() {
         List<UserRole> roles = roleService.getRoleList();
@@ -68,8 +61,15 @@ public class FunnyFilterInvocationSecurityMetadataSource implements FilterInvoca
         return true;
     }
 
->>>>>>> dbe92b545ca4db17c938429bc525792603f0e757
 
+    /**
+     * 功能描述：  根据拦截到的信息获取路径对应所需的角色列表
+     *@author wangcanfeng
+     *@time 2019/2/12 16:20
+     *@since v1.0
+     * @param obj
+     *@return java.util.Collection<org.springframework.security.access.ConfigAttribute>
+     **/
     @Override
     public Collection<ConfigAttribute> getAttributes(Object obj) throws IllegalArgumentException {
         Collection<ConfigAttribute> collection = new ArrayList<>();
