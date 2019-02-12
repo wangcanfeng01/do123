@@ -1,5 +1,7 @@
 package com.wcf.funny.core.utils;
 
+import com.wcf.funny.core.constant.CoreConstant;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -49,17 +51,21 @@ public class RequestUtils {
 
     /**
      * 功能描述： 获取登录用户的名称
-     *@author wangcanfeng
-     *@time 2019/1/27 22:47
-     *@since v1.0
+     *
      * @param
-     *@return java.lang.String
+     * @return java.lang.String
+     * @author wangcanfeng
+     * @time 2019/1/27 22:47
+     * @since v1.0
      **/
     public static String getUserName() {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        //不可能为空，因为只有登录后才能操作菜单
         String name = request.getRemoteUser();
-        return name;
+        if (ObjectUtils.isEmpty(name)) {
+            return CoreConstant.VISITOR_NAME;
+        } else {
+            return name;
+        }
     }
 
 }

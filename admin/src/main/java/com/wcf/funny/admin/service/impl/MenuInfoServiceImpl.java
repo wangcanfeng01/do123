@@ -2,6 +2,7 @@ package com.wcf.funny.admin.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.core.entity.CodeAndName;
 import com.wcf.funny.admin.entity.MenuInfo;
 import com.wcf.funny.admin.entity.SimpleMenuInfo;
 import com.wcf.funny.admin.exception.errorcode.MenuErrorCode;
@@ -201,6 +202,24 @@ public class MenuInfoServiceImpl implements MenuInfoService {
     }
 
     /**
+     * 功能描述：  根据ids字符串查询菜单map
+     *
+     * @param ids
+     * @return java.util.List<com.wcf.funny.core.entity.CodeAndName>
+     * @author wangcanfeng
+     * @time 2019/2/12 22:58
+     * @since v1.0
+     **/
+    @Override
+    public List<CodeAndName> selectMenuMapByIds(String ids) {
+        try {
+            return menuInfoMapper.selectMenuMapByIds(ids);
+        } catch (Exception e) {
+            throw new PgSqlException(MenuErrorCode.SELECT_MENU_ERROR, e);
+        }
+    }
+
+    /**
      * 功能描述：  将数据库信息转换成视图信息
      *
      * @param menus
@@ -224,6 +243,7 @@ public class MenuInfoServiceImpl implements MenuInfoService {
             vo.setMenuPath(menu.getPath());
             vo.setParentNode(menu.getPNode());
             vo.setParentName(menu.getPName());
+            vo.setMenuCode(menu.getMenuCode());
             if (ObjectUtils.isEmpty(menu.getNeedAuth()) || menu.getNeedAuth() == 0) {
                 vo.setNeedAuth("否");
             } else {

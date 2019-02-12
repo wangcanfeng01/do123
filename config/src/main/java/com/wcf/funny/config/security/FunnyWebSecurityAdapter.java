@@ -81,7 +81,7 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors().disable()
                 .addFilterBefore(securityFilterInterceptor, FilterSecurityInterceptor.class)
                 .authorizeRequests()
-                .antMatchers("/ui/user/get/login", "/ui/user/register").permitAll()
+                .antMatchers("/**","/ui/user/get/login", "/ui/user/register").permitAll()
                 //默认首页不做拦截
                 .antMatchers("/","/home","/index.html").permitAll()
                 .anyRequest().authenticated().and()

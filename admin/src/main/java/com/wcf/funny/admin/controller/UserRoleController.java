@@ -40,7 +40,7 @@ public class UserRoleController {
      **/
     @GetMapping("/role/{id}")
     public BaseResponse<UserRole> getRoleById(@PathVariable("id") Integer id) {
-        UserRole role = roleService.getUserInfoById(id);
+        UserRole role = roleService.getUserRoleById(id);
         return new BaseResponse<>(role);
     }
 

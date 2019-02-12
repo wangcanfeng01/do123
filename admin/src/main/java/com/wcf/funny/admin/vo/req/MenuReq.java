@@ -17,6 +17,12 @@ public class MenuReq {
      * 菜单名称
      */
     private String name;
+
+    /**
+     * 菜单编码
+     */
+    private String code;
+
     /**
      * 父菜单的id
      */

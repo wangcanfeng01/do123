@@ -18,6 +18,10 @@ public class MenuInfo {
      */
     private String menuName;
     /**
+     * 菜单编码
+     */
+    private String menuCode;
+    /**
      * 父菜单的id
      */
     private Integer pNode;

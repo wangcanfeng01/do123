@@ -10,4 +10,8 @@ public class CoreConstant {
     public final static String GUEST = "guest";
     //文件大小1MB
     public final static long MB = 1048576;
+    /**
+     * 默认的用户名
+     */
+    public final static String VISITOR_NAME="游客";
 }

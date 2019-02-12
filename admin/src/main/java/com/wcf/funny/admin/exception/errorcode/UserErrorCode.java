@@ -26,6 +26,8 @@ public enum UserErrorCode implements CoreCode {
     UPDATE_ROLR_ERROR("00010001","update role from db failed"),
     //角色删除失败
     DELETE_ROLR_ERROR("00010001","delete role from db failed"),
+    //登录用户信息存在异常
+    LOGIN_USER_INFO_ERROR("000010001","the login user has something not right"),
     ;
 
     /**

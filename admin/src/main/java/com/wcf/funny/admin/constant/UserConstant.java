@@ -29,8 +29,4 @@ public class UserConstant {
      */
     public final static String DEFAULT_PASSWORD="123456+";
 
-    /**
-     * 默认的用户名
-     */
-    public final static String VISITOR_NAME="游客";
 }

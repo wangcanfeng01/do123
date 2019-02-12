@@ -5,6 +5,7 @@ import com.wcf.funny.config.exception.UserAuthException;
 import com.wcf.funny.admin.vo.UserDetailsVo;
 import com.wcf.funny.config.exception.errorcode.ConfigErrorCode;
 import com.wcf.funny.core.annotation.FunnyProvider;
+import com.wcf.funny.core.constant.CoreConstant;
 import com.wcf.funny.core.utils.MD5Utils;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -39,7 +40,7 @@ public class FunnyAuthenticationProvider implements AuthenticationProvider {
             throw new UserAuthException(ConfigErrorCode.USER_NOT_FOUND);
         }
         boolean isPass = false;
-        if (name.equals(UserConstant.VISITOR_NAME)) {
+        if (name.equals(CoreConstant.VISITOR_NAME)) {
             isPass = true;
         } else {
             isPass = checkPassword(details.getPassword(), (String) authentication.getCredentials());

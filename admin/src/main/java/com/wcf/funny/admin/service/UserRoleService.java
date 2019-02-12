@@ -22,7 +22,18 @@ public interface UserRoleService {
      * @time 2019/1/20 13:39
      * @since v1.0
      **/
-    UserRole getUserInfoById(Integer id);
+    UserRole getUserRoleById(Integer id);
+
+    /**
+     * 功能描述：  根据角色ids获取角色信息,支持批量查询
+     *
+     * @param ids
+     * @return com.wcf.funny.admin.entity.UserRole
+     * @author wangcanfeng
+     * @time 2019/1/20 13:39
+     * @since v1.0
+     **/
+    List<UserRole> getUserRoleByIds(String ids);
 
     /**
      * 功能描述：  插入角色信息

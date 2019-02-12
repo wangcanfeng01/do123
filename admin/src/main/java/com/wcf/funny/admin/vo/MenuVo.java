@@ -18,6 +18,10 @@ public class MenuVo {
      */
     private String menuName;
     /**
+     * 菜单编码
+     */
+    private String menuCode;
+    /**
      * 父菜单的id
      */
     private Integer parentNode;

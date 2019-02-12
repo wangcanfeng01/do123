@@ -1,6 +1,7 @@
 package com.wcf.funny.admin.service;
 
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.core.entity.CodeAndName;
 import com.wcf.funny.admin.entity.MenuInfo;
 import com.wcf.funny.admin.entity.SimpleMenuInfo;
 import com.wcf.funny.admin.vo.MenuVo;
@@ -99,7 +100,7 @@ public interface MenuInfoService {
      * @time 2019/1/27 21:52
      * @since v1.0
      **/
-    void updateMenuAuthById(Integer auth,Integer id);
+    void updateMenuAuthById(Integer auth, Integer id);
 
     /**
      * 功能描述：  根据id更新菜单是否为空
@@ -111,5 +112,16 @@ public interface MenuInfoService {
      * @time 2019/1/27 21:52
      * @since v1.0
      **/
-    void updateMenuTypeById(Integer type,Integer id);
+    void updateMenuTypeById(Integer type, Integer id);
+
+    /**
+     * 功能描述：  根据ids字符串查询菜单map
+     *
+     * @param ids
+     * @return java.util.List<com.wcf.funny.core.entity.CodeAndName>
+     * @author wangcanfeng
+     * @time 2019/2/12 22:58
+     * @since v1.0
+     **/
+    List<CodeAndName> selectMenuMapByIds(String ids);
 }

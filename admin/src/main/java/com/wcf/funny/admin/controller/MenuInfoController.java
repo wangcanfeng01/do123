@@ -50,6 +50,7 @@ public class MenuInfoController {
         info.setModifyTime(FunnyTimeUtils.nowUnix());
         info.setPath(req.getPath());
         info.setPNode(req.getParent());
+        info.setMenuCode(req.getCode());
         menuInfoService.insertMenu(info);
         return BaseResponse.ok();
     }
@@ -75,8 +76,7 @@ public class MenuInfoController {
     /**
      * 功能描述：查询简单的菜单信息
      *
-     * @param
-     * @return com.wcf.funny.core.reponse.BaseResponse<java.util.List   <   com.wcf.funny.admin.entity.SimpleMenuInfo>>
+     * @return com.wcf.funny.core.reponse.BaseResponse<java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>>
      * @author wangcanfeng
      * @time 2019/1/30 22:31
      * @since v1.0
@@ -122,6 +122,7 @@ public class MenuInfoController {
         info.setModifyTime(FunnyTimeUtils.nowUnix());
         info.setPath(req.getPath());
         info.setPNode(req.getParent());
+        info.setMenuCode(req.getCode());
         menuInfoService.updateMenuById(info);
         return BaseResponse.ok();
     }

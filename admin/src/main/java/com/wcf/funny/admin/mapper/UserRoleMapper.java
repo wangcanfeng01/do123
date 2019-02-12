@@ -27,7 +27,21 @@ public interface UserRoleMapper {
     @Select("SELECT id, role_name as roleName, role_type as roleType, role_auth as roleAuth, role_creator as roleCreator," +
             " create_time as createTime, update_time as updateTime, description" +
             " FROM info_role where id=#{id}")
-    UserRole getUserInfoById(Integer id);
+    UserRole getUserRoleById(Integer id);
+
+    /**
+     * 功能描述：  根据角色id获取角色信息
+     *
+     * @param ids
+     * @return com.wcf.funny.admin.entity.UserRole
+     * @author wangcanfeng
+     * @time 2019/1/20 13:39
+     * @since v1.0
+     **/
+    @Select("SELECT id, role_name as roleName, role_type as roleType, role_auth as roleAuth, role_creator as roleCreator," +
+            " create_time as createTime, update_time as updateTime, description" +
+            " FROM info_role where id in (#{ids})")
+    List<UserRole> getUserRoleByIds(String ids);
 
     /**
      * 功能描述：  插入角色信息

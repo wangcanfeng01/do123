@@ -39,9 +39,27 @@ public class UserRoleServiceImpl implements UserRoleService {
      * @since v1.0
      **/
     @Override
-    public UserRole getUserInfoById(Integer id) {
+    public UserRole getUserRoleById(Integer id) {
         try {
-            return roleMapper.getUserInfoById(id);
+            return roleMapper.getUserRoleById(id);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.SELECT_ROLR_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  根据角色ids字符串获取角色信息,支持批量查询
+     *
+     * @param ids
+     * @return com.wcf.funny.admin.entity.UserRole
+     * @author wangcanfeng
+     * @time 2019/1/20 13:39
+     * @since v1.0
+     **/
+    @Override
+    public List<UserRole> getUserRoleByIds(String ids) {
+        try {
+            return roleMapper.getUserRoleByIds(ids);
         } catch (Exception e) {
             throw new PgSqlException(UserErrorCode.SELECT_ROLR_ERROR, e);
         }

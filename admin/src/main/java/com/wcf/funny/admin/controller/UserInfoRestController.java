@@ -69,7 +69,7 @@ public class UserInfoRestController extends BaseController {
      *
      * @param pageSize
      * @param currentPage
-     * @return com.wcf.funny.core.reponse.BaseResponse<java.util.List   <   com.wcf.funny.admin.vo.UserInfoVo>>
+     * @return com.wcf.funny.core.reponse.BaseResponse<java.util.List<com.wcf.funny.admin.vo.UserInfoVo>>
      * @author wangcanfeng
      * @time 2019/2/3 13:32
      * @since v1.0
