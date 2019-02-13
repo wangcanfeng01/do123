@@ -111,4 +111,17 @@ public interface UserInfoMapper {
      **/
     @Update("update info_user set role=#{role} where id=#{id}")
     void changeRole(@Param("role") String role,@Param("id") Integer id);
+    
+    /**
+     * 功能描述: 根据用户名称查询用户拥有角色对应的菜单id字符串
+     * @param username
+     * @return:java.util.List<java.lang.String>
+     * @since: v1.0
+     * @Author:wangcanfeng
+     * @Date: 2019/2/13 11:38
+     */
+    @Select("SELECT name as username, role as userRole from info_user where name = #{name}")
+    @Results({@Result(property ="menuIds",column="userRole"
+            ,many =@Many(select ="com.wcf.funny.admin.mapper.UserRoleMapper.getRoleRelatedMenuByIds"))})
+    List<UserRelatedMenu> getMenusStringListByName(String username);
 }
