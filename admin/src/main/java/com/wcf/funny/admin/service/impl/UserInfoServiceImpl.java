@@ -248,7 +248,7 @@ public class UserInfoServiceImpl implements UserInfoService {
      * @Date: 2019/2/13 11:38
      */
     @Override
-    public List<UserRelatedMenu> getMenusStringListByName(String username) {
+    public UserRelatedMenu getMenusStringListByName(String username) {
         try {
             return mapper.getMenusStringListByName(username);
         } catch (Exception e) {
