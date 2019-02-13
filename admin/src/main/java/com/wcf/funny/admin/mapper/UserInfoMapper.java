@@ -123,5 +123,5 @@ public interface UserInfoMapper {
     @Select("SELECT name as username, role as userRole from info_user where name = #{name}")
     @Results({@Result(property ="menuIds",column="userRole"
             ,many =@Many(select ="com.wcf.funny.admin.mapper.UserRoleMapper.getRoleRelatedMenuByIds"))})
-     List<UserRelatedMenu> getMenusStringListByName(@Param("name") String username);
+     UserRelatedMenu getMenusStringListByName(@Param("name") String username);
 }
