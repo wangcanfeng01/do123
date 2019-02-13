@@ -128,5 +128,5 @@ public interface UserInfoService {
      * @Author:wangcanfeng
      * @Date: 2019/2/13 11:38
      */
-    List<UserRelatedMenu> getMenusStringListByName(String username);
+    UserRelatedMenu getMenusStringListByName(String username);
 }
