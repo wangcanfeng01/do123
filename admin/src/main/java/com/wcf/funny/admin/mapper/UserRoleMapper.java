@@ -136,4 +136,17 @@ public interface UserRoleMapper {
     @Update("update info_role set role_name=#{roleName},role_type=#{roleType},role_auth=#{roleAuth}, " +
             " role_creator=#{roleCreator},update_time=#{updateTime}, description=#{description} where id=#{id}")
     int updateRoleById(UserRole role);
+    
+    
+    /**
+     * 功能描述：  根据角色id获取角色关联的菜单id串
+     *
+     * @param ids
+     * @return com.wcf.funny.admin.entity.UserRole
+     * @author wangcanfeng
+     * @time 2019/1/20 13:39
+     * @since v1.0
+     **/
+    @Select("SELECT role_auth as roleAuth FROM info_role where id in (#{ids})")
+    List<String> getRoleRelatedMenuByIds(String ids);
 }
