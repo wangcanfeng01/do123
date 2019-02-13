@@ -236,6 +236,25 @@ public class UserInfoServiceImpl implements UserInfoService {
             throw new PgSqlException(UserErrorCode.SELECT_USER_ERROR, e);
         }
     }
+    
+    
+        /**
+     * 功能描述: 根据用户名称查询用户拥有角色对应的菜单id字符串
+     *
+     * @param username
+     * @return:java.util.List<java.lang.String>
+     * @since: v1.0
+     * @Author:wangcanfeng
+     * @Date: 2019/2/13 11:38
+     */
+    @Override
+    public List<UserRelatedMenu> getMenusStringListByName(String username) {
+        try {
+            return mapper.getMenusStringListByName(username);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.SELECT_USER_ERROR, e);
+        }
+    }
 
     /**
      * 功能描述：  将数据库信息转换成视图信息
