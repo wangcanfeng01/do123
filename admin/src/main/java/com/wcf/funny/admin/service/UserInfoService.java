@@ -2,6 +2,7 @@ package com.wcf.funny.admin.service;
 
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.admin.entity.UserInfo;
+import com.wcf.funny.admin.entity.UserRelatedMenu;
 import com.wcf.funny.admin.vo.UserInfoVo;
 
 /**

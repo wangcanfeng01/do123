@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.admin.constant.UserConstant;
 import com.wcf.funny.admin.entity.UserInfo;
+import com.wcf.funny.admin.entity.UserRelatedMenu;
 import com.wcf.funny.admin.exception.UserException;
 import com.wcf.funny.admin.exception.errorcode.UserErrorCode;
 import com.wcf.funny.admin.mapper.UserInfoMapper;

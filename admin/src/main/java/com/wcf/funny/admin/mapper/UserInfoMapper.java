@@ -1,6 +1,7 @@
 package com.wcf.funny.admin.mapper;
 
 import com.wcf.funny.admin.entity.UserInfo;
+import com.wcf.funny.admin.entity.UserRelatedMenu;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -120,8 +121,8 @@ public interface UserInfoMapper {
      * @Author:wangcanfeng
      * @Date: 2019/2/13 11:38
      */
-    @Select("SELECT name as username, role as userRole from info_user where name = #{name}")
+    @Select("SELECT name as username, face_path as facePath, role as userRole from info_user where name = #{name}")
     @Results({@Result(property ="menuIds",column="userRole"
             ,many =@Many(select ="com.wcf.funny.admin.mapper.UserRoleMapper.getRoleRelatedMenuByIds"))})
-     UserRelatedMenu getMenusStringListByName(@Param("name") String username);
+    UserRelatedMenu getMenusStringListByName(@Param("name") String username);
 }

@@ -1,11 +1,16 @@
 package com.wcf.funny.admin.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.admin.constant.AdminConstant;
 import com.wcf.funny.admin.constant.UserConstant;
 import com.wcf.funny.admin.entity.UserInfo;
+import com.wcf.funny.admin.entity.UserRelatedMenu;
+import com.wcf.funny.admin.exception.UserException;
 import com.wcf.funny.admin.exception.errorcode.UploadErrorCode;
+import com.wcf.funny.admin.exception.errorcode.UserErrorCode;
+import com.wcf.funny.admin.service.MenuInfoService;
 import com.wcf.funny.admin.service.UserInfoService;
-import com.wcf.funny.admin.vo.SimpleUserVo;
+import com.wcf.funny.admin.vo.UserMenuAuthVo;
 import com.wcf.funny.admin.vo.UserInfoVo;
 import com.wcf.funny.admin.vo.req.UserInfoReq;
 import com.wcf.funny.core.annotation.OperationLog;
@@ -14,6 +19,7 @@ import com.wcf.funny.core.constant.ActionObject;
 import com.wcf.funny.core.constant.ActionType;
 import com.wcf.funny.core.constant.CoreConstant;
 import com.wcf.funny.core.controller.BaseController;
+import com.wcf.funny.core.entity.CodeAndName;
 import com.wcf.funny.core.entity.PictureUploadInfo;
 import com.wcf.funny.core.exception.errorcode.CommonCode;
 import com.wcf.funny.core.reponse.BaseResponse;
@@ -21,13 +27,17 @@ import com.wcf.funny.core.reponse.PageResponse;
 import com.wcf.funny.core.utils.ConvertIdUtils;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
 import com.wcf.funny.core.utils.MD5Utils;
+import com.wcf.funny.core.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wangcanfeng
@@ -41,25 +51,54 @@ public class UserInfoRestController extends BaseController {
     @Autowired
     private UserInfoService userInfoService;
 
+    @Autowired
+    private MenuInfoService menuInfoService;
+
     /**
-     * 功能描述：
+     * 这个id对应的菜单是不存在的
+     */
+    private final static String NULL_MENU_ID="0";
+
+    /**
+     * 功能描述：获取用户登录的信息，以及最初始的导航栏
      *
-     * @param request
      * @return com.wcf.funny.core.reponse.BaseResponse<java.lang.String>
      * @author wangcanfeng
      * @time 2019/1/12 0:07
      * @since v1.0
      **/
     @GetMapping("/get/login")
-    public BaseResponse<SimpleUserVo> getLoginUser(HttpServletRequest request) {
-        String username = request.getRemoteUser();
-        if (ObjectUtils.isEmpty(username)) {
-            return new BaseResponse<>(CommonCode.DEFAULT_SUCCESS_CODE, null);
+    public BaseResponse<UserMenuAuthVo> getLoginUser() {
+        String username = RequestUtils.getUserName();
+        UserRelatedMenu relatedMenu = userInfoService.getMenusStringListByName(username);
+        StringBuilder sb = new StringBuilder();
+        if (ObjectUtils.isEmpty(relatedMenu)) {
+            // 如果是查询不到的用户则直接报错
+            throw new UserException(UserErrorCode.LOGIN_USER_INFO_ERROR);
         }
-       String face= userInfoService.getFaceByUsername(username);
-        SimpleUserVo vo = new SimpleUserVo();
+        if (ObjectUtils.isEmpty(relatedMenu.getMenuIds())) {
+            sb.append(NULL_MENU_ID);
+        } else {
+            // 对菜单id做去重
+            HashSet<Integer> menuIds = new HashSet<>();
+            relatedMenu.getMenuIds().forEach(menusString -> {
+                ConvertIdUtils.getList(menusString).forEach(menuId -> menuIds.add(menuId));
+            });
+            menuIds.forEach(id -> sb.append(id).append(","));
+            if (sb.length() > 0) {
+                //去掉最后一个逗号
+                sb.deleteCharAt(sb.length() - 1);
+            } else {
+                sb.append(NULL_MENU_ID);
+            }
+
+        }
+        List<CodeAndName> codeAndNames = menuInfoService.selectMenuMap(sb.toString(), AdminConstant.MENU_ROOT_LEVEL);
+        Map<String, String> menuMap = getMenuMap(codeAndNames);
+        UserMenuAuthVo vo = new UserMenuAuthVo();
         vo.setUsername(username);
-        vo.setFacePath(face);
+        vo.setFacePath(relatedMenu.getFacePath());
+        vo.setMenuMap(menuMap);
         return new BaseResponse<>(CommonCode.DEFAULT_SUCCESS_CODE, vo);
 
     }
@@ -217,6 +256,22 @@ public class UserInfoRestController extends BaseController {
 //        }
 //        return BaseResponse.error("图片上传失败");
         return new BaseResponse<>("/upload/banner.gif");
+    }
+
+
+    /**
+     * 功能描述：将菜单列表转成map
+     *
+     * @param codeAndNames
+     * @return java.util.Map<java.lang.String,java.lang.String>
+     * @author wangcanfeng
+     * @time 2019/2/13 22:44
+     * @since v1.0
+     **/
+    private Map<String, String> getMenuMap(List<CodeAndName> codeAndNames) {
+        Map<String, String> menuMap = new HashMap<>();
+        codeAndNames.forEach(codeAndName -> menuMap.put(codeAndName.getCode(), codeAndName.getName()));
+        return menuMap;
     }
 
 

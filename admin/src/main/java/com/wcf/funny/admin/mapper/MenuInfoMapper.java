@@ -160,7 +160,7 @@ public interface MenuInfoMapper {
     void updateMenuTypeById(@Param("menuType") Integer menuType, @Param("id") Integer id);
 
     /**
-     * 功能描述：  根据ids字符串查询菜单map
+     * 功能描述：  根据ids字符串和菜单层级查询菜单map以及不需要的权限的菜单
      *
      * @param ids
      * @return java.util.List<com.wcf.funny.core.entity.CodeAndName>
@@ -168,7 +168,7 @@ public interface MenuInfoMapper {
      * @time 2019/2/12 22:58
      * @since v1.0
      **/
-    @Select("SELECT menu_name as name, menu_code as code from info_menu where id in (#{ids})")
-    List<CodeAndName> selectMenuMapByIds(String ids);
+    @SelectProvider(type = MenuInfoProvider.class, method = "selectMenuMapSQL")
+    List<CodeAndName> selectMenuMap(@Param("ids") String ids, @Param("level") Integer level);
 
 }

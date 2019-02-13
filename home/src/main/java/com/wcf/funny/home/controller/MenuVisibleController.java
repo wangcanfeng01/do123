@@ -62,7 +62,7 @@ public class MenuVisibleController {
         });
 
         // 根据获取到具有权限的菜单id串，获取菜单map
-        List<CodeAndName> codeAndNames = menuInfoService.selectMenuMapByIds("");
+        List<CodeAndName> codeAndNames = menuInfoService.selectMenuMap("",1);
         HashMap<String, String> menuVisibleMap = new HashMap<>();
         codeAndNames.forEach(codeAndName -> menuVisibleMap.put(codeAndName.getCode(), codeAndName.getName()));
         return new BaseResponse<>(menuVisibleMap);

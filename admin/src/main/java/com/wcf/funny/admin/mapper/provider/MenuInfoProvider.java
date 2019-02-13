@@ -15,7 +15,6 @@ public class MenuInfoProvider {
         String sql = new SQL() {{
             SELECT("id, menu_name as menuName, path as menuPath");
             FROM("info_menu");
-            StringBuilder sb = new StringBuilder();
             if (!ObjectUtils.isEmpty(ids)) {
                 //查询到指定id对应的菜单以及不需要权限的菜单
                 WHERE("id in (" + ids + ") OR need_auth=0");
@@ -31,7 +30,6 @@ public class MenuInfoProvider {
         String sql = new SQL() {{
             SELECT("id, menu_name as menuName, path as menuPath");
             FROM("info_menu");
-            StringBuilder sb = new StringBuilder();
             if (!ObjectUtils.isEmpty(ids)) {
                 //查询到指定id对应的菜单
                 WHERE("id in (" + ids + ")");
@@ -42,4 +40,16 @@ public class MenuInfoProvider {
         }}.toString();
         return sql;
     }
+
+
+    public String selectMenuMapSQL(@Param("ids") String ids, @Param("level") Integer level) {
+        String sql = new SQL() {{
+            SELECT("menu_name as name, menu_code as code");
+            FROM("info_menu");
+            //查询到指定id对应的菜单
+            WHERE("id in (" + ids + ") and menu_level=#{level} or (need_auth=0 and menu_level=#{level})");
+        }}.toString();
+        return sql;
+    }
+
 }

@@ -6,4 +6,6 @@ package com.wcf.funny.admin.constant;
  * @function admin模块中的通用常量
  **/
 public class AdminConstant {
+
+    public final static int MENU_ROOT_LEVEL=1;
 }

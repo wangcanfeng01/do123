@@ -202,18 +202,19 @@ public class MenuInfoServiceImpl implements MenuInfoService {
     }
 
     /**
-     * 功能描述：  根据ids字符串查询菜单map
+     * 功能描述：  根据ids字符串和菜单层级查询菜单map以及不需要的权限的菜单
      *
      * @param ids
+     * @param level
      * @return java.util.List<com.wcf.funny.core.entity.CodeAndName>
      * @author wangcanfeng
      * @time 2019/2/12 22:58
      * @since v1.0
      **/
     @Override
-    public List<CodeAndName> selectMenuMapByIds(String ids) {
+    public List<CodeAndName> selectMenuMap(String ids, Integer level) {
         try {
-            return menuInfoMapper.selectMenuMapByIds(ids);
+            return menuInfoMapper.selectMenuMap(ids, level);
         } catch (Exception e) {
             throw new PgSqlException(MenuErrorCode.SELECT_MENU_ERROR, e);
         }
