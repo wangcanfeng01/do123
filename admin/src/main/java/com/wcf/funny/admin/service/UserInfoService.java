@@ -118,4 +118,15 @@ public interface UserInfoService {
      * @since v1.0
      **/
     String getFaceByUsername(String name) ;
+    
+    /**
+     * 功能描述: 根据用户名称查询用户拥有角色对应的菜单id字符串
+     *
+     * @param username
+     * @return:java.util.List<java.lang.String>
+     * @since: v1.0
+     * @Author:wangcanfeng
+     * @Date: 2019/2/13 11:38
+     */
+    List<UserRelatedMenu> getMenusStringListByName(String username);
 }
