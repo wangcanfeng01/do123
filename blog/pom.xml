@@ -10,6 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>blog</artifactId>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.wcf.funny</groupId>
+            <artifactId>core</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>
