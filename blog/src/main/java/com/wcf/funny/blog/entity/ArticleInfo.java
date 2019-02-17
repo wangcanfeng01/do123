@@ -10,26 +10,8 @@ import java.io.Serializable;
  * @function 文章信息
  **/
 @Data
-public class ArticleInfo implements Serializable{
+public class ArticleInfo extends ArticleSimple implements Serializable {
     private static final long serialVersionUID = 1L;
-    /**
-     * 文章表主键
-     */
-    private Integer id;
-
-    /**
-     * 内容标题
-     */
-    private String title;
-    /**
-     * 缩略名，用于当成地址访问,对标题进行加密，防止外链
-     */
-    private String slug;
-
-    /**
-     * 文章封面链接
-     */
-    private String cover;
 
     /**
      * 创建时间
@@ -37,29 +19,15 @@ public class ArticleInfo implements Serializable{
     private Integer createTime;
 
     /**
-     * 修改时间
-     */
-    private Integer modifyTime;
-    /**
      * 具体内容信息
      */
     private String text;
-    /**
-     * 作者名字
-     */
-    private String author;
-    /**
-     * 关键字
-     */
-    private String keywords;
+
     /**
      * 内容状态
      */
     private String status;
-    /**
-     * 文章类型
-     */
-    private String categories;
+
     /**
      * 文章被点击次数
      */
@@ -84,6 +52,7 @@ public class ArticleInfo implements Serializable{
 
     /**
      * 文章删除标志
+     *
      * @return
      */
     private Short deleteFlag;

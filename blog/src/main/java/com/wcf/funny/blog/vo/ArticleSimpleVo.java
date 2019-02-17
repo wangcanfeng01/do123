@@ -1,10 +1,13 @@
 package com.wcf.funny.blog.vo;
 
+import lombok.Data;
+
 /**
  * @author wangcanfeng
  * @time 2019/2/15
- * @function
+ * @function 文章简单的视图展示信息
  **/
+@Data
 public class ArticleSimpleVo {
     /**
      * 文章表主键
@@ -28,7 +31,7 @@ public class ArticleSimpleVo {
     /**
      * 修改时间
      */
-    private String modifyTime;
+    private String updateTime;
 
     /**
      * 作者名字

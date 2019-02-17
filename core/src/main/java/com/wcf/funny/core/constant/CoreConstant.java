@@ -13,5 +13,15 @@ public class CoreConstant {
     /**
      * 默认的用户名
      */
-    public final static String VISITOR_NAME="游客";
+    public final static String VISITOR_NAME = "游客";
+
+    /**
+     * 第一页
+     */
+    public final static int FIRST_PAGE = 1;
+
+    /**
+     * 默认分页大小
+     */
+    public final static int DEFAULT_PAGE_SIZE = 10;
 }
