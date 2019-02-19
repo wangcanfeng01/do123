@@ -2,6 +2,7 @@ package com.wcf.funny.blog.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.blog.constant.ArticleConstant;
 import com.wcf.funny.blog.entity.CommentInfo;
 import com.wcf.funny.blog.exception.errorcode.CommentErrorCode;
 import com.wcf.funny.blog.mapper.CommentInfoMapper;
@@ -10,6 +11,7 @@ import com.wcf.funny.blog.vo.CommentVo;
 import com.wcf.funny.core.exception.PgSqlException;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import java.util.List;
  * @time 2019/2/18
  * @function 评论信息接口实现
  **/
+@Service
 public class CommentInfoServiceImpl implements CommentInfoService {
     @Autowired
     private CommentInfoMapper commentMapper;
@@ -41,7 +44,42 @@ public class CommentInfoServiceImpl implements CommentInfoService {
             List<CommentInfo> commentInfos = commentMapper.getCommentLogs();
             return convertPageInfo(commentInfos);
         } catch (Exception e) {
-            throw new PgSqlException(CommentErrorCode.SELECT_KEYWORD_ERROR, e);
+            throw new PgSqlException(CommentErrorCode.SELECT_COMMENT_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  获取当前人员近期的几条评论
+     *
+     * @param limit    查询条数
+     * @param  username 作者名称
+     * @author wangcanfeng
+     * @time 2019/2/18 23:18
+     * @since v1.0
+     **/
+    @Override
+    public PageInfo<CommentVo> getRecentComments(Integer limit, String username) {
+        try {
+            List<CommentInfo> commentInfos = commentMapper.getRecentComments(limit, username);
+            return convertPageInfo(commentInfos);
+        } catch (Exception e) {
+            throw new PgSqlException(CommentErrorCode.SELECT_COMMENT_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  根据id删除评论
+     *
+     * @author wangcanfeng
+     * @time 2019/2/19 20:05
+     * @since v1.0
+     **/
+    @Override
+    public void deleteCommentById(Integer id) {
+        try {
+            commentMapper.deleteById(id);
+        } catch (Exception e) {
+            throw new PgSqlException(CommentErrorCode.DELETE_COMMENT_ERROR, e);
         }
     }
 
@@ -71,11 +109,20 @@ public class CommentInfoServiceImpl implements CommentInfoService {
                 vo.setArticleId(commentInfo.getArticleId());
                 vo.setIp(commentInfo.getIp());
                 vo.setText(commentInfo.getText());
-                vo.setType(commentInfo.getType());
+                if (!ObjectUtils.isEmpty(commentInfo.getType()) &&
+                        commentInfo.getType().equals(ArticleConstant.TYPE_COMMENT)) {
+                    vo.setType("评论");
+                } else {
+                    vo.setType("回复");
+                }
+                vo.setArticleTitle(commentInfo.getArticleTitle());
                 vo.setParent(commentInfo.getParent());
+                vo.setAuthorFace(commentInfo.getAuthorFace());
+                vList.add(vo);
             });
+            voPage.setTotal(pageInfo.getTotal());
+            voPage.setList(vList);
         }
-
         return voPage;
     }
 }

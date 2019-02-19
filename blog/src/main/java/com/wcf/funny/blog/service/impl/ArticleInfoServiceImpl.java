@@ -10,6 +10,7 @@ import com.wcf.funny.blog.service.ArticleInfoService;
 import com.wcf.funny.blog.vo.ArticleInfoVo;
 import com.wcf.funny.blog.vo.ArticleSimpleVo;
 import com.wcf.funny.core.exception.PgSqlException;
+import com.wcf.funny.core.utils.ArticleUtils;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -91,6 +92,28 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
     }
 
     /**
+     * 功能描述：  根据slug查询文章内容
+     *
+     * @param slug
+     * @author wangcanfeng
+     * @time 2019/2/19 21:36
+     * @since v1.0
+     **/
+    @Override
+    public ArticleInfoVo getArticleBySlug(String slug) {
+        try {
+            ArticleInfo article = articleInfoMapper.getArticleInfoBySlug(slug);
+            if (ObjectUtils.isEmpty(article)) {
+                return null;
+            }
+            // 将文章列表转成视图分页信息
+            return convert(article, true, false);
+        } catch (Exception e) {
+            throw new PgSqlException(ArticleErrorCode.SELECT_ARTICLE_ERROR, e);
+        }
+    }
+
+    /**
      * 功能描述：  转换简单的文章视图列表信息
      *
      * @param simplePageInfo
@@ -150,7 +173,7 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
         if (ObjectUtils.isEmpty(pageInfo.getList())) {
             return articlePage;
         } else {
-            pageInfo.getList().forEach(info -> vos.add(convert(info, withContent)));
+            pageInfo.getList().forEach(info -> vos.add(convert(info, withContent, true)));
             articlePage.setTotal(pageInfo.getTotal());
             articlePage.setList(vos);
             return articlePage;
@@ -166,7 +189,7 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
      * @time 2019/2/17 14:11
      * @since v1.0
      **/
-    private ArticleInfoVo convert(ArticleInfo articleInfo, boolean withContent) {
+    private ArticleInfoVo convert(ArticleInfo articleInfo, boolean withContent, boolean simple) {
         ArticleInfoVo vo = new ArticleInfoVo();
         vo.setId(articleInfo.getId());
         vo.setTitle(articleInfo.getTitle());
@@ -181,11 +204,13 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
             if (ObjectUtils.isEmpty(text)) {
                 vo.setText("");
             } else {
-                // 文章内容过长的时候进行截取
-                if (text.length() >= 150) {
+                // 文章内容只需要简单展示，且过长的时候进行截取
+                if (simple && text.length() >= 150) {
                     text = text.substring(0, 150);
+                    text += "......";
+                } else {
+                    text = ArticleUtils.mdToHtml(text);
                 }
-                text+="......";
                 vo.setText(text);
             }
         }
@@ -196,6 +221,7 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
         vo.setCreateTime(articleInfo.getCreateTime());
         vo.setStars(articleInfo.getStars());
         vo.setStatus(articleInfo.getStatus());
+        vo.setWordCount(articleInfo.getWords());
         return vo;
     }
 }

@@ -89,6 +89,9 @@ public class FunnyTimeUtils {
      * @since v1.0
      **/
     public static String getTimeByUnixTime(Integer unixTime) {
+        if(ObjectUtils.isEmpty(unixTime)){
+            return "";
+        }
         LocalDateTime time = LocalDateTime.ofEpochSecond(unixTime, 0, ZoneOffset.ofHours(8));
         return getFormatter(Formatter.COMMON_TIME_FORMATTER).format(time);
     }

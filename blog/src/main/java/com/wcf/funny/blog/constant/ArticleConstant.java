@@ -14,4 +14,12 @@ public class ArticleConstant {
      * 关键词类型
      */
     public final static String KEYWORD_TYPE = "keyword";
+    /**
+     * 评论回复
+     */
+    public final static int TYPE_RESPONSE=2;
+    /**
+     * 发表初始评论
+     */
+    public final static int TYPE_COMMENT=1;
 }

@@ -22,6 +22,10 @@ public class ArticleInfo extends ArticleSimple implements Serializable {
      * 具体内容信息
      */
     private String text;
+    /**
+     * 文章字数
+     */
+    private Integer words;
 
     /**
      * 内容状态

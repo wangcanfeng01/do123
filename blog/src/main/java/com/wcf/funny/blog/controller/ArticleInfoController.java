@@ -8,11 +8,9 @@ import com.wcf.funny.blog.vo.ArticleSimpleVo;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 /**
@@ -46,15 +44,30 @@ public class ArticleInfoController {
 
     /**
      * 功能描述：  查询近期内的文章信息
-     *@author wangcanfeng
-     *@time 2019/2/17 16:11
-     *@since v1.0
+     *
      * @param
+     * @author wangcanfeng
+     * @time 2019/2/17 16:11
+     * @since v1.0
      **/
     @GetMapping("/recentArticles")
     public BaseResponse<List<ArticleInfoVo>> getRecentList() {
         PageInfo<ArticleInfoVo> pageInfo = articleInfoService.getRecentList();
         return new PageResponse<>(pageInfo);
+    }
+
+    /**
+     * @param slug
+     * @return java.lang.String
+     * @note 文章展示页面
+     * @author WCF
+     * @time 2018/6/15 19:11
+     * @since v1.0
+     **/
+    @GetMapping(value = "/article/{slug}")
+    public BaseResponse<ArticleInfoVo> getArticle(@PathVariable("slug") String slug) {
+        ArticleInfoVo vo = articleInfoService.getArticleBySlug(slug);
+        return new BaseResponse<>(vo);
     }
 
 

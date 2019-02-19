@@ -15,6 +15,7 @@
             <groupId>com.wcf.funny</groupId>
             <artifactId>core</artifactId>
         </dependency>
+
     </dependencies>
 
 </project>

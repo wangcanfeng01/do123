@@ -168,6 +168,12 @@
                 <version>1.2.30</version>
             </dependency>
 
+            <!-- markdown转成html -->
+            <dependency>
+                <groupId>org.pegdown</groupId>
+                <artifactId>pegdown</artifactId>
+                <version>1.6.0</version>
+            </dependency>
 
         </dependencies>
 

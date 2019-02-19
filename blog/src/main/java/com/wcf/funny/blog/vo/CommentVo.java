@@ -33,9 +33,18 @@ public class CommentVo implements Serializable{
      */
     private Integer authorId;
     /**
+     * 评论人头像
+     */
+    private String authorFace;
+
+    /**
      * 所属文章编号
      */
     private Integer articleId;
+    /**
+     * 所属文章标题
+     */
+    private String articleTitle;
     /**
      * 评论者ip地址
      */

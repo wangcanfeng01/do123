@@ -29,6 +29,10 @@ public class CommentInfo implements Serializable{
      */
     private String authorName;
     /**
+     * 评论人头像
+     */
+    private String authorFace;
+    /**
      * 作者id
      */
     private Integer authorId;
@@ -36,6 +40,10 @@ public class CommentInfo implements Serializable{
      * 所属文章编号
      */
     private Integer articleId;
+    /**
+     * 所属文章标题
+     */
+    private String articleTitle;
     /**
      * 评论者ip地址
      */
@@ -45,9 +53,9 @@ public class CommentInfo implements Serializable{
      */
     private String text;
     /**
-     * 类型，是回复还是初始评论
+     * 类型，是回复还是初始评论,1表示初始评论 2表示回复
      */
-    private String type;
+    private Integer type;
     /**
      * 是否已经阅读
      */

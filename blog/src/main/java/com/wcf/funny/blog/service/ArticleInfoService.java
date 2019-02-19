@@ -43,4 +43,13 @@ public interface ArticleInfoService {
      * @since v1.0
      **/
     PageInfo<ArticleInfoVo> getRecentList();
+
+    /**
+     * 功能描述：  根据slug查询文章内容
+     *@author wangcanfeng
+     *@time 2019/2/19 21:36
+     *@since v1.0
+     * @param slug
+     **/
+    ArticleInfoVo getArticleBySlug(String slug);
 }

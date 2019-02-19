@@ -18,6 +18,10 @@ public class ArticleInfoVo extends ArticleSimpleVo{
      * 具体内容信息
      */
     private String text;
+    /**
+     * 文章字数
+     */
+    private Integer wordCount;
 
     /**
      * 内容状态,是草稿还是已发布
