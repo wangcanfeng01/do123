@@ -12,7 +12,10 @@ import java.io.Serializable;
 @Data
 public class ArticleInfo extends ArticleSimple implements Serializable {
     private static final long serialVersionUID = 1L;
-
+    /**
+     * 作者头像
+     */
+    private String authorFace;
     /**
      * 创建时间
      */

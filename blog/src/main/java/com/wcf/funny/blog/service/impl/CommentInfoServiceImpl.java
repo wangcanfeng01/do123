@@ -52,7 +52,7 @@ public class CommentInfoServiceImpl implements CommentInfoService {
      * 功能描述：  获取当前人员近期的几条评论
      *
      * @param limit    查询条数
-     * @param  username 作者名称
+     * @param username 作者名称
      * @author wangcanfeng
      * @time 2019/2/18 23:18
      * @since v1.0
@@ -80,6 +80,27 @@ public class CommentInfoServiceImpl implements CommentInfoService {
             commentMapper.deleteById(id);
         } catch (Exception e) {
             throw new PgSqlException(CommentErrorCode.DELETE_COMMENT_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  获取文章的评论
+     *
+     * @param currentPage 评论页码
+     * @param pageSize    单页大小
+     * @param articleId   文章id
+     * @author wangcanfeng
+     * @time 2019/2/20 23:20
+     * @since v1.0
+     **/
+    @Override
+    public PageInfo<CommentVo> getArticleComments(Integer currentPage, Integer pageSize, Integer articleId) {
+        try {
+            PageHelper.startPage(currentPage, pageSize);
+            List<CommentInfo> commentInfos = commentMapper.getArticleComments(articleId);
+            return convertPageInfo(commentInfos);
+        } catch (Exception e) {
+            throw new PgSqlException(CommentErrorCode.SELECT_COMMENT_ERROR, e);
         }
     }
 

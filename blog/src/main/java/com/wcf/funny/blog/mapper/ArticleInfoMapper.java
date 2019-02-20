@@ -23,9 +23,10 @@ public interface ArticleInfoMapper {
      * @time 2018/6/13 21:45
      * @since v1.0
      **/
-    @Select("SELECT id, title, title_simple as slug, cover, create_time as createTime, modify_time as modifyTime, text, words," +
-            " author, keywords, status, categories, hits, stars, comments_num as commentsNum, allow_comment as allowComment," +
-            " allow_see as allowSee FROM info_article WHERE title_simple=#{slug} and delete_flag=0")
+    @Select("SELECT a.id, a.title, a.title_simple as slug, a.cover, a.create_time as createTime, a.modify_time as modifyTime," +
+            " a.text, a.words, a.author, a.keywords, a.status, a.categories, a.hits, a.stars, a.comments_num as commentsNum," +
+            " a.allow_comment as allowComment, a.allow_see as allowSee, b.face_path as authorFace " +
+            " FROM info_article as a LEFT JOIN info_user as b ON a.author=b.name WHERE title_simple=#{slug} and delete_flag=0")
     ArticleInfo getArticleInfoBySlug(String slug);
 
     /**

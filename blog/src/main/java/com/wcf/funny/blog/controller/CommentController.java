@@ -3,6 +3,7 @@ package com.wcf.funny.blog.controller;
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.blog.service.CommentInfoService;
 import com.wcf.funny.blog.vo.CommentVo;
+import com.wcf.funny.core.constant.CoreConstant;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import com.wcf.funny.core.utils.RequestUtils;
@@ -49,7 +50,6 @@ public class CommentController {
     public BaseResponse<List<CommentVo>> getRecentComments() {
         Integer limit = 10;
         String username= RequestUtils.getUserName();
-        username="wcf";
         PageInfo<CommentVo> pageInfo = commentInfoService.getRecentComments(limit, username);
         return new PageResponse<>(pageInfo);
     }
@@ -57,7 +57,7 @@ public class CommentController {
     @GetMapping("/article/commentList")
     public BaseResponse<List<CommentVo>> getArticleComments(@RequestParam("currentPage") Integer currentPage,
                                                             @RequestParam("articleId")Integer articleId ) {
-        PageInfo<CommentVo> pageInfo = commentInfoService.getCommentLogs(currentPage, 20);
+        PageInfo<CommentVo> pageInfo = commentInfoService.getArticleComments(currentPage, CoreConstant.DEFAULT_PAGE_SIZE, articleId);
         return new PageResponse<>(pageInfo);
     }
 

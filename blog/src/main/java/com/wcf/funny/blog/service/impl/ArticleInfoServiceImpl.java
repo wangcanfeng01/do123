@@ -222,6 +222,7 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
         vo.setStars(articleInfo.getStars());
         vo.setStatus(articleInfo.getStatus());
         vo.setWordCount(articleInfo.getWords());
+        vo.setAuthorFace(articleInfo.getAuthorFace());
         return vo;
     }
 }

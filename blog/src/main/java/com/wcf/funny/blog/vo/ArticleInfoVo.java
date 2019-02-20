@@ -10,6 +10,10 @@ import lombok.Data;
 @Data
 public class ArticleInfoVo extends ArticleSimpleVo{
     /**
+     * 作者头像
+     */
+    private String authorFace;
+    /**
      * 创建时间
      */
     private Integer createTime;

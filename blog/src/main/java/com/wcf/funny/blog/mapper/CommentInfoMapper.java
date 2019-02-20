@@ -25,7 +25,7 @@ public interface CommentInfoMapper {
     @Select("SELECT a.id, a.article_id as articleId, a.create_time as createTime, a.update_time as updateTime, " +
             "a.author_name as authorName, a.author_id as authorId, a.ip, a.text, a.type, a.is_read as isRead," +
             " a.parent, b.face_path as authorFace, c.title as articleTitle FROM info_comment as a LEFT JOIN info_user " +
-            "as b ON a.author_id=b.id  LEFT JOIN info_article as c ON a.article_id=c.id order by a.update_time")
+            "as b ON a.author_id=b.id  LEFT JOIN info_article as c ON a.article_id=c.id order by a.update_time desc")
     List<CommentInfo> getCommentLogs();
 
     /** 查找当前人员最近的几条评论
@@ -40,7 +40,7 @@ public interface CommentInfoMapper {
             "a.author_name as authorName, a.author_id as authorId, a.ip, a.text, a.type, a.is_read as isRead," +
             " a.parent, b.face_path as authorFace, c.title as articleTitle FROM info_comment as a LEFT JOIN" +
             " info_user as b ON a.author_id=b.id LEFT JOIN info_article as c ON a.article_id=c.id" +
-            " where a.author_name=#{username} order by a.update_time limit #{limit}")
+            " where a.author_name=#{username} order by a.update_time desc limit #{limit}")
     List<CommentInfo> getRecentComments(@Param("limit") Integer limit,@Param("username") String username) throws Exception;
 
     /**
@@ -64,4 +64,17 @@ public interface CommentInfoMapper {
      **/
     @Delete("DELETE FROM info_comment WHERE id = #{id}")
     int deleteById(Integer id)throws Exception;
+
+    /**
+     * 功能描述：  获取当前文章对应的评论列表
+     *@author wangcanfeng
+     *@time 2019/2/20 23:22
+     *@since v1.0
+     * @param articleId
+     **/
+    @Select("SELECT a.id, a.create_time as createTime, a.update_time as updateTime, " +
+            "a.author_name as authorName, a.author_id as authorId, a.text, a.type, a.is_read as isRead," +
+            " a.parent, b.face_path as authorFace FROM info_comment as a LEFT JOIN" +
+            " info_user as b ON a.author_id=b.id where a.article_id=#{articleId} order by a.update_time desc")
+    List<CommentInfo> getArticleComments(Integer articleId);
 }
