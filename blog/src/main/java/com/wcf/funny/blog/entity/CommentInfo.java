@@ -59,7 +59,7 @@ public class CommentInfo implements Serializable{
     /**
      * 是否已经阅读
      */
-    private String isRead;
+    private Integer isRead;
     /**
      * 父节点的id
      */

@@ -12,6 +12,11 @@ import java.util.List;
 @Data
 public class UserRelatedMenu {
     /**
+     * 用户id
+     */
+    private Integer Id;
+
+    /**
      * 用户名
      */
     private String username;

@@ -62,10 +62,31 @@ public class RequestUtils {
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         String name = request.getRemoteUser();
         if (ObjectUtils.isEmpty(name)) {
-            return CoreConstant.VISITOR_NAME;
+            return null;
         } else {
             return name;
         }
     }
+
+
+    /**
+     * 功能描述： 获取远程用户的ip地址
+     *
+     * @param
+     * @return java.lang.String
+     * @author wangcanfeng
+     * @time 2019/1/27 22:47
+     * @since v1.0
+     **/
+    public static String getRemoteIp() {
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        String address = request.getRemoteAddr();
+        if (ObjectUtils.isEmpty(address)) {
+            return CoreConstant.UNKNOWN_ADDRESS;
+        } else {
+            return address;
+        }
+    }
+
 
 }

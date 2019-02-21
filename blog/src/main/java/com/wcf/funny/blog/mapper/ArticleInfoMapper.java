@@ -3,7 +3,9 @@ package com.wcf.funny.blog.mapper;
 import com.wcf.funny.blog.entity.ArticleInfo;
 import com.wcf.funny.blog.entity.ArticleSimple;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -75,4 +77,29 @@ public interface ArticleInfoMapper {
             " allow_comment as allowComment, allow_see as allowSee" +
             " FROM info_article WHERE delete_flag=0 ORDER BY modify_time DESC limit 10")
     List<ArticleInfo> getRecentArticles();
+
+    /**
+     * @param id
+     * @param hits
+     * @return void
+     * @note 通过id更新点击率
+     * @author WCF
+     * @time 2018/6/13 21:48
+     * @since v1.0
+     **/
+    @Update("UPDATE info_article SET hits = #{hits} WHERE id = #{id}")
+    void updateHitsById(@Param("id") Integer id, @Param("hits") Integer hits);
+
+    /**
+     * @param id
+     * @param stars
+     * @return void
+     * @note 根据id更新喜欢数
+     * @author WCF
+     * @time 2018/6/13 21:49
+     * @since v1.0
+     **/
+    @Update("UPDATE info_article SET stars = #{stars} WHERE id = #{id}")
+    void updateStarsById(@Param("id") Integer id, @Param("stars") Integer stars);
+
 }

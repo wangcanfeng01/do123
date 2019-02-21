@@ -1,10 +1,7 @@
 package com.wcf.funny.blog.mapper;
 
 import com.wcf.funny.blog.entity.CommentInfo;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -77,4 +74,16 @@ public interface CommentInfoMapper {
             " a.parent, b.face_path as authorFace FROM info_comment as a LEFT JOIN" +
             " info_user as b ON a.author_id=b.id where a.article_id=#{articleId} order by a.update_time desc")
     List<CommentInfo> getArticleComments(Integer articleId);
+
+    /**
+     *@note 插入新的评论
+     *@author WCF
+     *@time 2018/6/13 22:19
+     *@since v1.0
+     * @param info
+     *@return int
+     **/
+    @Insert("insert into info_comment(article_id,create_time, update_time, author_name, author_id, ip, text, type, is_read, parent)" +
+            " values(#{articleId},#{createTime},#{updateTime},#{authorName},#{authorId},#{ip},#{text},#{type},#{isRead},#{parent})")
+    int insertComment(CommentInfo info);
 }

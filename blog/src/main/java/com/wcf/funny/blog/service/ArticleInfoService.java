@@ -52,4 +52,26 @@ public interface ArticleInfoService {
      * @param slug
      **/
     ArticleInfoVo getArticleBySlug(String slug);
+
+    /**
+     * @param id
+     * @param hits
+     * @return void
+     * @note 通过id更新点击率
+     * @author WCF
+     * @time 2018/6/13 21:48
+     * @since v1.0
+     **/
+    void updateHitsById(Integer id,Integer hits);
+
+    /**
+     * @param id
+     * @param stars
+     * @return void
+     * @note 根据id更新喜欢数
+     * @author WCF
+     * @time 2018/6/13 21:49
+     * @since v1.0
+     **/
+    void updateStarsById(Integer id, Integer stars);
 }

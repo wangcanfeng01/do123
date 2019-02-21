@@ -1,11 +1,14 @@
 package com.wcf.funny.blog.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.blog.entity.CommentInfo;
 import com.wcf.funny.blog.service.CommentInfoService;
 import com.wcf.funny.blog.vo.CommentVo;
+import com.wcf.funny.blog.vo.req.CommentReq;
 import com.wcf.funny.core.constant.CoreConstant;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.PageResponse;
+import com.wcf.funny.core.utils.FunnyTimeUtils;
 import com.wcf.funny.core.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -49,14 +52,24 @@ public class CommentController {
     @GetMapping("/recentComments")
     public BaseResponse<List<CommentVo>> getRecentComments() {
         Integer limit = 10;
-        String username= RequestUtils.getUserName();
+        String username = RequestUtils.getUserName();
         PageInfo<CommentVo> pageInfo = commentInfoService.getRecentComments(limit, username);
         return new PageResponse<>(pageInfo);
     }
 
+
+    /**
+     * 功能描述：  查询本文章的评论列表
+     *
+     * @param currentPage
+     * @param articleId
+     * @author wangcanfeng
+     * @time 2019/2/21 22:29
+     * @since v1.0
+     **/
     @GetMapping("/article/commentList")
     public BaseResponse<List<CommentVo>> getArticleComments(@RequestParam("currentPage") Integer currentPage,
-                                                            @RequestParam("articleId")Integer articleId ) {
+                                                            @RequestParam("articleId") Integer articleId) {
         PageInfo<CommentVo> pageInfo = commentInfoService.getArticleComments(currentPage, CoreConstant.DEFAULT_PAGE_SIZE, articleId);
         return new PageResponse<>(pageInfo);
     }
@@ -72,6 +85,30 @@ public class CommentController {
     @DeleteMapping("/comment/delete/{id}")
     public BaseResponse deleteCommentById(@PathVariable("id") Integer id) {
         commentInfoService.deleteCommentById(id);
+        return BaseResponse.ok();
+    }
+
+    /**
+     * 功能描述：  增加文章的评论
+     *@author wangcanfeng
+     *@time 2019/2/21 22:58
+     *@since v1.0
+     * @param req
+     **/
+    @PostMapping("/article/addComment")
+    public BaseResponse addCommentByArticleId(@RequestBody CommentReq req) {
+        CommentInfo info = new CommentInfo();
+        info.setArticleId(req.getArticleId());
+        info.setCreateTime(FunnyTimeUtils.nowUnix());
+        info.setUpdateTime(FunnyTimeUtils.nowUnix());
+        info.setAuthorName(req.getAuthorName());
+        info.setAuthorId(req.getAuthorId());
+        info.setIp(RequestUtils.getRemoteIp());
+        info.setText(req.getCommentText());
+        info.setType(1);
+        info.setIsRead(0);
+        info.setParent(req.getParent());
+        commentInfoService.addComment(info);
         return BaseResponse.ok();
     }
 

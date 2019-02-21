@@ -1,6 +1,7 @@
 package com.wcf.funny.blog.service;
 
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.blog.entity.CommentInfo;
 import com.wcf.funny.blog.vo.CommentVo;
 
 /**
@@ -52,5 +53,14 @@ public interface CommentInfoService {
      * @since v1.0
      **/
     PageInfo<CommentVo> getArticleComments(Integer currentPage, Integer pageSize, Integer articleId);
+
+    /**
+     * 功能描述：  给文章添加评论
+     *@author wangcanfeng
+     *@time 2019/2/21 22:38
+     *@since v1.0
+     * @param info
+     **/
+    void addComment(CommentInfo info);
 
 }

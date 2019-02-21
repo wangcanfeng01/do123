@@ -114,6 +114,42 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
     }
 
     /**
+     * @param id
+     * @param hits
+     * @return void
+     * @note 通过id更新点击率
+     * @author WCF
+     * @time 2018/6/13 21:48
+     * @since v1.0
+     **/
+    @Override
+    public void updateHitsById(Integer id, Integer hits) {
+        try {
+            articleInfoMapper.updateHitsById(id,hits);
+        }catch (Exception e){
+            throw new PgSqlException(ArticleErrorCode.UPDATE_ARTICLE_ERROR, e);
+        }
+    }
+
+    /**
+     * @param id
+     * @param stars
+     * @return void
+     * @note 根据id更新喜欢数
+     * @author WCF
+     * @time 2018/6/13 21:49
+     * @since v1.0
+     **/
+    @Override
+    public void updateStarsById(Integer id, Integer stars) {
+        try {
+            articleInfoMapper.updateStarsById(id,stars);
+        }catch (Exception e){
+            throw new PgSqlException(ArticleErrorCode.UPDATE_ARTICLE_ERROR, e);
+        }
+    }
+
+    /**
      * 功能描述：  转换简单的文章视图列表信息
      *
      * @param simplePageInfo

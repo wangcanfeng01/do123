@@ -91,11 +91,11 @@ public class UserInfoRestController extends BaseController {
             } else {
                 sb.append(NULL_MENU_ID);
             }
-
         }
         List<CodeAndName> codeAndNames = menuInfoService.selectMenuMap(sb.toString(), AdminConstant.MENU_ROOT_LEVEL);
         Map<String, String> menuMap = getMenuMap(codeAndNames);
         UserMenuAuthVo vo = new UserMenuAuthVo();
+        vo.setUserId(relatedMenu.getId());
         vo.setUsername(username);
         vo.setFacePath(relatedMenu.getFacePath());
         vo.setMenuMap(menuMap);

@@ -67,7 +67,27 @@ public class ArticleInfoController {
     @GetMapping(value = "/article/{slug}")
     public BaseResponse<ArticleInfoVo> getArticle(@PathVariable("slug") String slug) {
         ArticleInfoVo vo = articleInfoService.getArticleBySlug(slug);
+        // 更新文章的点击次数
+        articleInfoService.updateHitsById(vo.getId(), vo.getHits() + 1);
         return new BaseResponse<>(vo);
+    }
+
+    /**
+     * 功能描述：  给文章点赞
+     *@author wangcanfeng
+     *@time 2019/2/21 22:23
+     *@since v1.0
+     * @param articleId
+    * @param stars
+     **/
+    @PutMapping("/article/addStars")
+    public BaseResponse addStars(@RequestParam("articleId") Integer articleId, @RequestParam("stars") Integer stars) {
+        // 如果点赞数等于0，则不进行操作
+        if (!stars.equals(0)) {
+            stars++;
+            articleInfoService.updateStarsById(articleId, stars);
+        }
+        return BaseResponse.ok();
     }
 
 

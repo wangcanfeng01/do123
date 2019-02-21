@@ -24,4 +24,8 @@ public class CoreConstant {
      * 默认分页大小
      */
     public final static int DEFAULT_PAGE_SIZE = 10;
+    /**
+     * 未知的远程地址
+     */
+    public final static String UNKNOWN_ADDRESS="unknown";
 }

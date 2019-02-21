@@ -104,6 +104,24 @@ public class CommentInfoServiceImpl implements CommentInfoService {
         }
     }
 
+
+    /**
+     * 功能描述：  给文章的写评论
+     *
+     * @param info
+     * @author wangcanfeng
+     * @time 2019/2/21 22:34
+     * @since v1.0
+     **/
+    @Override
+    public void addComment(CommentInfo info) {
+        try {
+            commentMapper.insertComment(info);
+        } catch (Exception e) {
+            throw new PgSqlException(CommentErrorCode.INSERT_COMMENT_ERROR, e);
+        }
+    }
+
     /**
      * 功能描述：  将数据库查询结果转换成视图信息
      *

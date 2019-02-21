@@ -7,6 +7,10 @@ import java.util.Map;
 @Data
 public class UserMenuAuthVo {
     /**
+     * 用户id
+     */
+    private Integer userId;
+    /**
      * 用户名
      */
     private String username;
