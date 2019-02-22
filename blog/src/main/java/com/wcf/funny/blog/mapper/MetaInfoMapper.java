@@ -1,5 +1,6 @@
 package com.wcf.funny.blog.mapper;
 
+import com.wcf.funny.blog.entity.CategorySimple;
 import com.wcf.funny.blog.entity.MetaInfo;
 import org.apache.ibatis.annotations.*;
 
@@ -12,17 +13,6 @@ import java.util.List;
  **/
 @Mapper
 public interface MetaInfoMapper {
-    /**
-     * @param info
-     * @return void
-     * @note 插入新的meta
-     * @author WCF
-     * @time 2018/6/13 22:24
-     * @since v1.0
-     **/
-    @Insert("INSERT INTO info_metas(name, type, cover, description, modify_time,create_time, count)" +
-            "VALUES(#{name},#{type},#{cover},#{description},#{modifyTime},#{createTime},#{count});")
-    void insertMeta(MetaInfo info) throws Exception;
 
     /**
      * @param type 标签类型
@@ -35,6 +25,29 @@ public interface MetaInfoMapper {
             " FROM info_metas WHERE type= #{type}" +
             " ORDER BY count")
     List<MetaInfo> getMetasByType(String type) throws Exception;
+
+    /**
+     * @param type 标签类型
+     * @note 根据类型查询meta列表
+     * @author WCF
+     * @time 2018/6/13 22:25
+     * @since v1.0
+     **/
+    @Select("SELECT id, name FROM info_metas WHERE type= #{type} ORDER BY count")
+    List<CategorySimple> getMetasSimpleByType(String type) throws Exception;
+
+    /**
+     * @param info
+     * @return void
+     * @note 插入新的meta
+     * @author WCF
+     * @time 2018/6/13 22:24
+     * @since v1.0
+     **/
+    @Insert("INSERT INTO info_metas(name, type, cover, description, modify_time,create_time, count)" +
+            "VALUES(#{name},#{type},#{cover},#{description},#{modifyTime},#{createTime},#{count});")
+    void insertMeta(MetaInfo info) throws Exception;
+
 
     /**
      * @param name

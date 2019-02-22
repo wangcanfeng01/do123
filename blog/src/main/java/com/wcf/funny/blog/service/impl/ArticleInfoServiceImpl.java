@@ -2,6 +2,9 @@ package com.wcf.funny.blog.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.blog.blogEnum.ArticlePrivateStatus;
+import com.wcf.funny.blog.blogEnum.ArticlePublishStatus;
+import com.wcf.funny.blog.blogEnum.CommentEnableStatus;
 import com.wcf.funny.blog.entity.ArticleInfo;
 import com.wcf.funny.blog.entity.ArticleSimple;
 import com.wcf.funny.blog.exception.errorcode.ArticleErrorCode;
@@ -9,6 +12,7 @@ import com.wcf.funny.blog.mapper.ArticleInfoMapper;
 import com.wcf.funny.blog.service.ArticleInfoService;
 import com.wcf.funny.blog.vo.ArticleInfoVo;
 import com.wcf.funny.blog.vo.ArticleSimpleVo;
+import com.wcf.funny.blog.vo.req.ArticleQueryReq;
 import com.wcf.funny.core.exception.PgSqlException;
 import com.wcf.funny.core.utils.ArticleUtils;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
@@ -50,9 +54,28 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
         }
     }
 
+    /**
+     * 功能描述：  根据参数查找，简单的文章信息列表，只用于文章列表展示
+     *
+     * @param req
+     * @author wangcanfeng
+     * @time 2019/2/17 13:22
+     * @since v1.0
+     **/
+    @Override
+    public PageInfo<ArticleSimpleVo> getSimpleArticlesByReq(ArticleQueryReq req) {
+        try {
+            PageHelper.startPage(req.getCurrentPage(), req.getPageSize());
+            List<ArticleSimple> articleSimples = articleInfoMapper.getArticleInfoSimpleByParams(req.getCategory(),req.getTitle());
+            // 将文章列表转成视图分页信息
+            return convertArticleSimplePage(articleSimples);
+        } catch (Exception e) {
+            throw new PgSqlException(ArticleErrorCode.SELECT_ARTICLE_ERROR, e);
+        }
+    }
 
     /**
-     * 功能描述：  文章信息列表，只用于文章列表展示
+     * 功能描述：  较为详细的文章信息列表，只用于文章列表展示，一般用于文章管理列表展示
      *
      * @param currentPage
      * @param pageSize
@@ -250,13 +273,27 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
                 vo.setText(text);
             }
         }
-        vo.setAllowComment(articleInfo.getAllowComment());
-        vo.setAllowSee(articleInfo.getAllowSee());
+        // 设置是否允许评论
+        if(CommentEnableStatus.ALLOW_COMMENT.getStatus().equals(articleInfo.getAllowComment())){
+            vo.setAllowComment("允许");
+        }else {
+            vo.setAllowComment("不允许");
+        }
+        // 是否公开可见
+        if(ArticlePrivateStatus.PUBLIC.getStatus().equals(articleInfo.getAllowSee())){
+            vo.setAllowSee("公开");
+        }else {
+            vo.setAllowSee("仅自己可见");
+        }
         vo.setCommentsNum(articleInfo.getCommentsNum());
         vo.setHits(articleInfo.getHits());
         vo.setCreateTime(articleInfo.getCreateTime());
         vo.setStars(articleInfo.getStars());
-        vo.setStatus(articleInfo.getStatus());
+        if(ArticlePublishStatus.PUBLISH.getStatus().equals(articleInfo.getStatus())){
+            vo.setPublishStatus("已发布");
+        }else {
+            vo.setPublishStatus("草稿");
+        }
         vo.setWordCount(articleInfo.getWords());
         vo.setAuthorFace(articleInfo.getAuthorFace());
         return vo;

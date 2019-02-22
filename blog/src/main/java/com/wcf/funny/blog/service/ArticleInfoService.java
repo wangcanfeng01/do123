@@ -3,6 +3,7 @@ package com.wcf.funny.blog.service;
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.blog.vo.ArticleInfoVo;
 import com.wcf.funny.blog.vo.ArticleSimpleVo;
+import com.wcf.funny.blog.vo.req.ArticleQueryReq;
 
 /**
  * @author wangcanfeng
@@ -21,6 +22,16 @@ public interface ArticleInfoService {
      * @since v1.0
      **/
     PageInfo<ArticleSimpleVo> getSimpleArticles(Integer currentPage, Integer pageSize);
+
+    /**
+     * 功能描述：  简单的文章信息列表，只用于文章列表展示
+     *
+     * @param req
+     * @author wangcanfeng
+     * @time 2019/2/17 13:22
+     * @since v1.0
+     **/
+    PageInfo<ArticleSimpleVo> getSimpleArticlesByReq(ArticleQueryReq req);
 
 
     /**

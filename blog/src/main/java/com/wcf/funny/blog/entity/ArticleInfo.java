@@ -51,7 +51,7 @@ public class ArticleInfo extends ArticleSimple implements Serializable {
     /**
      * 是否允许评论
      */
-    private Boolean allowComment;
+    private Integer allowComment;
     /**
      * 是否允许可见
      */

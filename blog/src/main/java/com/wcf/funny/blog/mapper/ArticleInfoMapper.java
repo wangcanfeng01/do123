@@ -2,10 +2,8 @@ package com.wcf.funny.blog.mapper;
 
 import com.wcf.funny.blog.entity.ArticleInfo;
 import com.wcf.funny.blog.entity.ArticleSimple;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import com.wcf.funny.blog.mapper.provider.ArticleInfoProvider;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -53,6 +51,15 @@ public interface ArticleInfoMapper {
     @Select("SELECT id, title, title_simple as slug, cover, modify_time as modifyTime, author, keywords, status," +
             " categories as category FROM info_article WHERE delete_flag=0 ORDER BY modify_time DESC")
     List<ArticleSimple> getArticleInfoSimple();
+
+    /**
+     * @note 搜索文章的简略信息列表, 根据修改的时间倒序排列
+     * @author WCF
+     * @time 2018/6/13 21:46
+     * @since v1.0
+     **/
+    @SelectProvider(type = ArticleInfoProvider.class,method = "getArticleInfoSimpleByParamsSQL")
+    List<ArticleSimple> getArticleInfoSimpleByParams(@Param("category")String category,@Param("title")String title);
 
     /**
      * @note 搜索文章的信息列表, 根据修改的时间倒序排列，不查询文章内容信息

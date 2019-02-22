@@ -2,10 +2,12 @@ package com.wcf.funny.blog.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.blog.service.MetaInfoService;
+import com.wcf.funny.blog.vo.CategorySimpleVo;
 import com.wcf.funny.blog.vo.CategoryVo;
 import com.wcf.funny.blog.vo.KeywordVo;
 import com.wcf.funny.core.constant.CoreConstant;
 import com.wcf.funny.core.reponse.BaseResponse;
+import com.wcf.funny.core.reponse.ListResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,5 +49,11 @@ public class MetaInfoController {
         int recentNum=5;
         PageInfo<CategoryVo> categories = metaInfoService.getCategoryList(CoreConstant.FIRST_PAGE,recentNum );
         return new PageResponse<>(categories);
+    }
+
+    @GetMapping("/meta/categories/simple")
+    public BaseResponse<List<CategorySimpleVo>> getCategoriesSimple(){
+        List<CategorySimpleVo> pageInfo=metaInfoService.getCategorySimpleList();
+        return new ListResponse<>(pageInfo);
     }
 }

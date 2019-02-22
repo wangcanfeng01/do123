@@ -22,4 +22,9 @@ public class ArticleConstant {
      * 发表初始评论
      */
     public final static int TYPE_COMMENT=1;
+
+    /**
+     * 所有专题
+     */
+    public final static String CATEGORY_ALL="全部";
 }

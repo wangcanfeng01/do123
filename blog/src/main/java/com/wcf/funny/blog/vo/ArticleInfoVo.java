@@ -30,7 +30,7 @@ public class ArticleInfoVo extends ArticleSimpleVo{
     /**
      * 内容状态,是草稿还是已发布
      */
-    private String status;
+    private String publishStatus;
 
     /**
      * 文章被点击次数
@@ -48,7 +48,7 @@ public class ArticleInfoVo extends ArticleSimpleVo{
     /**
      * 是否允许评论
      */
-    private Boolean allowComment;
+    private String allowComment;
     /**
      * 是否允许可见
      */

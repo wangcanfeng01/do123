@@ -3,10 +3,12 @@ package com.wcf.funny.blog.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.blog.constant.ArticleConstant;
+import com.wcf.funny.blog.entity.CategorySimple;
 import com.wcf.funny.blog.entity.MetaInfo;
 import com.wcf.funny.blog.exception.errorcode.MetaErrorCode;
 import com.wcf.funny.blog.mapper.MetaInfoMapper;
 import com.wcf.funny.blog.service.MetaInfoService;
+import com.wcf.funny.blog.vo.CategorySimpleVo;
 import com.wcf.funny.blog.vo.CategoryVo;
 import com.wcf.funny.blog.vo.KeywordVo;
 import com.wcf.funny.core.exception.PgSqlException;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -43,6 +46,34 @@ public class MetaInfoServiceImpl implements MetaInfoService {
             List<MetaInfo> metaInfos = metaInfoMapper.getMetasByType(ArticleConstant.CATEGORY_TYPE);
             PageInfo<MetaInfo> pageInfo = new PageInfo<>(metaInfos);
             return convertCategoryPage(pageInfo);
+        } catch (Exception e) {
+            throw new PgSqlException(MetaErrorCode.SELECT_CATEGORY_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  查询专题列表简单信息，用于检索
+     *
+     * @author wangcanfeng
+     * @time 2019/2/17 0:08
+     * @since v1.0
+     */
+    @Override
+    public List<CategorySimpleVo> getCategorySimpleList() {
+        try {
+            List<CategorySimple> metaInfos = metaInfoMapper.getMetasSimpleByType(ArticleConstant.CATEGORY_TYPE);
+            if(ObjectUtils.isEmpty(metaInfos)){
+                return Collections.emptyList();
+            }else {
+                List<CategorySimpleVo> vos=new ArrayList<>();
+                metaInfos.forEach(metaInfo->{
+                    CategorySimpleVo vo=new CategorySimpleVo();
+                    vo.setName(metaInfo.getName());
+                    vo.setId(metaInfo.getId());
+                    vos.add(vo);
+                });
+                return vos;
+            }
         } catch (Exception e) {
             throw new PgSqlException(MetaErrorCode.SELECT_CATEGORY_ERROR, e);
         }
@@ -124,5 +155,33 @@ public class MetaInfoServiceImpl implements MetaInfoService {
             keywords.setTotal(metaInfoPageInfo.getTotal());
         }
         return keywords;
+    }
+
+    /**
+     * 功能描述：  将专题转成视图信息
+     *
+     * @param categorySimples
+     * @author wangcanfeng
+     * @time 2019/2/22 21:06
+     * @since v1.0
+     **/
+    private PageInfo<CategorySimpleVo> convertCategorySimple(List<CategorySimple> categorySimples) {
+        // 只是为了获取list中包含的总条数信息
+        PageInfo<CategorySimple> pageInfo = new PageInfo<>(categorySimples);
+        PageInfo<CategorySimpleVo> voPageInfo = new PageInfo<>();
+        if (ObjectUtils.isEmpty(categorySimples)) {
+            return voPageInfo;
+        } else {
+            List<CategorySimpleVo> vos = new ArrayList<>();
+            categorySimples.forEach(categorySimple -> {
+                CategorySimpleVo vo = new CategorySimpleVo();
+                vo.setId(categorySimple.getId());
+                vo.setName(categorySimple.getName());
+                vos.add(vo);
+            });
+            voPageInfo.setList(vos);
+            voPageInfo.setTotal(pageInfo.getTotal());
+        }
+        return voPageInfo;
     }
 }

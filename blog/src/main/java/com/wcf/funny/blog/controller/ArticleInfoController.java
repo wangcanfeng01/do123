@@ -1,13 +1,16 @@
 package com.wcf.funny.blog.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.blog.constant.ArticleConstant;
 import com.wcf.funny.blog.entity.ArticleInfo;
 import com.wcf.funny.blog.service.ArticleInfoService;
 import com.wcf.funny.blog.vo.ArticleInfoVo;
 import com.wcf.funny.blog.vo.ArticleSimpleVo;
+import com.wcf.funny.blog.vo.req.ArticleQueryReq;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,9 +39,28 @@ public class ArticleInfoController {
      * @since v1.0
      **/
     @GetMapping("/articleList/simple")
-    public BaseResponse<List<ArticleSimpleVo>> getArticleSimpleList(@RequestParam("currentPage") Integer currentPage,
-                                                                    @RequestParam("pageSize") Integer pageSize) {
-        PageInfo<ArticleSimpleVo> pageInfo = articleInfoService.getSimpleArticles(currentPage, pageSize);
+    public BaseResponse<List<ArticleSimpleVo>> getArticleSimpleList(
+            @RequestParam("currentPage") Integer currentPage,
+            @RequestParam("pageSize") Integer pageSize,
+            @RequestParam(value = "category", required = false) String category,
+            @RequestParam(value = "title", required = false) String title) {
+        PageInfo<ArticleSimpleVo> pageInfo;
+        if (ObjectUtils.isEmpty(category) && ObjectUtils.isEmpty(title)) {
+            pageInfo = articleInfoService.getSimpleArticles(currentPage, pageSize);
+        } else {
+            // 如果是查询全部，则直接将专题设置为null即可
+            if (ArticleConstant.CATEGORY_ALL.equals(category)) {
+                category = null;
+            }
+            ArticleQueryReq req = new ArticleQueryReq();
+            req.setCategory(category);
+            req.setCurrentPage(currentPage);
+            req.setPageSize(pageSize);
+            if (!ObjectUtils.isEmpty(title)) {
+                req.setTitle("%" + title + "%");
+            }
+            pageInfo = articleInfoService.getSimpleArticlesByReq(req);
+        }
         return new PageResponse<>(pageInfo);
     }
 
@@ -74,11 +96,12 @@ public class ArticleInfoController {
 
     /**
      * 功能描述：  给文章点赞
-     *@author wangcanfeng
-     *@time 2019/2/21 22:23
-     *@since v1.0
+     *
      * @param articleId
-    * @param stars
+     * @param stars
+     * @author wangcanfeng
+     * @time 2019/2/21 22:23
+     * @since v1.0
      **/
     @PutMapping("/article/addStars")
     public BaseResponse addStars(@RequestParam("articleId") Integer articleId, @RequestParam("stars") Integer stars) {
@@ -89,6 +112,4 @@ public class ArticleInfoController {
         }
         return BaseResponse.ok();
     }
-
-
 }
