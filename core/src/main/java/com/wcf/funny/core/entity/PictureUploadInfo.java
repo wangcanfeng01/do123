@@ -38,11 +38,11 @@ public class PictureUploadInfo {
      */
     private Integer picType;
     /**
-     * 图片大小
+     * 图片大小,单位kb
      */
     private Integer size;
     /**
      * 图片归属对象
      */
-    private String belongTo;
+    private Integer belongTo;
 }

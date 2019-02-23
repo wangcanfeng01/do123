@@ -55,7 +55,6 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
     private FunnyLogoutSuccessHandler logoutSuccessHandler;
 
 
-
     /**
      * 配置授权提供
      *
@@ -81,9 +80,9 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
         http.csrf().disable().cors().disable()
                 .addFilterBefore(securityFilterInterceptor, FilterSecurityInterceptor.class)
                 .authorizeRequests()
-                .antMatchers( "/**","/ui/user/register").permitAll()
+                .antMatchers("/**", "/ui/user/register").permitAll()
                 //默认首页不做拦截
-                .antMatchers("/","/home","/index.html").permitAll()
+                .antMatchers("/", "/home", "/index.html").permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login").loginProcessingUrl("/ui/user/login").permitAll()
                 .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).and()
@@ -107,6 +106,11 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
                 .and().ignoring().antMatchers("/static/css/**")
                 .and().ignoring().antMatchers("/static/fonts/**")
                 .and().ignoring().antMatchers("/static/img/**")
-                .and().ignoring().antMatchers("/static/js/**");
+                .and().ignoring().antMatchers("/static/js/**")
+
+                .and().ignoring().antMatchers("/upload/image/face/**")
+                .and().ignoring().antMatchers("/upload/image/article/**")
+                .and().ignoring().antMatchers("/upload/image/cover/article/**")
+                .and().ignoring().antMatchers("/upload/image/cover/category/**");
     }
 }

@@ -24,22 +24,23 @@ public interface ArticleInfoMapper {
      * @since v1.0
      **/
     @Select("SELECT a.id, a.title, a.title_simple as slug, a.cover, a.create_time as createTime, a.modify_time as modifyTime," +
-            " a.text, a.words, a.author, a.keywords, a.status, a.categories, a.hits, a.stars, a.comments_num as commentsNum," +
+            " a.text, a.words, a.author, a.keywords, a.status, a.categories as category, a.hits, a.stars, a.comments_num as commentsNum," +
             " a.allow_comment as allowComment, a.allow_see as allowSee, b.face_path as authorFace " +
             " FROM info_article as a LEFT JOIN info_user as b ON a.author=b.name WHERE title_simple=#{slug} and delete_flag=0")
     ArticleInfo getArticleInfoBySlug(String slug);
 
     /**
      * @param id
-     * @return com.wcf.hellohome.read.model.WcfArticleInfo
+     * @return com.wcf.hellohome.read.model.ArticleInfo
      * @note 根据id寻找文章
      * @author WCF
      * @time 2018/6/13 21:46
      * @since v1.0
      **/
-    @Select("SELECT id, title, title_simple as slug, cover, create_time as createTime, modify_time as modifyTime, text," +
-            " author, keywords, status, categories, hits, stars, comments_num as commentsNum, allow_comment as allowComment," +
-            " allow_see as allowSee FROM info_article WHERE id=#{id} and delete_flag=0")
+    @Select("SELECT a.id, a.title, a.title_simple as slug, a.cover, a.create_time as createTime, a.modify_time as modifyTime," +
+            " a.text, a.words, a.author, a.keywords, a.status, a.categories as category, a.hits, a.stars, a.comments_num as commentsNum," +
+            " a.allow_comment as allowComment, a.allow_see as allowSee, b.face_path as authorFace " +
+            " FROM info_article as a LEFT JOIN info_user as b ON a.author=b.name WHERE a.id=#{id} and delete_flag=0")
     ArticleInfo getArticleInfoById(Integer id);
 
     /**
@@ -58,8 +59,8 @@ public interface ArticleInfoMapper {
      * @time 2018/6/13 21:46
      * @since v1.0
      **/
-    @SelectProvider(type = ArticleInfoProvider.class,method = "getArticleInfoSimpleByParamsSQL")
-    List<ArticleSimple> getArticleInfoSimpleByParams(@Param("category")String category,@Param("title")String title);
+    @SelectProvider(type = ArticleInfoProvider.class, method = "getArticleInfoSimpleByParamsSQL")
+    List<ArticleSimple> getArticleInfoSimpleByParams(@Param("category") String category, @Param("title") String title);
 
     /**
      * @note 搜索文章的信息列表, 根据修改的时间倒序排列，不查询文章内容信息
@@ -109,4 +110,55 @@ public interface ArticleInfoMapper {
     @Update("UPDATE info_article SET stars = #{stars} WHERE id = #{id}")
     void updateStarsById(@Param("id") Integer id, @Param("stars") Integer stars);
 
+    /**
+     * @param id
+     * @param cover
+     * @return void
+     * @note 根据id更新文章的封面信息
+     * @author WCF
+     * @time 2018/6/13 21:49
+     * @since v1.0
+     **/
+    @Update("UPDATE info_article SET cover = #{cover} WHERE id = #{id}")
+    void updateCoverById(@Param("id") Integer id, @Param("cover") String cover);
+
+
+    /**
+     * @param id
+     * @return void
+     * @note 根据id删除文章(伪删除)
+     * @author WCF
+     * @time 2018/6/13 22:11
+     * @since v1.0
+     **/
+    @Update("UPDATE info_article SET delete_flag = 1 WHERE id = #{id}")
+    void deleteArticleByIdFake(@Param("id") Integer id);
+
+
+    /**
+     * @param info
+     * @return int
+     * @note 插入新的文章，主内容为空，只有骨架
+     * @author WCF
+     * @time 2018/6/13 22:12
+     * @since v1.0
+     **/
+    @Insert("INSERT INTO info_article(title, title_simple, cover, create_time, modify_time, text, words, author, keywords,status," +
+            " categories, hits,stars, comments_num,allow_comment, allow_see, delete_flag) VALUES(#{title}, #{slug}," +
+            " #{cover}, #{createTime}, #{modifyTime},#{text},#{words},#{author},#{keywords},#{status}," +
+            "#{category},#{hits},#{stars},#{commentsNum},#{allowComment},#{allowSee},#{deleteFlag});")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    int insertNewArticle(ArticleInfo info);
+
+    /**
+     * 功能描述：编辑文章信息
+     *
+     * @param info
+     * @author wangcanfeng
+     * @time 2019/2/23 22:53
+     * @since v1.0
+     **/
+    @Update("UPDATE info_article SET title=#{title},modify_time=#{modifyTime},text=#{text},keywords=#{keywords}, categories=#{category}, " +
+            "allow_comment=#{allowComment}, allow_see=#{allowSee}, words=#{words}, status=#{status}  WHERE id = #{id}")
+    void modifyArticleInfoById(ArticleInfo info);
 }

@@ -62,5 +62,5 @@ public class ArticleInfo extends ArticleSimple implements Serializable {
      *
      * @return
      */
-    private Short deleteFlag;
+    private Integer deleteFlag;
 }

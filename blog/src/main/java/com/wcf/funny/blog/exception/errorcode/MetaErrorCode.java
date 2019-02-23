@@ -18,7 +18,8 @@ public enum  MetaErrorCode implements CoreCode{
     DELETE_KEYWORD_ERROR("00000008", "Delete keyword info from database failed"),
     //该关键字已存在已存在
     KEYWORD_ALREADY_EXIST("00000008", "this keyword is already exist in database"),
-
+    // 关键字关联的文章数目不为0，无法删除
+    KEYWORD_DELETE_DISABLE("0001001","can not delete the keyword because of the article count is not zero"),
     //插入专题异常
     INSERT_CATEGORY_ERROR("00000005", "Insert category info into database failed"),
     //搜索专题异常
@@ -29,6 +30,14 @@ public enum  MetaErrorCode implements CoreCode{
     DELETE_CATEGORY_ERROR("00000008", "Delete category info from database failed"),
     //该专题已存在已存在
     CATEGORY_ALREADY_EXIST("00000008", "this category is already exist in database"),
+    // 专题下文章数目不为0，无法删除
+    CATEGORY_DELETE_DISABLE("0001001","can not delete the category because of the article count is not zero"),
+    // 减少标签统计值异常
+    REDUCE_META_COUNT_ERROR("00010001","reduce the count of metas failed"),
+    // 增加标签统计值异常
+    INCREASE_META_COUNT_ERROR("00010001","increase the count of metas failed"),
+    // 查询标签信息异常
+    SELECT_META_ERROR("00010001","select the meta error")
     ;
 
     /**

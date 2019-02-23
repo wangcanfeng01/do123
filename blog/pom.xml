@@ -16,6 +16,10 @@
             <artifactId>core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.wcf.funny</groupId>
+            <artifactId>admin</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

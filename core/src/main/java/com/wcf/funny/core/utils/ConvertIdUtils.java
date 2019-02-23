@@ -47,4 +47,38 @@ public class ConvertIdUtils {
         sb.deleteCharAt(sb.length() - 1);
         return sb.toString();
     }
+
+    /**
+     * 功能描述：  将关键字的列表转成用逗号隔开的字符串
+     *@author wangcanfeng
+     *@time 2019/2/3 15:09
+     *@since v1.0
+     * @param list
+     *@return java.lang.String
+     **/
+    public static String getKeywordString(List<String> list){
+        if (ObjectUtils.isEmpty(list)) {
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        list.forEach(keyword -> sb.append(keyword).append(","));
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
+    }
+
+    /**
+     * 功能描述：  将中间用逗号隔开的字符串转成列表形式
+     *@author wangcanfeng
+     *@time 2019/2/23 16:55
+     *@since v1.0
+     * @param
+     **/
+    public static List<String> getStringList(String info){
+        List<String> infoList = new ArrayList<>();
+        if (!ObjectUtils.isEmpty(info)) {
+            String[] array = info.split(",");
+            Arrays.asList(array).forEach(obj -> infoList.add(obj));
+        }
+        return infoList;
+    }
 }

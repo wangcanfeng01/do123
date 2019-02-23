@@ -18,6 +18,14 @@ public enum ArticleErrorCode implements CoreCode {
     DELETE_ARTICLE_ERROR("00000008", "Delete article info from database failed"),
     //该文章标题已存在
     ARTICLE_TITLE_ALREADY_EXIST("00000008", "this article title is already exist in database"),
+    // 只有作者能删除该文章
+    ONLY_AUTHOR_CAN_DELETE("0000100001","only the article's author can delete this article"),
+    //只有作者能修改文章
+    ONLY_AUTHOR_CAN_MODIFY("0000100001","only the article's author can modify this article"),
+    // 当前文章不存在
+    ARTICLE_IS_NOT_EXIST("000010001","this article is not exist"),
+    // 文章提交类型不支持
+    UNSUPPROTED_POST_METHOD("0000010001","the article post method is unsupported")
     ;
 
     /**

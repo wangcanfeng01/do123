@@ -62,12 +62,12 @@ public class MetaInfoServiceImpl implements MetaInfoService {
     public List<CategorySimpleVo> getCategorySimpleList() {
         try {
             List<CategorySimple> metaInfos = metaInfoMapper.getMetasSimpleByType(ArticleConstant.CATEGORY_TYPE);
-            if(ObjectUtils.isEmpty(metaInfos)){
+            if (ObjectUtils.isEmpty(metaInfos)) {
                 return Collections.emptyList();
-            }else {
-                List<CategorySimpleVo> vos=new ArrayList<>();
-                metaInfos.forEach(metaInfo->{
-                    CategorySimpleVo vo=new CategorySimpleVo();
+            } else {
+                List<CategorySimpleVo> vos = new ArrayList<>();
+                metaInfos.forEach(metaInfo -> {
+                    CategorySimpleVo vo = new CategorySimpleVo();
                     vo.setName(metaInfo.getName());
                     vo.setId(metaInfo.getId());
                     vos.add(vo);
@@ -95,6 +95,167 @@ public class MetaInfoServiceImpl implements MetaInfoService {
             return convertKeywordPage(pageInfo);
         } catch (Exception e) {
             throw new PgSqlException(MetaErrorCode.SELECT_KEYWORD_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  根据id删除标签
+     *
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/23 10:51
+     * @since v1.0
+     **/
+    @Override
+    public void deleteCategoryById(Integer id) {
+        try {
+            metaInfoMapper.deleteMetaById(id);
+        } catch (Exception e) {
+            throw new PgSqlException(MetaErrorCode.DELETE_CATEGORY_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  根据id删除关键字
+     *
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/23 10:51
+     * @since v1.0
+     **/
+    @Override
+    public void deleteKeywordById(Integer id) {
+        try {
+            metaInfoMapper.deleteMetaById(id);
+        } catch (Exception e) {
+            throw new PgSqlException(MetaErrorCode.DELETE_KEYWORD_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述： 新建一个专题
+     *
+     * @param info
+     * @author wangcanfeng
+     * @time 2019/2/23 11:36
+     * @since v1.0
+     **/
+    @Override
+    public void addCategory(MetaInfo info) {
+        try {
+            metaInfoMapper.insertMeta(info);
+        } catch (Exception e) {
+            throw new PgSqlException(MetaErrorCode.INSERT_CATEGORY_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：插入关键字，这个要使用批量的
+     *
+     * @param info
+     * @author wangcanfeng
+     * @time 2019/2/23 11:42
+     * @since v1.0
+     **/
+    @Override
+    public void addKeyword(List<MetaInfo> info) {
+
+    }
+
+    /**
+     * 功能描述：  更新专题信息
+     *
+     * @param info
+     * @author wangcanfeng
+     * @time 2019/2/23 11:43
+     * @since v1.0
+     **/
+    @Override
+    public void updateCategory(MetaInfo info) {
+        try {
+            metaInfoMapper.updateMetaById(info);
+        } catch (Exception e) {
+            throw new PgSqlException(MetaErrorCode.UPDATE_CATEGORY_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述： 根据标签id更新封面
+     *
+     * @param cover
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/23 15:03
+     * @since v1.0
+     **/
+    @Override
+    public void updateMetaCoverById(String cover, Integer id) {
+        try {
+            metaInfoMapper.updateMetaCoverById(cover, id);
+        } catch (Exception e) {
+            throw new PgSqlException(MetaErrorCode.UPDATE_CATEGORY_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  根据名称和类型批量减少标签的统计值
+     *
+     * @param names
+     * @param type
+     * @author wangcanfeng
+     * @time 2019/2/23 16:12
+     * @since v1.0
+     **/
+    @Override
+    public void reduceMetaCountByNameAndType(List<String> names,String type) {
+        try {
+            metaInfoMapper.reduceMetaCountByNameAndTypeBatch(names,type);
+        } catch (Exception e) {
+            throw new PgSqlException(MetaErrorCode.REDUCE_META_COUNT_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  根据名称单个减少标签的统计值
+     *
+     * @param name
+     * @param type
+     * @author wangcanfeng
+     * @time 2019/2/23 16:19
+     * @since v1.0
+     **/
+    @Override
+    public void reduceMetaCountByNameAndType(String name, String type) {
+        try {
+            metaInfoMapper.reduceMetaCountByNameAndType(FunnyTimeUtils.nowUnix(), name, type);
+        } catch (Exception e) {
+            throw new PgSqlException(MetaErrorCode.REDUCE_META_COUNT_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  根据id获取标签信息
+     *
+     * @param name
+     * @author wangcanfeng
+     * @time 2019/2/23 16:27
+     * @since v1.0
+     **/
+    @Override
+    public MetaInfo getMetaByNameAndType(String name, String type) {
+        try {
+            return metaInfoMapper.getMetaByNameAndType(name, type);
+        } catch (Exception e) {
+            throw new PgSqlException(MetaErrorCode.SELECT_META_ERROR, e);
+        }
+    }
+
+    @Override
+    public void increaseMetaByNameAndType(String name, String type) {
+        try {
+            metaInfoMapper.increaseMetaCountByNameAndType(FunnyTimeUtils.nowUnix(), name, type);
+        } catch (Exception e) {
+            throw new PgSqlException(MetaErrorCode.INCREASE_META_COUNT_ERROR, e);
         }
     }
 

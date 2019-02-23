@@ -1,12 +1,12 @@
-package com.wcf.funny.core.log.service.impl;
+package com.wcf.funny.core.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.core.exception.PgSqlException;
 import com.wcf.funny.core.exception.errorcode.LogErrorCode;
-import com.wcf.funny.core.log.entity.OperationLogInfo;
-import com.wcf.funny.core.log.mapper.OperationLogMapper;
-import com.wcf.funny.core.log.service.OperationLogService;
+import com.wcf.funny.core.entity.OperationLogInfo;
+import com.wcf.funny.core.mapper.OperationLogMapper;
+import com.wcf.funny.core.service.OperationLogService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

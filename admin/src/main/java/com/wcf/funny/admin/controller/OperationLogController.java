@@ -2,8 +2,8 @@ package com.wcf.funny.admin.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.admin.vo.OpsLogVo;
-import com.wcf.funny.core.log.entity.OperationLogInfo;
-import com.wcf.funny.core.log.service.OperationLogService;
+import com.wcf.funny.core.entity.OperationLogInfo;
+import com.wcf.funny.core.service.OperationLogService;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import com.wcf.funny.core.utils.FunnyTimeUtils;

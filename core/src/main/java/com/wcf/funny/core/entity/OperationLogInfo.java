@@ -1,4 +1,4 @@
-package com.wcf.funny.core.log.entity;
+package com.wcf.funny.core.entity;
 
 import lombok.Data;
 

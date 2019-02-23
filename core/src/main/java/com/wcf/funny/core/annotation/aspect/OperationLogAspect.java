@@ -2,9 +2,8 @@ package com.wcf.funny.core.annotation.aspect;
 
 import com.wcf.funny.core.annotation.OperationLog;
 import com.wcf.funny.core.constant.ActionResult;
-import com.wcf.funny.core.constant.ActionType;
-import com.wcf.funny.core.log.entity.OperationLogInfo;
-import com.wcf.funny.core.log.service.OperationLogService;
+import com.wcf.funny.core.entity.OperationLogInfo;
+import com.wcf.funny.core.service.OperationLogService;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
 import com.wcf.funny.core.utils.RequestUtils;
 import lombok.extern.log4j.Log4j2;
@@ -99,7 +98,7 @@ public class OperationLogAspect {
      * 功能描述：
      *
      * @param operationLog
-     * @return com.wcf.funny.core.log.entity.OperationLogInfo
+     * @return com.wcf.funny.core.entity.OperationLogInfo
      * @author wangcanfeng
      * @time 2019/1/13 17:23
      * @since v1.0

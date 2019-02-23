@@ -1,6 +1,8 @@
 package com.wcf.funny.blog.service;
 
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.blog.entity.ArticleInfo;
+import com.wcf.funny.blog.vo.ArticleEditVo;
 import com.wcf.funny.blog.vo.ArticleInfoVo;
 import com.wcf.funny.blog.vo.ArticleSimpleVo;
 import com.wcf.funny.blog.vo.req.ArticleQueryReq;
@@ -57,12 +59,34 @@ public interface ArticleInfoService {
 
     /**
      * 功能描述：  根据slug查询文章内容
-     *@author wangcanfeng
-     *@time 2019/2/19 21:36
-     *@since v1.0
+     *
      * @param slug
+     * @author wangcanfeng
+     * @time 2019/2/19 21:36
+     * @since v1.0
      **/
     ArticleInfoVo getArticleBySlug(String slug);
+
+
+    /**
+     * 功能描述：  根据slug查询文章内容
+     *
+     * @param slug
+     * @author wangcanfeng
+     * @time 2019/2/19 21:36
+     * @since v1.0
+     **/
+    ArticleEditVo getArticleEditBySlug(String slug);
+
+    /**
+     * 功能描述：  根据id查询文章内容
+     *
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/19 21:36
+     * @since v1.0
+     **/
+    ArticleInfoVo getArticleById(Integer id);
 
     /**
      * @param id
@@ -73,7 +97,7 @@ public interface ArticleInfoService {
      * @time 2018/6/13 21:48
      * @since v1.0
      **/
-    void updateHitsById(Integer id,Integer hits);
+    void updateHitsById(Integer id, Integer hits);
 
     /**
      * @param id
@@ -85,4 +109,45 @@ public interface ArticleInfoService {
      * @since v1.0
      **/
     void updateStarsById(Integer id, Integer stars);
+
+    /**
+     * 功能描述：根据id更新文章封面
+     *
+     * @param cover
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/23 15:21
+     * @since v1.0
+     **/
+    void updateArticleCoverById(String cover, Integer id);
+
+    /**
+     * 功能描述：  根据id删除文章
+     *
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/23 15:48
+     * @since v1.0
+     **/
+    void deleteArticleByIdFake(Integer id);
+
+    /**
+     * 功能描述：  创建文章信息
+     *
+     * @param info
+     * @author wangcanfeng
+     * @time 2019/2/23 17:29
+     * @since v1.0
+     **/
+    ArticleEditVo createNewArticle(ArticleInfo info);
+
+    /**
+     * 功能描述： 编辑文章信息
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/2/23 22:49
+     * @since v1.0
+     **/
+    void modifyArticleInfo(ArticleInfo info);
 }

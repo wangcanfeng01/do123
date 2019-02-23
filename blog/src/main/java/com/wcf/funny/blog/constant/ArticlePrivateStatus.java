@@ -1,4 +1,4 @@
-package com.wcf.funny.blog.blogEnum;
+package com.wcf.funny.blog.constant;
 
 /**
  * @author wangcanfeng

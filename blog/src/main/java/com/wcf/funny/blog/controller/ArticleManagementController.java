@@ -1,16 +1,26 @@
 package com.wcf.funny.blog.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.blog.constant.MetaType;
+import com.wcf.funny.blog.exception.errorcode.ArticleErrorCode;
 import com.wcf.funny.blog.service.ArticleInfoService;
+import com.wcf.funny.blog.service.MetaInfoService;
 import com.wcf.funny.blog.vo.ArticleInfoVo;
+import com.wcf.funny.core.constant.PictureType;
+import com.wcf.funny.core.entity.PictureUploadInfo;
 import com.wcf.funny.core.reponse.BaseResponse;
+import com.wcf.funny.core.reponse.ErrorResponse;
 import com.wcf.funny.core.reponse.PageResponse;
+import com.wcf.funny.core.service.UploadFileService;
+import com.wcf.funny.core.utils.ConvertIdUtils;
+import com.wcf.funny.core.utils.FunnyTimeUtils;
+import com.wcf.funny.core.utils.RequestUtils;
+import com.wcf.funny.core.utils.UploadFileUtils;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -24,6 +34,12 @@ import java.util.List;
 public class ArticleManagementController {
     @Autowired
     private ArticleInfoService articleInfoService;
+
+    @Autowired
+    private UploadFileService fileService;
+
+    @Autowired
+    private MetaInfoService metaInfoService;
 
     /**
      * 功能描述：分页查询文章列表信息，不需要查询文章内容
@@ -40,5 +56,63 @@ public class ArticleManagementController {
         // 直接查询不包含文章内容的信息
         PageInfo<ArticleInfoVo> pageInfo = articleInfoService.getArticles(currentPage, pageSize, false);
         return new PageResponse<>(pageInfo);
+    }
+
+    /**
+     * 功能描述：上传文章封面
+     *
+     * @param cover
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/23 12:38
+     * @since v1.0
+     **/
+    @PostMapping("/article/addCover/{id}")
+    public BaseResponse<String> uploadCover(@RequestParam("file") MultipartFile cover, @PathVariable("id") Integer id) {
+        // 先调用工具类，完成专题的封面上传
+        PictureUploadInfo info = UploadFileUtils.uploadFace(cover, PictureType.ARTICLE_COVER);
+        info.setBelongTo(id);
+        info.setUploader(RequestUtils.getUserName());
+        info.setUploadTime(FunnyTimeUtils.nowUnix());
+        //存储图片信息
+        fileService.uploadCategoryCover(info);
+        // 更新文章的封面信息
+        articleInfoService.updateArticleCoverById(info.getPath(), id);
+        return new BaseResponse<>(info.getPath());
+    }
+
+
+    /**
+     * @param id
+     * @return com.wcf.hellohome.common.response.BaseResponse
+     * @note 通过id删除文章
+     * @author WCF
+     * @time 2018/6/15 19:07
+     * @since v1.0
+     **/
+    @DeleteMapping("/article/delete/{id}")
+    @ResponseBody
+    public BaseResponse deleteArticle(@PathVariable("id") Integer id) {
+        String userName = RequestUtils.getUserName();
+        ArticleInfoVo articleInfo = null;
+        // 从数据库中查询文章信息
+        articleInfo = articleInfoService.getArticleById(id);
+        if (!articleInfo.getAuthor().equals(userName)) {
+            return ErrorResponse.error(ArticleErrorCode.ONLY_AUTHOR_CAN_DELETE);
+        }
+        // 减少关键词的统计值
+        if (!ObjectUtils.isEmpty(articleInfo.getKeywords())) {
+            List<String> ids = ConvertIdUtils.getStringList(articleInfo.getKeywords());
+            // 调用批量执行减少统计值的方法
+            metaInfoService.reduceMetaCountByNameAndType(ids,MetaType.KEYWORD.getType());
+        }
+        // 减少专题的统计值
+        if (!ObjectUtils.isEmpty(articleInfo.getCategory())) {
+            //减少分类的统计
+            metaInfoService.reduceMetaCountByNameAndType(articleInfo.getCategory(), MetaType.CATEGORY.getType());
+        }
+        // 执行假删除
+        articleInfoService.deleteArticleByIdFake(id);
+        return BaseResponse.ok();
     }
 }

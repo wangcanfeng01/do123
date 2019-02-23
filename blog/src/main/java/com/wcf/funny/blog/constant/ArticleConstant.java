@@ -27,4 +27,13 @@ public class ArticleConstant {
      * 所有专题
      */
     public final static String CATEGORY_ALL="全部";
+
+    /**
+     * 未删除标志
+     */
+    public final static int NOT_DELETE=0;
+    /**
+     * 默认专题
+     */
+    public final static String DEFAULT_CATEGORY="随笔";
 }

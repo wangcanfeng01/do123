@@ -1,10 +1,7 @@
-package com.wcf.funny.core.log.service;
+package com.wcf.funny.core.service;
 
 import com.github.pagehelper.PageInfo;
-import com.wcf.funny.core.exception.PgSqlException;
-import com.wcf.funny.core.log.entity.OperationLogInfo;
-
-import java.util.List;
+import com.wcf.funny.core.entity.OperationLogInfo;
 
 /**
  * @author WCF

@@ -1,6 +1,6 @@
-package com.wcf.funny.core.log.mapper;
+package com.wcf.funny.core.mapper;
 
-import com.wcf.funny.core.log.entity.OperationLogInfo;
+import com.wcf.funny.core.entity.OperationLogInfo;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;

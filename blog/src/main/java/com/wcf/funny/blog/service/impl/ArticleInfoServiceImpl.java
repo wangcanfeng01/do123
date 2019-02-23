@@ -2,25 +2,28 @@ package com.wcf.funny.blog.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.wcf.funny.blog.blogEnum.ArticlePrivateStatus;
-import com.wcf.funny.blog.blogEnum.ArticlePublishStatus;
-import com.wcf.funny.blog.blogEnum.CommentEnableStatus;
+import com.wcf.funny.blog.constant.ArticlePrivateStatus;
+import com.wcf.funny.blog.constant.ArticlePublishStatus;
+import com.wcf.funny.blog.constant.CommentEnableStatus;
 import com.wcf.funny.blog.entity.ArticleInfo;
 import com.wcf.funny.blog.entity.ArticleSimple;
 import com.wcf.funny.blog.exception.errorcode.ArticleErrorCode;
 import com.wcf.funny.blog.mapper.ArticleInfoMapper;
 import com.wcf.funny.blog.service.ArticleInfoService;
+import com.wcf.funny.blog.vo.ArticleEditVo;
 import com.wcf.funny.blog.vo.ArticleInfoVo;
 import com.wcf.funny.blog.vo.ArticleSimpleVo;
 import com.wcf.funny.blog.vo.req.ArticleQueryReq;
 import com.wcf.funny.core.exception.PgSqlException;
 import com.wcf.funny.core.utils.ArticleUtils;
+import com.wcf.funny.core.utils.ConvertIdUtils;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -66,7 +69,7 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
     public PageInfo<ArticleSimpleVo> getSimpleArticlesByReq(ArticleQueryReq req) {
         try {
             PageHelper.startPage(req.getCurrentPage(), req.getPageSize());
-            List<ArticleSimple> articleSimples = articleInfoMapper.getArticleInfoSimpleByParams(req.getCategory(),req.getTitle());
+            List<ArticleSimple> articleSimples = articleInfoMapper.getArticleInfoSimpleByParams(req.getCategory(), req.getTitle());
             // 将文章列表转成视图分页信息
             return convertArticleSimplePage(articleSimples);
         } catch (Exception e) {
@@ -137,6 +140,50 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
     }
 
     /**
+     * 功能描述：  根据slug查询文章内容
+     *
+     * @param slug
+     * @author wangcanfeng
+     * @time 2019/2/19 21:36
+     * @since v1.0
+     **/
+    @Override
+    public ArticleEditVo getArticleEditBySlug(String slug) {
+        try {
+            ArticleInfo article = articleInfoMapper.getArticleInfoBySlug(slug);
+            if (ObjectUtils.isEmpty(article)) {
+                return null;
+            }
+            // 将文章列表转成视图分页信息
+            return convertToEditVo(article);
+        } catch (Exception e) {
+            throw new PgSqlException(ArticleErrorCode.SELECT_ARTICLE_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  根据id查询文章内容
+     *
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/19 21:36
+     * @since v1.0
+     **/
+    @Override
+    public ArticleInfoVo getArticleById(Integer id) {
+        try {
+            ArticleInfo article = articleInfoMapper.getArticleInfoById(id);
+            if (ObjectUtils.isEmpty(article)) {
+                return null;
+            }
+            // 将文章列表转成视图分页信息,博客内容简化为展示缩略信息
+            return convert(article, true, false);
+        } catch (Exception e) {
+            throw new PgSqlException(ArticleErrorCode.SELECT_ARTICLE_ERROR, e);
+        }
+    }
+
+    /**
      * @param id
      * @param hits
      * @return void
@@ -148,8 +195,8 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
     @Override
     public void updateHitsById(Integer id, Integer hits) {
         try {
-            articleInfoMapper.updateHitsById(id,hits);
-        }catch (Exception e){
+            articleInfoMapper.updateHitsById(id, hits);
+        } catch (Exception e) {
             throw new PgSqlException(ArticleErrorCode.UPDATE_ARTICLE_ERROR, e);
         }
     }
@@ -166,8 +213,76 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
     @Override
     public void updateStarsById(Integer id, Integer stars) {
         try {
-            articleInfoMapper.updateStarsById(id,stars);
-        }catch (Exception e){
+            articleInfoMapper.updateStarsById(id, stars);
+        } catch (Exception e) {
+            throw new PgSqlException(ArticleErrorCode.UPDATE_ARTICLE_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：根据id更新文章封面
+     *
+     * @param cover
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/23 15:21
+     * @since v1.0
+     **/
+    @Override
+    public void updateArticleCoverById(String cover, Integer id) {
+        try {
+            articleInfoMapper.updateCoverById(id, cover);
+        } catch (Exception e) {
+            throw new PgSqlException(ArticleErrorCode.UPDATE_ARTICLE_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  根据id删除文章
+     *
+     * @author wangcanfeng
+     * @time 2019/2/23 15:48
+     * @since v1.0
+     **/
+    @Override
+    public void deleteArticleByIdFake(Integer id) {
+        try {
+            articleInfoMapper.deleteArticleByIdFake(id);
+        } catch (Exception e) {
+            throw new PgSqlException(ArticleErrorCode.UPDATE_ARTICLE_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  创建文章信息
+     *
+     * @param info
+     * @author wangcanfeng
+     * @time 2019/2/23 17:29
+     * @since v1.0
+     **/
+    @Override
+    public ArticleEditVo createNewArticle(ArticleInfo info) {
+        try {
+            articleInfoMapper.insertNewArticle(info);
+            return convertToEditVo(info);
+        } catch (Exception e) {
+            throw new PgSqlException(ArticleErrorCode.INSERT_ARTICLE_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述： 编辑文章信息
+     *
+     * @param info@author wangcanfeng
+     * @time 2019/2/23 22:49
+     * @since v1.0
+     **/
+    @Override
+    public void modifyArticleInfo(ArticleInfo info) {
+        try {
+            articleInfoMapper.modifyArticleInfoById(info);
+        } catch (Exception e) {
             throw new PgSqlException(ArticleErrorCode.UPDATE_ARTICLE_ERROR, e);
         }
     }
@@ -274,28 +389,56 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
             }
         }
         // 设置是否允许评论
-        if(CommentEnableStatus.ALLOW_COMMENT.getStatus().equals(articleInfo.getAllowComment())){
+        if (CommentEnableStatus.ALLOW_COMMENT.getStatus().equals(articleInfo.getAllowComment())) {
             vo.setAllowComment("允许");
-        }else {
+        } else {
             vo.setAllowComment("不允许");
         }
         // 是否公开可见
-        if(ArticlePrivateStatus.PUBLIC.getStatus().equals(articleInfo.getAllowSee())){
+        if (ArticlePrivateStatus.PUBLIC.getStatus().equals(articleInfo.getAllowSee())) {
             vo.setAllowSee("公开");
-        }else {
+        } else {
             vo.setAllowSee("仅自己可见");
         }
         vo.setCommentsNum(articleInfo.getCommentsNum());
         vo.setHits(articleInfo.getHits());
         vo.setCreateTime(articleInfo.getCreateTime());
         vo.setStars(articleInfo.getStars());
-        if(ArticlePublishStatus.PUBLISH.getStatus().equals(articleInfo.getStatus())){
+        if (ArticlePublishStatus.PUBLISH.getStatus().equals(articleInfo.getStatus())) {
             vo.setPublishStatus("已发布");
-        }else {
+        } else {
             vo.setPublishStatus("草稿");
         }
         vo.setWordCount(articleInfo.getWords());
         vo.setAuthorFace(articleInfo.getAuthorFace());
+        return vo;
+    }
+
+    private ArticleEditVo convertToEditVo(ArticleInfo info){
+        ArticleEditVo vo=new ArticleEditVo();
+        vo.setId(info.getId());
+        vo.setText(info.getText());
+        vo.setTitle(info.getTitle());
+        vo.setAuthor(info.getAuthor());
+        vo.setCategory(info.getCategory());
+        // 设置关键字列表
+        if(ObjectUtils.isEmpty(info.getKeywords())){
+            vo.setKeywords(Collections.emptyList());
+        }else {
+            vo.setKeywords(ConvertIdUtils.getStringList(info.getKeywords()));
+        }
+        // 设置评论状态
+        if(CommentEnableStatus.ALLOW_COMMENT.getStatus().equals(info.getAllowComment())){
+            vo.setAllowComment(true);
+        }else {
+            vo.setAllowComment(false);
+        }
+        // 设置公开状态
+        if(ArticlePrivateStatus.PUBLIC.getStatus().equals(info.getAllowSee())){
+            vo.setAllowSee(true);
+        }else {
+            vo.setAllowSee(false);
+        }
         return vo;
     }
 }
