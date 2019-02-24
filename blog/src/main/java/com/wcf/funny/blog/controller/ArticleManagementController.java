@@ -75,7 +75,7 @@ public class ArticleManagementController {
         info.setUploader(RequestUtils.getUserName());
         info.setUploadTime(FunnyTimeUtils.nowUnix());
         //存储图片信息
-        fileService.uploadCategoryCover(info);
+        fileService.uploadPictureInfo(info);
         // 更新文章的封面信息
         articleInfoService.updateArticleCoverById(info.getPath(), id);
         return new BaseResponse<>(info.getPath());

@@ -16,5 +16,6 @@ public interface UploadFileService {
      * @time 2019/2/23 12:55
      * @since v1.0
      **/
-    void uploadCategoryCover(PictureUploadInfo info);
+    void uploadPictureInfo(PictureUploadInfo info);
+
 }

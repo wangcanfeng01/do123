@@ -204,7 +204,7 @@ public class MetaInfoController {
         info.setBelongTo(id);
         info.setUploader(RequestUtils.getUserName());
         info.setUploadTime(FunnyTimeUtils.nowUnix());
-        fileService.uploadCategoryCover(info);
+        fileService.uploadPictureInfo(info);
         metaInfoService.updateMetaCoverById(info.getPath(), id);
         return new BaseResponse<>(info.getPath());
     }

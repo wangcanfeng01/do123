@@ -264,7 +264,7 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
     @Override
     public ArticleEditVo createNewArticle(ArticleInfo info) {
         try {
-            articleInfoMapper.insertNewArticle(info);
+//            articleInfoMapper.insertNewArticle(info);
             return convertToEditVo(info);
         } catch (Exception e) {
             throw new PgSqlException(ArticleErrorCode.INSERT_ARTICLE_ERROR, e);

@@ -9,6 +9,7 @@ import com.wcf.funny.blog.service.ArticleInfoService;
 import com.wcf.funny.blog.service.MetaInfoService;
 import com.wcf.funny.blog.vo.ArticleEditVo;
 import com.wcf.funny.blog.vo.ArticleInfoVo;
+import com.wcf.funny.blog.vo.ArticlePicInfoVo;
 import com.wcf.funny.blog.vo.ArticleSimpleVo;
 import com.wcf.funny.blog.vo.req.ArticleEditReq;
 import com.wcf.funny.blog.vo.req.ArticleQueryReq;
@@ -41,6 +42,9 @@ public class ArticleInfoController {
     private ArticleInfoService articleInfoService;
     @Autowired
     private MetaInfoService metaInfoService;
+
+    @Autowired
+    private UploadFileService fileService;
 
     /**
      * 功能描述：  仅仅用于文章列表展示信息的查询
@@ -161,7 +165,7 @@ public class ArticleInfoController {
             // 数据库操作后会给文章对象设置id
             vo = articleInfoService.createNewArticle(info);
             // 给默认专题的计数值+1
-            metaInfoService.increaseMetaByNameAndType(ArticleConstant.DEFAULT_CATEGORY, MetaType.CATEGORY.getType());
+//            metaInfoService.increaseMetaByNameAndType(ArticleConstant.DEFAULT_CATEGORY, MetaType.CATEGORY.getType());
         } else {
             // 当slug存在时，查询文章信息
             vo = articleInfoService.getArticleEditBySlug(slug);
@@ -237,6 +241,35 @@ public class ArticleInfoController {
     }
 
     /**
+     * 功能描述：上传文章中的图片
+     *
+     * @param picture
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/23 12:38
+     * @since v1.0
+     **/
+    @PostMapping("/articlePic/upload/{id}")
+    public BaseResponse<ArticlePicInfoVo> uploadPicInfo(@RequestParam("image") MultipartFile picture, @PathVariable(value = "id") Integer id) {
+        // 先调用工具类，完成专题的封面上传
+        PictureUploadInfo info = UploadFileUtils.uploadFace(picture, PictureType.ARTICLE_INFO);
+        info.setBelongTo(id);
+        info.setUploader(RequestUtils.getUserName());
+        info.setUploadTime(FunnyTimeUtils.nowUnix());
+        fileService.uploadPictureInfo(info);
+        ArticlePicInfoVo vo = new ArticlePicInfoVo();
+        vo.setPath(info.getPath());
+        vo.setUuid(info.getUuid());
+        return new BaseResponse<>(vo);
+    }
+
+    @DeleteMapping("articlePic/delete/{fileName}")
+    public BaseResponse deletePicInfo(@PathVariable("fileName") Integer fileName) {
+        return BaseResponse.ok();
+    }
+
+
+    /**
      * 功能描述：改变标签的计数值
      *
      * @param source 原始信息
@@ -249,7 +282,7 @@ public class ArticleInfoController {
         //采用批量更新的方式，把关键词和专题的计数一起更新
     }
 
-    private Integer countArticleWords(String text){
+    private Integer countArticleWords(String text) {
         return 100;
     }
 }

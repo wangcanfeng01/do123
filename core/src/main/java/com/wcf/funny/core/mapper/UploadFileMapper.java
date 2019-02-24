@@ -22,5 +22,5 @@ public interface UploadFileMapper {
     @Insert("INSERT INTO info_upload_pic(pic_name, uuid, path, uploader, upload_time, pic_type," +
             " size,belong_to) VALUES(#{picName},#{uuid},#{path},#{uploader},#{uploadTime},#{picType}," +
             " #{size},#{belongTo})")
-    void uploadCategoryCover(PictureUploadInfo info);
+    void uploadPictureInfo(PictureUploadInfo info);
 }

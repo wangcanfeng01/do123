@@ -27,11 +27,13 @@ public class UploadFileServiceImpl implements UploadFileService {
      * @since v1.0
      **/
     @Override
-    public void uploadCategoryCover(PictureUploadInfo info) {
+    public void uploadPictureInfo(PictureUploadInfo info) {
         try {
-            fileMapper.uploadCategoryCover(info);
+            fileMapper.uploadPictureInfo(info);
         } catch (Exception e) {
             throw new PgSqlException(FileUploadErrorCode.FILE_INFO_INSERT_ERROR, e);
         }
     }
+
+
 }
