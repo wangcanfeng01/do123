@@ -15,6 +15,7 @@ import com.wcf.funny.blog.vo.req.ArticleEditReq;
 import com.wcf.funny.blog.vo.req.ArticleQueryReq;
 import com.wcf.funny.core.constant.PictureType;
 import com.wcf.funny.core.entity.PictureUploadInfo;
+import com.wcf.funny.core.exception.errorcode.FileUploadErrorCode;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.ErrorResponse;
 import com.wcf.funny.core.reponse.PageResponse;
@@ -244,7 +245,7 @@ public class ArticleInfoController {
      * 功能描述：上传文章中的图片
      *
      * @param picture
-     * @param id
+     * @param id      文章的id
      * @author wangcanfeng
      * @time 2019/2/23 12:38
      * @since v1.0
@@ -263,8 +264,19 @@ public class ArticleInfoController {
         return new BaseResponse<>(vo);
     }
 
-    @DeleteMapping("articlePic/delete/{fileName}")
-    public BaseResponse deletePicInfo(@PathVariable("fileName") Integer fileName) {
+    @DeleteMapping("articlePic/delete")
+    public BaseResponse deletePicInfo(@RequestParam("path") String path) {
+        //先删除数据库中的图片，再删除实体图片
+        if (ObjectUtils.isEmpty(path)) {
+            return ErrorResponse.error(FileUploadErrorCode.FILE_PATH_NULL);
+        }
+        String[] infos = path.split("/");
+        int len = infos.length;
+        if (len < 1) {
+            len = 1;
+        }
+        fileService.deletePictureInfo(infos[len - 1]);
+        UploadFileUtils.deletePictureByRelative(path);
         return BaseResponse.ok();
     }
 

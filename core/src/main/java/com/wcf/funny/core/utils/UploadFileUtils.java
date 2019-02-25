@@ -108,4 +108,36 @@ public class UploadFileUtils {
             file.mkdirs();
         }
     }
+
+    /**
+     * 功能描述：  根据关联路径删除文件
+     *
+     * @param relativePath
+     * @author wangcanfeng
+     * @time 2019/2/25 21:50
+     * @since v1.0
+     **/
+    public static void deletePictureByRelative(String relativePath) {
+        String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        path = path.replaceAll("\\\\", "/");
+        String filePath = path + relativePath;
+        filePath = filePath.replaceAll("//", "/");
+        deletePicture(filePath);
+    }
+
+    /**
+     * @param
+     * @return java.lang.String
+     * @note 删除图片
+     * @author WCF
+     * @time 2018/6/18 21:05
+     * @since v1.0
+     **/
+    public static void deletePicture(String path) {
+        File file = new File(path);
+        if (file.exists()) {
+            file.delete();
+        }
+        return;
+    }
 }
