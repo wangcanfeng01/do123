@@ -21,6 +21,11 @@ public class ArticleEditVo {
     private String title;
 
     /**
+     * uuid类型的标题
+     */
+    private String slug;
+
+    /**
      * 作者名称
      */
     private String author;

@@ -37,7 +37,9 @@ public enum  MetaErrorCode implements CoreCode{
     // 增加标签统计值异常
     INCREASE_META_COUNT_ERROR("00010001","increase the count of metas failed"),
     // 查询标签信息异常
-    SELECT_META_ERROR("00010001","select the meta error")
+    SELECT_META_ERROR("00010001","select the meta error"),
+    // 更新标签信息异常
+    UPDATE_META_ERROR("00010001","update meta info error")
     ;
 
     /**

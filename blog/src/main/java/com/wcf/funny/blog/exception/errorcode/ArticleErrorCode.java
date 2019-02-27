@@ -25,7 +25,9 @@ public enum ArticleErrorCode implements CoreCode {
     // 当前文章不存在
     ARTICLE_IS_NOT_EXIST("000010001","this article is not exist"),
     // 文章提交类型不支持
-    UNSUPPROTED_POST_METHOD("0000010001","the article post method is unsupported")
+    UNSUPPROTED_POST_METHOD("0000010001","the article post method is unsupported"),
+    // 专题信息不能为空
+    CATEGORY_NULL_ERROR("0000010001","category can not be null"),
     ;
 
     /**

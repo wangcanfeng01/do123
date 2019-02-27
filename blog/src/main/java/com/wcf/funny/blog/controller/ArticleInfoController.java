@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.wcf.funny.admin.exception.errorcode.UserErrorCode;
 import com.wcf.funny.blog.constant.*;
 import com.wcf.funny.blog.entity.ArticleInfo;
+import com.wcf.funny.blog.entity.MetaChangeInfo;
 import com.wcf.funny.blog.exception.errorcode.ArticleErrorCode;
 import com.wcf.funny.blog.service.ArticleInfoService;
 import com.wcf.funny.blog.service.MetaInfoService;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -139,6 +141,10 @@ public class ArticleInfoController {
      **/
     @GetMapping("/article/write")
     public BaseResponse writeArticle(@RequestParam(value = "slug", required = false) String slug) {
+        if (ObjectUtils.isEmpty(RequestUtils.getUserName())) {
+            // 如果当前用户未登录，直接提示异常信息
+            return ErrorResponse.error(UserErrorCode.LOGIN_USER_INFO_ERROR);
+        }
         ArticleEditVo vo = null;
         // 当slug参数是空的时候,则直接创建新的文章
         if (ObjectUtils.isEmpty(slug)) {
@@ -166,14 +172,10 @@ public class ArticleInfoController {
             // 数据库操作后会给文章对象设置id
             vo = articleInfoService.createNewArticle(info);
             // 给默认专题的计数值+1
-//            metaInfoService.increaseMetaByNameAndType(ArticleConstant.DEFAULT_CATEGORY, MetaType.CATEGORY.getType());
+            metaInfoService.increaseMetaByNameAndType(ArticleConstant.DEFAULT_CATEGORY, MetaType.CATEGORY.getType());
         } else {
             // 当slug存在时，查询文章信息
             vo = articleInfoService.getArticleEditBySlug(slug);
-            if (ObjectUtils.isEmpty(RequestUtils.getUserName())) {
-                // 如果当前用户未登录，直接提示异常信息
-                return ErrorResponse.error(UserErrorCode.LOGIN_USER_INFO_ERROR);
-            }
             if (ObjectUtils.isEmpty(vo)) {
                 return ErrorResponse.error(ArticleErrorCode.ARTICLE_IS_NOT_EXIST);
             }
@@ -215,6 +217,10 @@ public class ArticleInfoController {
         // 如果当前用户不是作者，提示不能修改
         if (!Objects.equals(RequestUtils.getUserName(), source.getAuthor())) {
             return ErrorResponse.error(ArticleErrorCode.ONLY_AUTHOR_CAN_MODIFY);
+        }
+        // 判断专题信息是否为空
+        if (ObjectUtils.isEmpty(req.getCategory())) {
+            return ErrorResponse.error(ArticleErrorCode.CATEGORY_NULL_ERROR);
         }
         info.setKeywords(ConvertIdUtils.getKeywordString(req.getKeywords()));
         info.setCategory(req.getCategory());
@@ -275,6 +281,7 @@ public class ArticleInfoController {
         if (len < 1) {
             len = 1;
         }
+        // 提取路径参数中的uuid
         fileService.deletePictureInfo(infos[len - 1]);
         UploadFileUtils.deletePictureByRelative(path);
         return BaseResponse.ok();
@@ -291,10 +298,115 @@ public class ArticleInfoController {
      * @since v1.0
      **/
     private void changeMetaCount(ArticleInfoVo source, ArticleEditReq req) {
+        List<MetaChangeInfo> changeInfos = new ArrayList<>();
         //采用批量更新的方式，把关键词和专题的计数一起更新
+        //先更新专题的统计值
+        String sourceCategory = source.getCategory();
+        String reqCategory = req.getCategory();
+        if (ObjectUtils.isEmpty(sourceCategory)) {
+            //如果原专题名称为空,直接给新的专题计数值+1
+            MetaChangeInfo info = setInfo(MetaType.CATEGORY, IncreaseType.INCREASE, reqCategory);
+            changeInfos.add(info);
+        } else {
+            if (!sourceCategory.equals(reqCategory)) {
+                // 如果原专题不是空的，且两次专题不一样，则给原标签-1，当前标签的计数值+1
+                MetaChangeInfo sourceInfo = setInfo(MetaType.CATEGORY, IncreaseType.DECREASE, sourceCategory);
+                changeInfos.add(sourceInfo);
+                MetaChangeInfo reqInfo = setInfo(MetaType.CATEGORY, IncreaseType.INCREASE, reqCategory);
+                changeInfos.add(reqInfo);
+            }
+        }
+        // 再更新关键字的统计值
+        String sourceKeywords = source.getKeywords();
+        List<String> reqKeywords = req.getKeywords();
+        if (ObjectUtils.isEmpty(sourceKeywords)) {
+            if (ObjectUtils.isEmpty(reqKeywords)) {
+                // 如果都是空的，则不做处理
+                return;
+            } else {
+                // 如果原关键字是空的，当前请求不是空的，则执行新增或更新统计值,加入到更新列表
+                reqKeywords.forEach(reqKeyword -> {
+                    MetaChangeInfo info = setInfo(MetaType.KEYWORD, IncreaseType.NEW_INCREASE, reqKeyword);
+                    changeInfos.add(info);
+                });
+            }
+        } else {
+            List<String> srcKeywords = ConvertIdUtils.getStringList(sourceKeywords);
+            if (ObjectUtils.isEmpty(reqKeywords)) {
+                // 如果原关键字不是空的，当前请求的关键字是空的，执行统计值减少，加入到更新列表
+                srcKeywords.forEach(keyword -> {
+                    MetaChangeInfo info = setInfo(MetaType.KEYWORD, IncreaseType.DECREASE, keyword);
+                    changeInfos.add(info);
+                });
+            } else {
+                // 如果都不是空的，则进行比较
+                // 处理当前请求关键字
+                // 互相遍历
+                srcKeywords.forEach(keyword -> {
+                    if (!reqKeywords.contains(keyword)) {
+                        // 原关键字串中包含，而当前串中没有包含，则减少统计值，加入到更新列表
+                        MetaChangeInfo info = setInfo(MetaType.KEYWORD, IncreaseType.DECREASE, keyword);
+                        changeInfos.add(info);
+                    }
+                });
+                reqKeywords.forEach(keyword -> {
+                    if (!srcKeywords.contains(keyword)) {
+                        //原串中不包含，而当前串中包含，加入到更新列表
+                        MetaChangeInfo info = setInfo(MetaType.KEYWORD, IncreaseType.NEW_INCREASE, keyword);
+                        changeInfos.add(info);
+                    }
+                });
+            }
+        }
+        metaInfoService.changeMetaInfo(changeInfos);
     }
 
+    /**
+     * 功能描述：  简单计算字符串中的字数，统计字数上会有稍微的出入，总体上不影响
+     *
+     * @param text
+     * @author wangcanfeng
+     * @time 2019/2/26 21:05
+     * @since v1.0
+     **/
     private Integer countArticleWords(String text) {
-        return 100;
+        if (ObjectUtils.isEmpty(text)) {
+            return 0;
+        }
+        // 移除多余的空格
+        text=text.replaceAll("[ ]+", " ");
+        // 获取字符串总长度
+        int total = text.length();
+        // 去掉中文字符
+        String en = text.replaceAll("[\\u4e00-\\u9fa5]", "");
+        if (ObjectUtils.isEmpty(en)) {
+            return total;
+        }
+        // 根据空格切割字符串，得到单词数组
+        String[] words = en.split(" ");
+        // 计算汉字的个数
+        int count = total - en.length();
+        // 汉字和单词个数相加
+        count += words.length;
+        return count;
     }
+
+    /**
+     * 功能描述：  设置标签更新信息
+     *
+     * @param type
+     * @param increaseType
+     * @param name
+     * @author wangcanfeng
+     * @time 2019/2/27 21:11
+     * @since v1.0
+     **/
+    private MetaChangeInfo setInfo(MetaType type, IncreaseType increaseType, String name) {
+        MetaChangeInfo info = new MetaChangeInfo();
+        info.setType(type.getType());
+        info.setDecreaseOrIncrease(increaseType);
+        info.setName(name);
+        return info;
+    }
+
 }

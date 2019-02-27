@@ -1,6 +1,7 @@
 package com.wcf.funny.blog.mapper;
 
 import com.wcf.funny.blog.entity.CategorySimple;
+import com.wcf.funny.blog.entity.MetaChangeInfo;
 import com.wcf.funny.blog.entity.MetaInfo;
 import com.wcf.funny.blog.mapper.provider.MetaInfoProvider;
 import org.apache.ibatis.annotations.*;
@@ -130,4 +131,14 @@ public interface MetaInfoMapper {
      **/
     @Update("UPDATE info_metas SET count=count+1, modify_time=#{modifyTime} WHERE name = #{name} and type=#{type}")
     void increaseMetaCountByNameAndType(@Param("modifyTime") Integer time,@Param("name")String name,@Param("type")String type);
+
+    /**
+     * 功能描述：
+     *@author wangcanfeng
+     *@time 2019/2/26 21:13
+     *@since v1.0
+     * @param
+     **/
+    @UpdateProvider(type = MetaInfoProvider.class,method = "changeMetaCountSQL")
+    void changeMetaCount(@Param("metas") List<MetaChangeInfo> list);
 }

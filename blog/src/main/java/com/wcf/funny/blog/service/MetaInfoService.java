@@ -2,6 +2,7 @@ package com.wcf.funny.blog.service;
 
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.blog.entity.CategorySimple;
+import com.wcf.funny.blog.entity.MetaChangeInfo;
 import com.wcf.funny.blog.entity.MetaInfo;
 import com.wcf.funny.blog.vo.CategorySimpleVo;
 import com.wcf.funny.blog.vo.CategoryVo;
@@ -112,7 +113,7 @@ public interface MetaInfoService {
      * @time 2019/2/23 16:12
      * @since v1.0
      **/
-    void reduceMetaCountByNameAndType(List<String> names,String type);
+    void reduceMetaCountByNameAndType(List<String> names, String type);
 
     /**
      * 功能描述： 根据名称减少标签的统计值
@@ -135,6 +136,26 @@ public interface MetaInfoService {
      **/
     MetaInfo getMetaByNameAndType(String name, String type);
 
-    void increaseMetaByNameAndType(String name,String type);
+
+    /**
+     * 功能描述：  根据名称和类型，增加标签的统计值
+     *
+     * @param name
+     * @param type
+     * @author wangcanfeng
+     * @time 2019/2/26 23:10
+     * @since v1.0
+     **/
+    void increaseMetaByNameAndType(String name, String type);
+
+    /**
+     * 功能描述： 批量改变标签的计数值
+     *
+     * @param list
+     * @author wangcanfeng
+     * @time 2019/2/26 23:16
+     * @since v1.0
+     **/
+    void changeMetaInfo(List<MetaChangeInfo> list);
 
 }

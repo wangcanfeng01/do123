@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.blog.constant.ArticleConstant;
 import com.wcf.funny.blog.entity.CategorySimple;
+import com.wcf.funny.blog.entity.MetaChangeInfo;
 import com.wcf.funny.blog.entity.MetaInfo;
 import com.wcf.funny.blog.exception.errorcode.MetaErrorCode;
 import com.wcf.funny.blog.mapper.MetaInfoMapper;
@@ -207,9 +208,9 @@ public class MetaInfoServiceImpl implements MetaInfoService {
      * @since v1.0
      **/
     @Override
-    public void reduceMetaCountByNameAndType(List<String> names,String type) {
+    public void reduceMetaCountByNameAndType(List<String> names, String type) {
         try {
-            metaInfoMapper.reduceMetaCountByNameAndTypeBatch(names,type);
+            metaInfoMapper.reduceMetaCountByNameAndTypeBatch(names, type);
         } catch (Exception e) {
             throw new PgSqlException(MetaErrorCode.REDUCE_META_COUNT_ERROR, e);
         }
@@ -250,12 +251,41 @@ public class MetaInfoServiceImpl implements MetaInfoService {
         }
     }
 
+    /**
+     * 功能描述：  根据名称和类型，增加标签的统计值
+     *
+     * @param name
+     * @param type
+     * @author wangcanfeng
+     * @time 2019/2/26 23:10
+     * @since v1.0
+     **/
     @Override
     public void increaseMetaByNameAndType(String name, String type) {
         try {
             metaInfoMapper.increaseMetaCountByNameAndType(FunnyTimeUtils.nowUnix(), name, type);
         } catch (Exception e) {
             throw new PgSqlException(MetaErrorCode.INCREASE_META_COUNT_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述： 批量改变标签的计数值
+     *
+     * @param list
+     * @author wangcanfeng
+     * @time 2019/2/26 23:16
+     * @since v1.0
+     **/
+    @Override
+    public void changeMetaInfo(List<MetaChangeInfo> list) {
+        try {
+            if (ObjectUtils.isEmpty(list)) {
+                return;
+            }
+            metaInfoMapper.changeMetaCount(list);
+        } catch (Exception e) {
+            throw new PgSqlException(MetaErrorCode.UPDATE_META_ERROR, e);
         }
     }
 
