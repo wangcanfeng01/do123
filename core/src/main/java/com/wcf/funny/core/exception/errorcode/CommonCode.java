@@ -3,7 +3,8 @@ package com.wcf.funny.core.exception.errorcode;
 public enum  CommonCode implements CoreCode{
 
     DEFAULT_SUCCESS_CODE("0","success"),
-    TIME_FORMAT_ERROR("00000001001","time format is not right");
+    TIME_FORMAT_ERROR("00000001001","time format is not right"),
+    UNSUPPORTED_PICTURE_TYPE("000010001","unsupported picture type");
 
     /**
      * 原因

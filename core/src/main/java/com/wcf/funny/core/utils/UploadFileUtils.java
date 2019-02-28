@@ -2,9 +2,8 @@ package com.wcf.funny.core.utils;
 
 import com.wcf.funny.core.constant.PictureType;
 import com.wcf.funny.core.entity.PictureUploadInfo;
-import com.wcf.funny.core.exception.errorcode.FileException;
+import com.wcf.funny.core.exception.FileException;
 import com.wcf.funny.core.exception.errorcode.FileUploadErrorCode;
-import lombok.extern.log4j.Log4j2;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;

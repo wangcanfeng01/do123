@@ -30,7 +30,7 @@ public class BaseResponse<T> {
         this.data = data;
     }
 
-
+    @SuppressWarnings("unchecked")
     public static BaseResponse ok() {
         return new BaseResponse(CommonCode.DEFAULT_SUCCESS_CODE, null);
     }

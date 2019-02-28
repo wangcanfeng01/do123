@@ -13,6 +13,7 @@ import com.wcf.funny.core.utils.FunnyTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,6 +27,7 @@ import java.util.List;
  * @function 图片上传记录控制器
  **/
 @RestController
+@RequestMapping("/ui/ops")
 public class UploadPictureLogController {
 
     @Autowired
@@ -40,7 +42,7 @@ public class UploadPictureLogController {
      * @time 2019/2/25 22:29
      * @since v1.0
      **/
-    @GetMapping("/logList")
+    @GetMapping("/pictureList")
     public BaseResponse<List<UploadPictureLogVo>> getOpsLogList(
             @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
             @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize) {
@@ -58,7 +60,7 @@ public class UploadPictureLogController {
      * @time 2019/2/4 12:27
      * @since v1.0
      **/
-    @GetMapping("/logList/time")
+    @GetMapping("/pictureList/time")
     public BaseResponse<List<UploadPictureLogVo>> getOpsLogListByTime(
             @RequestParam(value = "currentPage", defaultValue = "1") Integer currentPage,
             @RequestParam(value = "pageSize", defaultValue = "20") Integer pageSize,
@@ -67,6 +69,13 @@ public class UploadPictureLogController {
         Integer endTime = FunnyTimeUtils.getUnixTime(end);
         PageInfo<PictureUploadInfo> pageInfo = fileService.getPictureLogs(currentPage, pageSize, startTime, endTime);
         return new PageResponse<>(convertPageInfo(pageInfo));
+    }
+
+    @GetMapping("/picture/belongTo")
+    public BaseResponse<String> getPictureBelongTo(@RequestParam("type") Integer type, @RequestParam("id") Integer id) {
+        PictureType pictureType = PictureType.vauleOf(type);
+        String name = fileService.getPictureBelongTo(pictureType, id);
+        return new BaseResponse<>(name);
     }
 
 

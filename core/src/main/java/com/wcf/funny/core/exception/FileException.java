@@ -1,6 +1,7 @@
-package com.wcf.funny.core.exception.errorcode;
+package com.wcf.funny.core.exception;
 
 import com.wcf.funny.core.exception.BaseException;
+import com.wcf.funny.core.exception.errorcode.CoreCode;
 
 /**
  * @author wangcanfeng
@@ -16,7 +17,7 @@ public class FileException extends BaseException{
      * @time 2018/6/13 22:48
      * @since v1.0
      **/
-    public FileException(CoreCode errorMessage,Throwable e) {
+    public FileException(CoreCode errorMessage, Throwable e) {
         super(errorMessage,e);
     }
 

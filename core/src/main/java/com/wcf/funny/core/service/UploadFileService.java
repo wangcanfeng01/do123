@@ -1,6 +1,7 @@
 package com.wcf.funny.core.service;
 
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.core.constant.PictureType;
 import com.wcf.funny.core.entity.PictureUploadInfo;
 
 /**
@@ -52,5 +53,16 @@ public interface UploadFileService {
      * @since v1.0
      **/
     PageInfo<PictureUploadInfo> getPictureLogs(int currentPage, int pageSize, int start, int end);
+
+    /**
+     * 功能描述：查询图片归属
+     *
+     * @param type
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/28 22:51
+     * @since v1.0
+     **/
+    String getPictureBelongTo(PictureType type, Integer id);
 
 }

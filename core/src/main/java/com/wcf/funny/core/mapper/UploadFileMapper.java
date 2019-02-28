@@ -1,6 +1,8 @@
 package com.wcf.funny.core.mapper;
 
+import com.wcf.funny.core.constant.PictureType;
 import com.wcf.funny.core.entity.PictureUploadInfo;
+import com.wcf.funny.core.mapper.provider.UploadFileProvider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -62,4 +64,16 @@ public interface UploadFileMapper {
             "pic_type as picType, size, belong_to as belongTo FROM info_upload_pic" +
             " WHERE upload_time >=#{start} AND upload_time <=#{end} ORDER BY upload_time DESC")
     List<PictureUploadInfo> getPictureLogListByTime(@Param("start") Integer start, @Param("end") Integer end);
+
+    /**
+     * 功能描述：根据图片类型和归属id，查询归属名
+     *
+     * @param type
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/28 22:58
+     * @since v1.0
+     **/
+    @SelectProvider(type = UploadFileProvider.class, method = "getPictureBelongToSQL")
+    String getPictureBelongTo(@Param("type") PictureType type, @Param("id") Integer id);
 }

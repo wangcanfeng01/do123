@@ -2,6 +2,7 @@ package com.wcf.funny.core.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.core.constant.PictureType;
 import com.wcf.funny.core.entity.PictureUploadInfo;
 import com.wcf.funny.core.exception.PgSqlException;
 import com.wcf.funny.core.exception.errorcode.FileUploadErrorCode;
@@ -95,5 +96,19 @@ public class UploadFileServiceImpl implements UploadFileService {
         } catch (Exception e) {
             throw new PgSqlException(FileUploadErrorCode.FILE_INFO_SELECT_ERROR, e);
         }
+    }
+
+    /**
+     * 功能描述：查询图片归属
+     *
+     * @param type
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/28 22:51
+     * @since v1.0
+     **/
+    @Override
+    public String getPictureBelongTo(PictureType type, Integer id) {
+        return fileMapper.getPictureBelongTo(type,id);
     }
 }
