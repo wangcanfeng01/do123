@@ -18,5 +18,4 @@ public class RootApplication extends SpringBootServletInitializer{
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder){
 		return builder.sources(RootApplication.class);
 	}
-
 }
