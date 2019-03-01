@@ -137,8 +137,8 @@ public class MenuInfoController {
      * @time 2019/1/28 23:11
      * @since v1.0
      **/
-    @PutMapping("/auth/{id}/{auth}")
-    public BaseResponse updateMenuAuth(@PathVariable("id") Integer id, @PathVariable("auth") Integer auth) {
+    @PutMapping("/auth")
+    public BaseResponse updateMenuAuth(@RequestParam("id") Integer id, @RequestParam("auth") Integer auth) {
         menuInfoService.updateMenuAuthById(auth, id);
         return BaseResponse.ok();
     }
@@ -154,8 +154,8 @@ public class MenuInfoController {
      * @time 2019/1/28 23:11
      * @since v1.0
      **/
-    @PutMapping("/type/{id}/{type}")
-    public BaseResponse updateMenu(@PathVariable("id") Integer id, @PathVariable("type") Integer type) {
+    @PutMapping("/type")
+    public BaseResponse updateMenu(@RequestParam("id") Integer id, @RequestParam("type") Integer type) {
         menuInfoService.updateMenuTypeById(type, id);
         return BaseResponse.ok();
     }
@@ -174,4 +174,10 @@ public class MenuInfoController {
         menuInfoService.deleteMenuById(id);
         return BaseResponse.ok();
     }
+
+    @GetMapping("/authMenu")
+    public BaseResponse getAuthMenu(){
+        return BaseResponse.ok();
+    }
+
 }

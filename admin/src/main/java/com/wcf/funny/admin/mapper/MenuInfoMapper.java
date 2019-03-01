@@ -27,7 +27,7 @@ public interface MenuInfoMapper {
      **/
     @Insert("insert into info_menu (menu_name, menu_code, menu_level, parent_node, need_auth, menu_type, path, creator, " +
             " create_time, modify_time, mark)  VALUES (#{menuName}, #{menuCode}, #{menuLevel}, #{pNode}, #{needAuth}, #{menuType}," +
-            " #{path}, creator=#{creator}, #{createTime}, #{modifyTime}, #{mark})")
+            " #{path}, #{creator}, #{createTime}, #{modifyTime}, #{mark})")
     void insertMenu(MenuInfo info);
 
     /**
