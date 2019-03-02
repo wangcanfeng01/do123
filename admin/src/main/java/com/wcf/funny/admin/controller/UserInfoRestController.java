@@ -23,6 +23,7 @@ import com.wcf.funny.core.entity.CodeAndName;
 import com.wcf.funny.core.entity.PictureUploadInfo;
 import com.wcf.funny.core.exception.errorcode.CommonCode;
 import com.wcf.funny.core.reponse.BaseResponse;
+import com.wcf.funny.core.reponse.ErrorResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import com.wcf.funny.core.utils.ConvertIdUtils;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
@@ -62,7 +63,6 @@ public class UserInfoRestController extends BaseController {
     /**
      * 功能描述：获取用户登录的信息，以及最初始的导航栏
      *
-     * @return com.wcf.funny.core.reponse.BaseResponse<java.lang.String>
      * @author wangcanfeng
      * @time 2019/1/12 0:07
      * @since v1.0
@@ -74,7 +74,7 @@ public class UserInfoRestController extends BaseController {
         StringBuilder sb = new StringBuilder();
         if (ObjectUtils.isEmpty(relatedMenu)) {
             // 如果是查询不到的用户则直接报错
-            throw new UserException(UserErrorCode.LOGIN_USER_INFO_ERROR);
+            return ErrorResponse.error(UserErrorCode.LOGIN_USER_INFO_ERROR);
         }
         if (ObjectUtils.isEmpty(relatedMenu.getMenuIds())) {
             sb.append(NULL_MENU_ID);
