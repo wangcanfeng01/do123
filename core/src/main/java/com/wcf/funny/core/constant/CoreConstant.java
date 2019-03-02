@@ -28,4 +28,9 @@ public class CoreConstant {
      * 未知的远程地址
      */
     public final static String UNKNOWN_ADDRESS="unknown";
+
+    /**
+     * 这个id对应的菜单是不存在的
+     */
+    public final static String NULL_MENU_ID="0";
 }

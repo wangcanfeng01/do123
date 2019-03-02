@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>config</artifactId>
+    <artifactId>do123-config</artifactId>
 
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
@@ -56,12 +56,12 @@
 
         <dependency>
             <groupId>com.wcf.funny</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>do123-core</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.wcf.funny</groupId>
-            <artifactId>admin</artifactId>
+            <artifactId>do123-admin</artifactId>
         </dependency>
 
         <dependency>

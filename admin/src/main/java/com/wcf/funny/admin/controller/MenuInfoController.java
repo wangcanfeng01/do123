@@ -3,18 +3,27 @@ package com.wcf.funny.admin.controller;
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.admin.entity.MenuInfo;
 import com.wcf.funny.admin.entity.SimpleMenuInfo;
+import com.wcf.funny.admin.entity.UserRelatedMenu;
+import com.wcf.funny.admin.exception.UserException;
+import com.wcf.funny.admin.exception.errorcode.UserErrorCode;
 import com.wcf.funny.admin.service.MenuInfoService;
+import com.wcf.funny.admin.service.UserInfoService;
 import com.wcf.funny.admin.vo.MenuVo;
 import com.wcf.funny.admin.vo.req.MenuReq;
+import com.wcf.funny.core.constant.CoreConstant;
+import com.wcf.funny.core.entity.CodeAndName;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.ListResponse;
 import com.wcf.funny.core.reponse.PageResponse;
+import com.wcf.funny.core.utils.ConvertIdUtils;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
 import com.wcf.funny.core.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author wangcanfeng
@@ -27,6 +36,9 @@ public class MenuInfoController {
 
     @Autowired
     private MenuInfoService menuInfoService;
+
+    @Autowired
+    private UserInfoService userInfoService;
 
     /**
      * 功能描述：  新增一个菜单
@@ -176,8 +188,24 @@ public class MenuInfoController {
     }
 
     @GetMapping("/authMenu")
-    public BaseResponse getAuthMenu(){
-        return BaseResponse.ok();
+    public BaseResponse<Map<String, String>> getAuthMenu() {
+        String username = RequestUtils.getUserName();
+        if (ObjectUtils.isEmpty(username)) {
+            username = CoreConstant.VISITOR_NAME;
+        }
+        // 获取用户名对应的菜单id串
+        UserRelatedMenu relatedMenu = userInfoService.getMenusStringListByName(username);
+        if (ObjectUtils.isEmpty(relatedMenu)) {
+            // 如果是查询不到的用户则直接报错
+            throw new UserException(UserErrorCode.LOGIN_USER_INFO_ERROR);
+        }
+        // 对id串的列表去重，再转成单个id串
+        String ids = ConvertIdUtils.getUniqMenuIds(relatedMenu.getMenuIds());
+        // 查询第二级的菜单信息
+        int menuLevel = 2;
+        List<CodeAndName> menus = menuInfoService.selectMenuMap(ids, menuLevel);
+        Map<String, String> map = ConvertIdUtils.convertListToMap(menus);
+        return new BaseResponse<>(map);
     }
 
 }

@@ -93,43 +93,43 @@
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
-                <artifactId>admin</artifactId>
+                <artifactId>do123-admin</artifactId>
                 <version>${do123.funny.admin}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
-                <artifactId>blog</artifactId>
+                <artifactId>do123-blog</artifactId>
                 <version>${do123.funny.blog}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
-                <artifactId>config</artifactId>
+                <artifactId>do123-config</artifactId>
                 <version>${do123.funny.config}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
-                <artifactId>core</artifactId>
+                <artifactId>do123-core</artifactId>
                 <version>${do123.funny.core}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
-                <artifactId>front-ui</artifactId>
+                <artifactId>do123-front-ui</artifactId>
                 <version>${do123.funny.front-ui}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
-                <artifactId>video</artifactId>
+                <artifactId>do123-video</artifactId>
                 <version>${do123.funny.video}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
-                <artifactId>home</artifactId>
+                <artifactId>do123-home</artifactId>
                 <version>${do123.funny.home}</version>
             </dependency>
             <!--数据库相关依赖-start-->

@@ -1,10 +1,10 @@
 package com.wcf.funny.core.utils;
 
+import com.wcf.funny.core.constant.CoreConstant;
+import com.wcf.funny.core.entity.CodeAndName;
 import org.springframework.util.ObjectUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author wangcanfeng
@@ -32,13 +32,14 @@ public class ConvertIdUtils {
 
     /**
      * 功能描述：  将id的列表转成用逗号隔开的字符串
-     *@author wangcanfeng
-     *@time 2019/2/3 15:09
-     *@since v1.0
+     *
      * @param list
-     *@return java.lang.String
+     * @return java.lang.String
+     * @author wangcanfeng
+     * @time 2019/2/3 15:09
+     * @since v1.0
      **/
-    public static String getString(List<Integer> list){
+    public static String getString(List<Integer> list) {
         if (ObjectUtils.isEmpty(list)) {
             return null;
         }
@@ -50,13 +51,14 @@ public class ConvertIdUtils {
 
     /**
      * 功能描述：  将关键字的列表转成用逗号隔开的字符串
-     *@author wangcanfeng
-     *@time 2019/2/3 15:09
-     *@since v1.0
+     *
      * @param list
-     *@return java.lang.String
+     * @return java.lang.String
+     * @author wangcanfeng
+     * @time 2019/2/3 15:09
+     * @since v1.0
      **/
-    public static String getKeywordString(List<String> list){
+    public static String getKeywordString(List<String> list) {
         if (ObjectUtils.isEmpty(list)) {
             return null;
         }
@@ -68,17 +70,58 @@ public class ConvertIdUtils {
 
     /**
      * 功能描述：  将中间用逗号隔开的字符串转成列表形式
-     *@author wangcanfeng
-     *@time 2019/2/23 16:55
-     *@since v1.0
+     *
      * @param
+     * @author wangcanfeng
+     * @time 2019/2/23 16:55
+     * @since v1.0
      **/
-    public static List<String> getStringList(String info){
+    public static List<String> getStringList(String info) {
         List<String> infoList = new ArrayList<>();
         if (!ObjectUtils.isEmpty(info)) {
             String[] array = info.split(",");
             Arrays.asList(array).forEach(obj -> infoList.add(obj));
         }
         return infoList;
+    }
+
+    /**
+     * 功能描述: 将ids串列表，合并去重后转成单个ids串
+     *
+     * @param idsList
+     * @return:java.lang.String
+     * @since: v1.0
+     * @Author:wangcanfeng
+     * @Date: 2019/3/2 15:49
+     */
+    public static String getUniqMenuIds(List<String> idsList) {
+        StringBuilder sb = new StringBuilder();
+        // 对菜单id做去重
+        HashSet<Integer> menuIds = new HashSet<>();
+        idsList.forEach(menusString -> {
+            getList(menusString).forEach(menuId -> menuIds.add(menuId));
+        });
+        menuIds.forEach(id -> sb.append(id).append(","));
+        if (sb.length() > 0) {
+            //去掉最后一个逗号
+            sb.deleteCharAt(sb.length() - 1);
+        } else {
+            sb.append(CoreConstant.NULL_MENU_ID);
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 功能描述：  list转换成map
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/3/2 22:04
+     * @since v1.0
+     **/
+    public static Map<String, String> convertListToMap(List<CodeAndName> list) {
+        Map<String, String> menuMap = new HashMap<>();
+        list.forEach(codeAndName -> menuMap.put(codeAndName.getCode(), codeAndName.getName()));
+        return menuMap;
     }
 }

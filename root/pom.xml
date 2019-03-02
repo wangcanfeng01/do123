@@ -25,37 +25,37 @@
         
         <dependency>
             <groupId>com.wcf.funny</groupId>
-            <artifactId>admin</artifactId>
+            <artifactId>do123-admin</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.wcf.funny</groupId>
-            <artifactId>blog</artifactId>
+            <artifactId>do123-blog</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.wcf.funny</groupId>
-            <artifactId>config</artifactId>
+            <artifactId>do123-config</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.wcf.funny</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>do123-core</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.wcf.funny</groupId>
-            <artifactId>front-ui</artifactId>
+            <artifactId>do123-front-ui</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.wcf.funny</groupId>
-            <artifactId>video</artifactId>
+            <artifactId>do123-video</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.wcf.funny</groupId>
-            <artifactId>home</artifactId>
+            <artifactId>do123-home</artifactId>
         </dependency>
     </dependencies>
 

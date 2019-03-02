@@ -10,7 +10,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>home</artifactId>
+    <artifactId>do123-home</artifactId>
 
     <dependencies>
         <dependency>
@@ -43,12 +43,12 @@
 
         <dependency>
             <groupId>com.wcf.funny</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>do123-core</artifactId>
         </dependency>
 
         <dependency>
             <groupId>com.wcf.funny</groupId>
-            <artifactId>admin</artifactId>
+            <artifactId>do123-admin</artifactId>
         </dependency>
     </dependencies>
 </project>

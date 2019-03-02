@@ -93,7 +93,7 @@ public class UserInfoRestController extends BaseController {
             }
         }
         List<CodeAndName> codeAndNames = menuInfoService.selectMenuMap(sb.toString(), AdminConstant.MENU_ROOT_LEVEL);
-        Map<String, String> menuMap = getMenuMap(codeAndNames);
+        Map<String, String> menuMap = ConvertIdUtils.convertListToMap(codeAndNames);
         UserMenuAuthVo vo = new UserMenuAuthVo();
         vo.setUserId(relatedMenu.getId());
         vo.setUsername(username);
@@ -257,22 +257,5 @@ public class UserInfoRestController extends BaseController {
 //        return BaseResponse.error("图片上传失败");
         return new BaseResponse<>("/upload/banner.gif");
     }
-
-
-    /**
-     * 功能描述：将菜单列表转成map
-     *
-     * @param codeAndNames
-     * @return java.util.Map<java.lang.String,java.lang.String>
-     * @author wangcanfeng
-     * @time 2019/2/13 22:44
-     * @since v1.0
-     **/
-    private Map<String, String> getMenuMap(List<CodeAndName> codeAndNames) {
-        Map<String, String> menuMap = new HashMap<>();
-        codeAndNames.forEach(codeAndName -> menuMap.put(codeAndName.getCode(), codeAndName.getName()));
-        return menuMap;
-    }
-
 
 }
