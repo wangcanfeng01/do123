@@ -71,11 +71,12 @@ public interface UserRoleService {
 
     /**
      * 功能描述：  查询简单的角色列表信息
-     *@author wangcanfeng
-     *@time 2019/2/3 14:47
-     *@since v1.0
+     *
      * @param
-     *@return java.util.List<com.wcf.funny.admin.entity.SimpleRoleInfo>
+     * @return java.util.List<com.wcf.funny.admin.entity.SimpleRoleInfo>
+     * @author wangcanfeng
+     * @time 2019/2/3 14:47
+     * @since v1.0
      **/
     List<SimpleRoleInfo> simpleRoleList();
 
@@ -100,4 +101,14 @@ public interface UserRoleService {
      * @since v1.0
      **/
     int updateRoleById(UserRole role);
+
+    /**
+     * 功能描述：  根据角色类型查询角色id
+     *
+     * @param roleType
+     * @author wangcanfeng
+     * @time 2019/3/3 11:33
+     * @since v1.0
+     **/
+    Integer getRoleIdByType(String roleType);
 }

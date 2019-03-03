@@ -27,17 +27,17 @@ public interface UserInfoService {
      * @param password
      * @param facePath
      * @return boolean
-     * @note 添加新的用户
+     * @note 添加新的用户,注册用户使用
      * @author WCF
      * @time 2018/6/12 22:14
      * @since v1.0
      **/
-    boolean addNewUser(String name,String password,String facePath);
+    boolean addNewUser(String name,String password,String facePath,Integer roleId);
 
     /**
      * @param info
      * @return boolean
-     * @note 添加新的用户
+     * @note 添加新的用户，系统管理员增加用户时使用
      * @author WCF
      * @time 2018/6/12 22:14
      * @since v1.0

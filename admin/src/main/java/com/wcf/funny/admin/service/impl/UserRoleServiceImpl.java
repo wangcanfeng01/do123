@@ -176,6 +176,23 @@ public class UserRoleServiceImpl implements UserRoleService {
     }
 
     /**
+     * 功能描述：  根据角色类型查询角色id
+     *
+     * @param roleType
+     * @author wangcanfeng
+     * @time 2019/3/3 11:33
+     * @since v1.0
+     **/
+    @Override
+    public Integer getRoleIdByType(String roleType) {
+        try {
+            return roleMapper.getRoleIdByType(roleType);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.SELECT_ROLR_ERROR, e);
+        }
+    }
+
+    /**
      * 功能描述：  将数据库信息转换成视图信息
      *
      * @param roles

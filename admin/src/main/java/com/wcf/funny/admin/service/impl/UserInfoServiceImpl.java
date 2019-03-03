@@ -100,7 +100,7 @@ public class UserInfoServiceImpl implements UserInfoService {
      * @since v1.0
      **/
     @Override
-    public boolean addNewUser(String name, String password, String facePath) {
+    public boolean addNewUser(String name, String password, String facePath,Integer roleId) {
         UserInfo info = new UserInfo();
         info.setUsername(name);
         info.setPassword(password);
@@ -108,7 +108,7 @@ public class UserInfoServiceImpl implements UserInfoService {
         info.setFacePath(facePath);
         info.setRegisterTime(FunnyTimeUtils.now());
         info.setUpdateTime(FunnyTimeUtils.now());
-        info.setRole(UserConstant.DEFAULT_ROLE);
+        info.setRole(roleId.toString());
         //初始0分
         info.setScore(0);
         //新注册的用户默认都是1级会员

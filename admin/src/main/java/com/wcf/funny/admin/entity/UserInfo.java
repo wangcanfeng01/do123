@@ -40,7 +40,7 @@ public class UserInfo {
     private String updateTime;
 
     /**
-     * 用户角色
+     * 用户角色id
      */
     private String role;
     /**

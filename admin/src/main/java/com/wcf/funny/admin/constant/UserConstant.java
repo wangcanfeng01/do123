@@ -11,9 +11,9 @@ public class UserConstant {
     public final static String NULL_INRODUCE="";
 
     /**
-     * 默认角色
+     * 默认注册用户角色
      */
-    public final static String DEFAULT_ROLE="guest";
+    public final static String DEFAULT_REGISTER_ROLE_TYPE="VIP-1";
 
     /**
      * 默认头像

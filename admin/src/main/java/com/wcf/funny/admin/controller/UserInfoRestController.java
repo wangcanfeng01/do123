@@ -10,6 +10,7 @@ import com.wcf.funny.admin.exception.errorcode.UploadErrorCode;
 import com.wcf.funny.admin.exception.errorcode.UserErrorCode;
 import com.wcf.funny.admin.service.MenuInfoService;
 import com.wcf.funny.admin.service.UserInfoService;
+import com.wcf.funny.admin.service.UserRoleService;
 import com.wcf.funny.admin.vo.UserMenuAuthVo;
 import com.wcf.funny.admin.vo.UserInfoVo;
 import com.wcf.funny.admin.vo.req.UserInfoReq;
@@ -53,12 +54,15 @@ public class UserInfoRestController extends BaseController {
     private UserInfoService userInfoService;
 
     @Autowired
+    private UserRoleService roleService;
+
+    @Autowired
     private MenuInfoService menuInfoService;
 
     /**
      * 这个id对应的菜单是不存在的
      */
-    private final static String NULL_MENU_ID="0";
+    private final static String NULL_MENU_ID = "0";
 
     /**
      * 功能描述：获取用户登录的信息，以及最初始的导航栏
@@ -134,7 +138,9 @@ public class UserInfoRestController extends BaseController {
         password = MD5Utils.encode(password);
         //注册时生成默认头像
         String facePath = UserConstant.DEFAULT_FACE;
-        userInfoService.addNewUser(username, password, facePath);
+        // 根据默认角色查询角色id
+        Integer roleId=roleService.getRoleIdByType(UserConstant.DEFAULT_REGISTER_ROLE_TYPE);
+        userInfoService.addNewUser(username, password, facePath, roleId);
         return BaseResponse.ok();
     }
 

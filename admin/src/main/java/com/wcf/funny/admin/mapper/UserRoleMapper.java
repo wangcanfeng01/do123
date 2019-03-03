@@ -68,8 +68,8 @@ public interface UserRoleMapper {
     @Select("SELECT id, role_name as roleName, role_type as roleType, role_auth as roleAuth,role_auth as roleMenu," +
             " role_creator as roleCreator, create_time as createTime, update_time as updateTime, description" +
             " FROM info_role")
-     @Results({@Result(property ="menuInfos",column="roleMenu"
-            ,many =@Many(select ="com.wcf.funny.admin.mapper.MenuInfoMapper.simpleMenuByIds"))})
+    @Results({@Result(property = "menuInfos", column = "roleMenu"
+            , many = @Many(select = "com.wcf.funny.admin.mapper.MenuInfoMapper.simpleMenuByIds"))})
     List<UserRole> getRoleList();
 
 
@@ -85,8 +85,8 @@ public interface UserRoleMapper {
     @Select("SELECT id, role_name as roleName, role_type as roleType, role_auth as roleAuth,role_auth as roleMenu," +
             " role_creator as roleCreator, create_time as createTime, update_time as updateTime, description" +
             " FROM info_role")
-    @Results({@Result(property ="menuInfos",column="roleMenu"
-            ,many =@Many(select ="com.wcf.funny.admin.mapper.MenuInfoMapper.simpleMenuWithAuthByIds"))})
+    @Results({@Result(property = "menuInfos", column = "roleMenu"
+            , many = @Many(select = "com.wcf.funny.admin.mapper.MenuInfoMapper.simpleMenuWithAuthByIds"))})
     List<UserRole> getRoleListWithAuth();
 
     /**
@@ -103,13 +103,14 @@ public interface UserRoleMapper {
 
     /**
      * 功能描述：  查询简单的角色列表信息
-     *@author wangcanfeng
-     *@time 2019/2/3 14:08
-     *@since v1.0
+     *
      * @param ids
-     *@return java.util.List<com.wcf.funny.admin.entity.SimpleRoleInfo>
+     * @return java.util.List<com.wcf.funny.admin.entity.SimpleRoleInfo>
+     * @author wangcanfeng
+     * @time 2019/2/3 14:08
+     * @since v1.0
      **/
-    @SelectProvider(type = RoleInfoProvider.class,method = "simpleRoleByIdsSQL")
+    @SelectProvider(type = RoleInfoProvider.class, method = "simpleRoleByIdsSQL")
     List<SimpleRoleInfo> simpleRoleByIds(@Param("ids") String ids);
 
     /**
@@ -136,8 +137,8 @@ public interface UserRoleMapper {
     @Update("update info_role set role_name=#{roleName},role_type=#{roleType},role_auth=#{roleAuth}, " +
             " role_creator=#{roleCreator},update_time=#{updateTime}, description=#{description} where id=#{id}")
     int updateRoleById(UserRole role);
-    
-    
+
+
     /**
      * 功能描述：  根据角色id获取角色关联的菜单id串
      *
@@ -149,4 +150,15 @@ public interface UserRoleMapper {
      **/
     @Select("SELECT role_auth as roleAuth FROM info_role where id in (#{ids})")
     List<String> getRoleRelatedMenuByIds(String ids);
+
+    /**
+     * 功能描述：  根据角色类型查询角色id
+     *
+     * @param roleType
+     * @author wangcanfeng
+     * @time 2019/3/3 11:33
+     * @since v1.0
+     **/
+    @Select("SELECT id FROM info_role where role_type=#{roleType}")
+    Integer getRoleIdByType(String roleType);
 }
