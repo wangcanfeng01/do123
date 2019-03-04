@@ -1,8 +1,5 @@
 package com.wcf.funny.core.annotation;
 
-import com.wcf.funny.core.constant.ActionObject;
-import com.wcf.funny.core.constant.ActionType;
-
 import java.lang.annotation.*;
 
 /**
@@ -20,14 +17,14 @@ public @interface OperationLog {
      *
      * @return
      */
-    ActionType action();
+    String action();
 
     /**
      * 操作对象
      *
      * @return
      */
-    ActionObject object();
+    String object();
 
     /**
      * 操作内容信息

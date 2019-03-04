@@ -1,4 +1,4 @@
-package com.wcf.funny.config.datasource;
+package com.wcf.funny.config.source;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import org.springframework.beans.factory.annotation.Value;

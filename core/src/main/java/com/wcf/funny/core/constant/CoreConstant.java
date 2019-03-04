@@ -6,8 +6,7 @@ package com.wcf.funny.core.constant;
  * @function 核心常量
  **/
 public class CoreConstant {
-    //访客
-    public final static String GUEST = "guest";
+
     //文件大小1MB
     public final static long MB = 1048576;
     /**
@@ -27,10 +26,12 @@ public class CoreConstant {
     /**
      * 未知的远程地址
      */
-    public final static String UNKNOWN_ADDRESS="unknown";
+    public final static String UNKNOWN_ADDRESS = "unknown";
 
     /**
      * 这个id对应的菜单是不存在的
      */
-    public final static String NULL_MENU_ID="0";
+    public final static String NULL_MENU_ID = "0";
+
+
 }

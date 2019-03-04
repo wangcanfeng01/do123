@@ -16,7 +16,7 @@ public class OperationLogInfo {
     /**
      * 操作类型
      */
-    private Integer actionType;
+    private String actionType;
 
     /**
      * 操作名
@@ -50,7 +50,7 @@ public class OperationLogInfo {
     private String details;
 
     /**
-     * 操作结果 1表示成功  0表示失败
+     * 操作结果
      */
-    private Integer actionResult;
+    private String actionResult;
 }

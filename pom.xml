@@ -130,6 +130,12 @@
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
+                <artifactId>do123-about</artifactId>
+                <version>${do123.funny.video}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wcf.funny</groupId>
                 <artifactId>do123-home</artifactId>
                 <version>${do123.funny.home}</version>
             </dependency>

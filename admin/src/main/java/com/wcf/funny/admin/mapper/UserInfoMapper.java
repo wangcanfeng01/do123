@@ -37,8 +37,10 @@ public interface UserInfoMapper {
      *@return com.wcf.hellohome.user.model.UserInfo
      **/
     @Select("select id, name as username,password,face_path as facePath,register_time as registerTime, " +
-            "update_time as updateTime, user_level as userLevel, role, introduce, score, is_enable as isEnable" +
+            "update_time as updateTime, user_level as userLevel, role, role as userRole, introduce, score, is_enable as isEnable" +
             " from info_user where name = #{name}")
+    @Results({@Result(property ="roleInfos",column="userRole"
+            ,many =@Many(select ="com.wcf.funny.admin.mapper.UserRoleMapper.simpleRoleByIds"))})
     UserInfo getUserByName(String name);
 
 

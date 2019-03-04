@@ -1,4 +1,4 @@
-package com.wcf.funny.about.constant;
+package com.wcf.funny.about.exception.errorcode;
 
 import com.wcf.funny.core.exception.errorcode.CoreCode;
 
@@ -9,7 +9,7 @@ import com.wcf.funny.core.exception.errorcode.CoreCode;
  **/
 public enum VersionErrorCode implements CoreCode {
     //插入版本信息异常
-    INSERT_VERSION_ERROR("00000005", "Insert version info into database failed"),
+    INSERT_VERSION_ERROR("0x00100001", "Insert version info into database failed"),
     //搜索版本信息异常
     SELECT_VERSION_ERROR("00000006", "Select version info from database failed"),
     //更新版本信息异常

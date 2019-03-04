@@ -83,13 +83,13 @@ public class OperationLogController {
         for (OperationLogInfo logInfo : logList) {
             OpsLogVo vo = new OpsLogVo();
             vo.setId(logInfo.getId());
-            vo.setActionType(I18Utils.getOpsTypeInfo(logInfo.getActionType()));
+            vo.setActionType(I18Utils.getOpsType(logInfo.getActionType()));
             vo.setAuthorName(logInfo.getAuthorName());
-            vo.setActionObject(I18Utils.getOpsObejctInfo(logInfo.getActionObject()));
+            vo.setActionObject(I18Utils.getOpsObject(logInfo.getActionObject()));
             vo.setIp(logInfo.getIp());
             vo.setCreateTime(FunnyTimeUtils.getTimeByUnixTime(logInfo.getCreateTime()));
             vo.setActionInfo(I18Utils.getOpsInfo(logInfo.getActionInfo()));
-            vo.setActionResult(I18Utils.getOpsResultInfo(logInfo.getActionResult()));
+            vo.setActionResult(I18Utils.getOpsResult(logInfo.getActionResult()));
             vo.setDetails(logInfo.getDetails());
             vo.setFacePath(logInfo.getFacePath());
             opsVos.add(vo);

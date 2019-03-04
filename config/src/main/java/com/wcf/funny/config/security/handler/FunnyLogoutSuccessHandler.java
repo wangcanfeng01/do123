@@ -2,9 +2,7 @@ package com.wcf.funny.config.security.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.wcf.funny.core.annotation.FunnyHandler;
-import com.wcf.funny.core.constant.ActionObject;
-import com.wcf.funny.core.constant.ActionResult;
-import com.wcf.funny.core.constant.ActionType;
+import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.exception.errorcode.CommonCode;
 import com.wcf.funny.core.entity.OperationLogInfo;
 import com.wcf.funny.core.service.OperationLogService;
@@ -50,10 +48,10 @@ public class FunnyLogoutSuccessHandler implements LogoutSuccessHandler {
             log.error("logout failed, the details: " + e.getMessage());
         } finally {
             OperationLogInfo info = new OperationLogInfo();
-            info.setActionResult(ActionResult.SUCCESS.getCode());
-            info.setActionObject(ActionObject.USER.getObject());
+            info.setActionResult(LogConstant.ActionResult.SUCCESS);
+            info.setActionObject(LogConstant.ActionObject.USER);
             info.setIp(request.getRemoteHost());
-            info.setActionType(ActionType.LOGOUT.getCode());
+            info.setActionType(LogConstant.ActionType.LOGOUT);
             info.setDetails("");
             info.setCreateTime(FunnyTimeUtils.nowUnix());
             info.setAuthorName(request.getRemoteUser());

@@ -3,9 +3,7 @@ package com.wcf.funny.config.security.handler;
 import com.alibaba.fastjson.JSON;
 import com.wcf.funny.config.exception.UserAuthException;
 import com.wcf.funny.core.annotation.FunnyHandler;
-import com.wcf.funny.core.constant.ActionObject;
-import com.wcf.funny.core.constant.ActionResult;
-import com.wcf.funny.core.constant.ActionType;
+import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.entity.OperationLogInfo;
 import com.wcf.funny.core.service.OperationLogService;
 import com.wcf.funny.core.reponse.BaseResponse;
@@ -55,10 +53,10 @@ public class FunnyAuthenticationFailureHandler extends SimpleUrlAuthenticationFa
             writer.append(json);
         }finally {
             OperationLogInfo info = new OperationLogInfo();
-            info.setActionResult(ActionResult.FAIL.getCode());
-            info.setActionObject(ActionObject.USER.getObject());
+            info.setActionResult(LogConstant.ActionResult.FAILED);
+            info.setActionObject(LogConstant.ActionObject.USER);
             info.setIp(request.getRemoteHost());
-            info.setActionType(ActionType.LOGIN.getCode());
+            info.setActionType(LogConstant.ActionType.LOGIN);
             info.setDetails("");
             info.setCreateTime(FunnyTimeUtils.nowUnix());
             info.setAuthorName(request.getRemoteUser());

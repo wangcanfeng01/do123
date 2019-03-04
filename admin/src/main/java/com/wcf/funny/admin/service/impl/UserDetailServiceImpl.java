@@ -41,6 +41,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
         // 读取权限信息
         List<GrantedAuthority> authorities = new ArrayList<>();
         if (!ObjectUtils.isEmpty(info.getRoleInfos())) {
+            // 获取登录用户的角色列表
             info.getRoleInfos().forEach(simpleRoleInfo -> {
                 SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(simpleRoleInfo.getRoleType());
                 authorities.add(simpleGrantedAuthority);

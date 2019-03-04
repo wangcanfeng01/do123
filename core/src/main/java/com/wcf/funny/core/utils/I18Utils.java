@@ -1,6 +1,10 @@
 package com.wcf.funny.core.utils;
 
+import com.wcf.funny.core.constant.LogConstant;
+import org.springframework.context.MessageSource;
 import org.springframework.util.ObjectUtils;
+
+import java.util.Locale;
 
 /**
  * @author wangcanfeng
@@ -8,67 +12,109 @@ import org.springframework.util.ObjectUtils;
  * @function 多语言转换工具
  **/
 public class I18Utils {
+
+    private static MessageSource source;
+
+    /**
+     * 功能描述：  使用多语言方法时，必须要先注入一个多语言资源，否则无法获取多语言信息
+     *
+     * @param messageSource
+     * @author wangcanfeng
+     * @time 2019/3/4 22:22
+     * @since v1.0
+     **/
+    public static void setMessageSource(MessageSource messageSource) {
+        source = messageSource;
+    }
+
     /**
      * 功能描述：  根据编码获取对应当前语言环境的操作类型值
-     *@author wangcanfeng
-     *@time 2019/2/3 21:00
-     *@since v1.0
+     *
      * @param code
-     *@return java.lang.String
+     * @return java.lang.String
+     * @author wangcanfeng
+     * @time 2019/2/3 21:00
+     * @since v1.0
      **/
-    public static String getOpsTypeInfo(Object code){
-        if(ObjectUtils.isEmpty(code)){
+    public static String getOpsType(String code) {
+        if (ObjectUtils.isEmpty(code)) {
             return "";
         }
-        return code.toString();
+        return getLogMessage(code, LogConstant.ACTION_TYPE_PREFIX);
     }
 
     /**
      * 功能描述：  根据编码获取对应当前语言环境的操作对象值
-     *@author wangcanfeng
-     *@time 2019/2/3 21:00
-     *@since v1.0
+     *
      * @param code
-     *@return java.lang.String
+     * @return java.lang.String
+     * @author wangcanfeng
+     * @time 2019/2/3 21:00
+     * @since v1.0
      **/
-    public static String getOpsObejctInfo(Object code){
-        if(ObjectUtils.isEmpty(code)){
+    public static String getOpsObject(String code) {
+        if (ObjectUtils.isEmpty(code)) {
             return "";
         }
-        return code.toString();
+        return getLogMessage(code, LogConstant.ACTION_OBJECT_PREFIX);
     }
 
     /**
      * 功能描述：  根据编码获取对应当前语言环境的操作结果值
-     *@author wangcanfeng
-     *@time 2019/2/3 21:00
-     *@since v1.0
+     *
      * @param code
-     *@return java.lang.String
+     * @return java.lang.String
+     * @author wangcanfeng
+     * @time 2019/2/3 21:00
+     * @since v1.0
      **/
-    public static String getOpsResultInfo(Object code){
-        if(ObjectUtils.isEmpty(code)){
+    public static String getOpsResult(String code) {
+        if (ObjectUtils.isEmpty(code)) {
             return "";
         }
-        if(code.equals(1)){
-            return "成功";
-        }else {
-            return "失败";
-        }
+        return getLogMessage(code, LogConstant.ACTION_RESULT_PREFIX);
     }
 
     /**
      * 功能描述：  根据编码获取对应当前语言环境的操作内容值
-     *@author wangcanfeng
-     *@time 2019/2/3 21:00
-     *@since v1.0
+     *
      * @param code
-     *@return java.lang.String
+     * @return java.lang.String
+     * @author wangcanfeng
+     * @time 2019/2/3 21:00
+     * @since v1.0
      **/
-    public static String getOpsInfo(Object code){
-        if(ObjectUtils.isEmpty(code)){
+    public static String getOpsInfo(String code) {
+        if (ObjectUtils.isEmpty(code)) {
             return "";
         }
         return code.toString();
+    }
+
+    /**
+     * 功能描述：根据错误码code获取翻译信息
+     *
+     * @param code
+     * @author wangcanfeng
+     * @time 2019/3/4 23:19
+     * @since v1.0
+     **/
+    public static String getErrorMessage(String code) {
+        String key = code;
+        return source.getMessage(key, new Object[]{}, Locale.SIMPLIFIED_CHINESE);
+    }
+
+    /**
+     * 功能描述：根据前缀和编码获取日志相关的翻译
+     *
+     * @param code
+     * @param prefix
+     * @author wangcanfeng
+     * @time 2019/3/4 23:19
+     * @since v1.0
+     **/
+    public static String getLogMessage(String code, String prefix) {
+        String key = prefix + code;
+        return source.getMessage(key, new Object[]{}, Locale.SIMPLIFIED_CHINESE);
     }
 }

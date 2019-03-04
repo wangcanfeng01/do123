@@ -1,7 +1,7 @@
 package com.wcf.funny.core.annotation.aspect;
 
 import com.wcf.funny.core.annotation.OperationLog;
-import com.wcf.funny.core.constant.ActionResult;
+import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.entity.OperationLogInfo;
 import com.wcf.funny.core.service.OperationLogService;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
@@ -59,10 +59,10 @@ public class OperationLogAspect {
             //获取到注解对应的方法
             Method method = signature.getMethod();
             OperationLog operationLog = method.getAnnotation(OperationLog.class);
+            Object obj = point.proceed();
             if (operationLog != null) {
                 logInfo = getLog(operationLog);
             }
-            Object obj = point.proceed();
             if (!ObjectUtils.isEmpty(logInfo)) {
                 operationLogService.insertLog(logInfo);
             }
@@ -89,7 +89,7 @@ public class OperationLogAspect {
         OperationLogInfo logInfo = null;
         if (operationLog != null) {
             logInfo = getLog(operationLog);
-            logInfo.setActionResult(ActionResult.FAIL.getCode());
+            logInfo.setActionResult(LogConstant.ActionResult.FAILED);
             operationLogService.insertLog(logInfo);
         }
     }
@@ -112,10 +112,10 @@ public class OperationLogAspect {
         logInfo.setCreateTime(FunnyTimeUtils.nowUnix());
         //设置操作类型
         if (!ObjectUtils.isEmpty(operationLog.action())) {
-            logInfo.setActionType(operationLog.action().getCode());
+            logInfo.setActionType(operationLog.action());
         }
         //默认操作结果为成功
-        logInfo.setActionResult(ActionResult.SUCCESS.getCode());
+        logInfo.setActionResult(LogConstant.ActionResult.SUCCESS);
         logInfo.setActionInfo(operationLog.info());
         String details = RequestUtils.getActionDetails();
         if (ObjectUtils.isEmpty(details)) {
@@ -124,7 +124,7 @@ public class OperationLogAspect {
             logInfo.setDetails(details);
         }
         logInfo.setIp(request.getRemoteHost());
-        logInfo.setActionObject(operationLog.object().getObject());
+        logInfo.setActionObject(operationLog.object());
         return logInfo;
     }
 }

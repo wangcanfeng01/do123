@@ -5,7 +5,6 @@ import com.wcf.funny.admin.constant.AdminConstant;
 import com.wcf.funny.admin.constant.UserConstant;
 import com.wcf.funny.admin.entity.UserInfo;
 import com.wcf.funny.admin.entity.UserRelatedMenu;
-import com.wcf.funny.admin.exception.UserException;
 import com.wcf.funny.admin.exception.errorcode.UploadErrorCode;
 import com.wcf.funny.admin.exception.errorcode.UserErrorCode;
 import com.wcf.funny.admin.service.MenuInfoService;
@@ -15,10 +14,8 @@ import com.wcf.funny.admin.vo.UserMenuAuthVo;
 import com.wcf.funny.admin.vo.UserInfoVo;
 import com.wcf.funny.admin.vo.req.UserInfoReq;
 import com.wcf.funny.core.annotation.OperationLog;
-import com.wcf.funny.core.constant.ActionInfo;
-import com.wcf.funny.core.constant.ActionObject;
-import com.wcf.funny.core.constant.ActionType;
 import com.wcf.funny.core.constant.CoreConstant;
+import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.controller.BaseController;
 import com.wcf.funny.core.entity.CodeAndName;
 import com.wcf.funny.core.entity.PictureUploadInfo;
@@ -36,7 +33,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -131,7 +127,7 @@ public class UserInfoRestController extends BaseController {
      * @Description 注册新用户
      **/
     @PostMapping("/register")
-    @OperationLog(action = ActionType.REGISTER, object = ActionObject.USER)
+    @OperationLog(action = LogConstant.ActionType.REGISTER, object = LogConstant.ActionObject.USER)
     public BaseResponse register(HttpServletRequest request) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
@@ -154,7 +150,7 @@ public class UserInfoRestController extends BaseController {
      * @since v1.0
      **/
     @PostMapping("/add")
-    @OperationLog(action = ActionType.ADD, object = ActionObject.USER)
+    @OperationLog(action = LogConstant.ActionType.ADD, object = LogConstant.ActionObject.USER)
     public BaseResponse addUser(@RequestBody UserInfoReq user) {
         UserInfo info = new UserInfo();
         info.setUsername(user.getUsername());
@@ -184,7 +180,7 @@ public class UserInfoRestController extends BaseController {
      * @since v1.0
      **/
     @PutMapping("/status/{id}/{isEnable}")
-    @OperationLog(action = ActionType.UPDATE, object = ActionObject.USER, info = ActionInfo.User.CHANGE_USER_STATUS)
+    @OperationLog(action = LogConstant.ActionType.UPDATE, object = LogConstant.ActionObject.USER, info = LogConstant.ActionInfo.CHANGE_USER_STATUS)
     public BaseResponse changeUserStatus(@PathVariable("isEnable") Integer isEnable, @PathVariable("id") Integer id) {
         userInfoService.changeStatus(isEnable, id);
         return BaseResponse.ok();
@@ -200,7 +196,7 @@ public class UserInfoRestController extends BaseController {
      * @since v1.0
      **/
     @PutMapping("/modify/role")
-    @OperationLog(action = ActionType.UPDATE, object = ActionObject.USER, info = ActionInfo.User.UPDATE_USER_ROLE)
+    @OperationLog(action = LogConstant.ActionType.UPDATE, object = LogConstant.ActionObject.USER, info = LogConstant.ActionInfo.UPDATE_USER_ROLE)
     public BaseResponse modifyBase(@RequestBody UserInfoReq req) {
         String role = ConvertIdUtils.getString(req.getRole());
         userInfoService.changeRole(role, req.getId());
@@ -217,7 +213,7 @@ public class UserInfoRestController extends BaseController {
      * @since v1.0
      **/
     @PutMapping("/resetPass/{id}")
-    @OperationLog(action = ActionType.UPDATE, object = ActionObject.USER, info = ActionInfo.User.RESET_USER_PASSWORD)
+    @OperationLog(action = LogConstant.ActionType.UPDATE, object = LogConstant.ActionObject.USER, info = LogConstant.ActionInfo.RESET_USER_PASSWORD)
     public BaseResponse resetPass(@PathVariable("id") Integer id) {
         String password = MD5Utils.encode(UserConstant.DEFAULT_PASSWORD);
         userInfoService.changePassword(password, id);

@@ -1,6 +1,6 @@
 package com.wcf.funny.about.service.impl;
 
-import com.wcf.funny.about.constant.VersionErrorCode;
+import com.wcf.funny.about.exception.errorcode.VersionErrorCode;
 import com.wcf.funny.about.entity.VersionInfo;
 import com.wcf.funny.about.mapper.VersionInfoMapper;
 import com.wcf.funny.about.service.VersionInfoService;
@@ -49,6 +49,73 @@ public class VersionInfoServiceImpl implements VersionInfoService {
         }
     }
 
+    /**
+     * 功能描述： 插入新的版本信息
+     *
+     * @param version
+     * @param des
+     * @param author
+     * @author wangcanfeng
+     * @time 2019/3/3 16:23
+     * @since v1.0
+     **/
+    @Override
+    public void insertVersion(String version, String des, String author) {
+        try {
+            VersionInfo info = new VersionInfo();
+            info.setAuthor(author);
+            info.setDescription(des);
+            info.setModifyTime(FunnyTimeUtils.nowUnix());
+            info.setPublishTime(FunnyTimeUtils.nowUnix());
+            info.setVersion(version);
+            versionInfoMapper.insertVersion(info);
+        } catch (Exception e) {
+            throw new PgSqlException(VersionErrorCode.INSERT_VERSION_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  根据id删除版本信息
+     *
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/3/3 16:23
+     * @since v1.0
+     **/
+    @Override
+    public void deleteVersionById(Integer id) {
+        try {
+            versionInfoMapper.deleteVersionById(id);
+        } catch (Exception e) {
+            throw new PgSqlException(VersionErrorCode.DELETE_VERSION_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  修改版本信息内容
+     *
+     * @param version
+     * @param des
+     * @param author
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/3/3 16:25
+     * @since v1.0
+     **/
+    @Override
+    public void modifyVersion(String version, String des, String author, Integer id) {
+        try {
+            VersionInfo info = new VersionInfo();
+            info.setId(id);
+            info.setAuthor(author);
+            info.setDescription(des);
+            info.setModifyTime(FunnyTimeUtils.nowUnix());
+            info.setVersion(version);
+            versionInfoMapper.modifyVersion(info);
+        } catch (Exception e) {
+            throw new PgSqlException(VersionErrorCode.UPDATE_VERSION_ERROR, e);
+        }
+    }
 
     /**
      * 功能描述：  将版本信息转成视图信息

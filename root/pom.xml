@@ -13,16 +13,16 @@
 
     <dependencies>
         <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
-            <!--<exclusions>-->
-                <!--<exclusion>-->
-                    <!--<groupId>org.springframework.boot</groupId>-->
-                    <!--<artifactId>spring-boot-starter-logging</artifactId>-->
-                <!--</exclusion>-->
-            <!--</exclusions>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-thymeleaf</artifactId>-->
+        <!--<exclusions>-->
+        <!--<exclusion>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-logging</artifactId>-->
+        <!--</exclusion>-->
+        <!--</exclusions>-->
         <!--</dependency>-->
-        
+
         <dependency>
             <groupId>com.wcf.funny</groupId>
             <artifactId>do123-admin</artifactId>
@@ -31,6 +31,11 @@
         <dependency>
             <groupId>com.wcf.funny</groupId>
             <artifactId>do123-blog</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.wcf.funny</groupId>
+            <artifactId>do123-about</artifactId>
         </dependency>
 
         <dependency>

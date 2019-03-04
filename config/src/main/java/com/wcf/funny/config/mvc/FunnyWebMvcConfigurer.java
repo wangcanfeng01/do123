@@ -37,11 +37,15 @@ public class FunnyWebMvcConfigurer implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/index.html").addResourceLocations("classpath:/templates/index.html");
+        registry.addResourceHandler("/highlightjs/**").addResourceLocations("classpath:/highlightjs/");
+        registry.addResourceHandler("/katex/**").addResourceLocations("classpath:/katex/");
+        registry.addResourceHandler("/markdown/**").addResourceLocations("classpath:/markdown/");
         registry.addResourceHandler("/static/css/**").addResourceLocations("classpath:/static/css/");
         registry.addResourceHandler("/static/fonts/**").addResourceLocations("classpath:/static/fonts/");
         registry.addResourceHandler("/static/img/**").addResourceLocations("classpath:/static/img/");
         registry.addResourceHandler("/static/js/**").addResourceLocations("classpath:/static/js/");
         //静态图片资源存放路径映射
+        registry.addResourceHandler("/favicon.ico").addResourceLocations("classpath:/favicon.ico");
         registry.addResourceHandler("/upload/image/face/**").addResourceLocations("classpath:/upload/image/face/");
         registry.addResourceHandler("/upload/image/article/**").addResourceLocations("classpath:/upload/image/article/");
         registry.addResourceHandler("/upload/image/cover/article/**").addResourceLocations("classpath:/upload/image/cover/article/");

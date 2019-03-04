@@ -43,14 +43,15 @@ public class FunnyAccessDecisionManager implements AccessDecisionManager {
         //获取到传入的角色列表信息，然后和库里面的信息进行对比
         //authentication是登录角色传入的角色信息
         //和从数据库加载的角色列表configAttributes做比较，判断是否有符合条件的角色信息
-        configAttributes.forEach(configAttribute -> {
+        for(ConfigAttribute configAttribute:configAttributes){
             String needRole = configAttribute.getAttribute();
-            authentication.getAuthorities().forEach(authority -> {
+            for(GrantedAuthority authority:authentication.getAuthorities()){
                 if (needRole.equals(authority.getAuthority())) {
+                    //这里需要注意，foreach中的return只是退出了循环，并没有使得整个方法完成,所以采用了for
                     return;
                 }
-            });
-        });
+            }
+        }
         //这里放自定义异常，可以将权限出错后跳转到自定义的无权限页面
         throw new FunnyAccessDeniedException(ConfigErrorCode.USER_PRIVILEGE_LESS);
     }

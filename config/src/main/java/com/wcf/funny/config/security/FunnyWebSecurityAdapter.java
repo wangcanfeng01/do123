@@ -77,10 +77,11 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
      **/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().disable()
+        http
+                .csrf().disable().cors().disable()
                 .addFilterBefore(securityFilterInterceptor, FilterSecurityInterceptor.class)
                 .authorizeRequests()
-                .antMatchers("/**", "/ui/user/register").permitAll()
+                .antMatchers( "/ui/user/get/login","/ui/user/register").permitAll()
                 //默认首页不做拦截
                 .antMatchers("/", "/home", "/index.html").permitAll()
                 .anyRequest().authenticated().and()
@@ -103,11 +104,15 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/templates/index.html")
+                .and().ignoring().antMatchers("/highlightjs/**")
+                .and().ignoring().antMatchers("/katex/**")
+                .and().ignoring().antMatchers("/markdown/**")
                 .and().ignoring().antMatchers("/static/css/**")
                 .and().ignoring().antMatchers("/static/fonts/**")
                 .and().ignoring().antMatchers("/static/img/**")
                 .and().ignoring().antMatchers("/static/js/**")
 
+                .and().ignoring().antMatchers("/favicon.ico")
                 .and().ignoring().antMatchers("/upload/image/face/**")
                 .and().ignoring().antMatchers("/upload/image/article/**")
                 .and().ignoring().antMatchers("/upload/image/cover/article/**")
