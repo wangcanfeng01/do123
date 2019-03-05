@@ -9,11 +9,13 @@ import com.wcf.funny.blog.vo.CategorySimpleVo;
 import com.wcf.funny.blog.vo.CategoryVo;
 import com.wcf.funny.blog.vo.KeywordVo;
 import com.wcf.funny.blog.vo.req.CategoryReq;
+import com.wcf.funny.core.annotation.OperationLog;
 import com.wcf.funny.core.constant.CoreConstant;
+import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.constant.PictureType;
 import com.wcf.funny.core.entity.PictureUploadInfo;
+import com.wcf.funny.core.exception.ErrorResponse;
 import com.wcf.funny.core.reponse.BaseResponse;
-import com.wcf.funny.core.reponse.ErrorResponse;
 import com.wcf.funny.core.reponse.ListResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import com.wcf.funny.core.service.UploadFileService;
@@ -114,9 +116,11 @@ public class MetaInfoController {
      * @since v1.0
      **/
     @DeleteMapping("/categoryDelete/{id}/{count}")
+    @OperationLog(action = LogConstant.ActionType.DELETE, object = LogConstant.ActionObject.CATEGORY,
+            info = LogConstant.ActionInfo.DELETE_CATEGORY)
     public BaseResponse deleteCategoryById(@PathVariable("id") Integer id, @PathVariable Integer count) {
         if (!count.equals(0)) {
-            return ErrorResponse.error(MetaErrorCode.CATEGORY_DELETE_DISABLE);
+            throw new  ErrorResponse(MetaErrorCode.CATEGORY_DELETE_DISABLE);
         }
         // 只有当专题下面的统计值大于0的时候才真正执行删除操作
         metaInfoService.deleteCategoryById(id);
@@ -124,7 +128,7 @@ public class MetaInfoController {
     }
 
     /**
-     * 功能描述：删除专题，只有当专题下面的数字为0时可以删除
+     * 功能描述：删除关键字，只有当专题下面的数字为0时可以删除
      * 除了提示信息和专题接口不一样，其他都是一样的
      *
      * @param id
@@ -133,9 +137,11 @@ public class MetaInfoController {
      * @since v1.0
      **/
     @DeleteMapping("/keywordDelete/{id}/{count}")
+    @OperationLog(action = LogConstant.ActionType.DELETE, object = LogConstant.ActionObject.KEYWORD,
+            info = LogConstant.ActionInfo.DELETE_KEYWORD)
     public BaseResponse deleteKeywordById(@PathVariable("id") Integer id, @PathVariable Integer count) {
         if (!count.equals(0)) {
-            return ErrorResponse.error(MetaErrorCode.KEYWORD_DELETE_DISABLE);
+            throw new  ErrorResponse(MetaErrorCode.KEYWORD_DELETE_DISABLE);
         }
         // 只有当专题下面的统计值大于0的时候才真正执行删除操作
         metaInfoService.deleteKeywordById(id);
@@ -151,6 +157,8 @@ public class MetaInfoController {
      * @since v1.0
      **/
     @PutMapping("/modify/category")
+    @OperationLog(action = LogConstant.ActionType.UPDATE, object = LogConstant.ActionObject.CATEGORY,
+            info = LogConstant.ActionInfo.MODIFY_CATEGORY)
     public BaseResponse updateCategory(@RequestBody CategoryReq req) {
         MetaInfo info = new MetaInfo();
         info.setId(req.getId());
@@ -171,11 +179,13 @@ public class MetaInfoController {
      * @since v1.0
      **/
     @PostMapping("/add/category")
+    @OperationLog(action = LogConstant.ActionType.ADD, object = LogConstant.ActionObject.CATEGORY,
+            info = LogConstant.ActionInfo.ADD_CATEGORY)
     public BaseResponse addCategory(@RequestBody CategoryReq req) {
         // 先查询一下数据库中是否已经存在该专题信息，如果已经存在，则提示异常信息
-        MetaInfo old = metaInfoService.getMetaByNameAndType(req.getName(),MetaType.CATEGORY.getType());
+        MetaInfo old = metaInfoService.getMetaByNameAndType(req.getName(), MetaType.CATEGORY.getType());
         if (!ObjectUtils.isEmpty(old)) {
-            return ErrorResponse.error(MetaErrorCode.CATEGORY_ALREADY_EXIST);
+            throw new  ErrorResponse(MetaErrorCode.CATEGORY_ALREADY_EXIST);
         }
         MetaInfo info = new MetaInfo();
         info.setCreateTime(FunnyTimeUtils.nowUnix());
@@ -198,6 +208,8 @@ public class MetaInfoController {
      * @since v1.0
      **/
     @PostMapping("/uploadCover/{id}")
+    @OperationLog(action = LogConstant.ActionType.UPLOAD, object = LogConstant.ActionObject.CATEGORY,
+            info = LogConstant.ActionInfo.UPLOAD_CATEGORY_COVER)
     public BaseResponse<String> uploadCover(@RequestParam("file") MultipartFile cover, @PathVariable("id") Integer id) {
         // 先调用工具类，完成专题的封面上传
         PictureUploadInfo info = UploadFileUtils.uploadFace(cover, PictureType.CATEGORY_COVER);

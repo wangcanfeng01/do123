@@ -14,11 +14,13 @@ import com.wcf.funny.blog.vo.ArticlePicInfoVo;
 import com.wcf.funny.blog.vo.ArticleSimpleVo;
 import com.wcf.funny.blog.vo.req.ArticleEditReq;
 import com.wcf.funny.blog.vo.req.ArticleQueryReq;
+import com.wcf.funny.core.annotation.OperationLog;
+import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.constant.PictureType;
 import com.wcf.funny.core.entity.PictureUploadInfo;
+import com.wcf.funny.core.exception.ErrorResponse;
 import com.wcf.funny.core.exception.errorcode.FileUploadErrorCode;
 import com.wcf.funny.core.reponse.BaseResponse;
-import com.wcf.funny.core.reponse.ErrorResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import com.wcf.funny.core.service.UploadFileService;
 import com.wcf.funny.core.utils.*;
@@ -27,7 +29,6 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -125,6 +126,7 @@ public class ArticleInfoController {
      * @since v1.0
      **/
     @PutMapping("/article/addStars")
+    @OperationLog(action = LogConstant.ActionType.STAR, object = LogConstant.ActionObject.ARTICLE, info = LogConstant.ActionInfo.STAR_ARTICLE)
     public BaseResponse addStars(@RequestParam("articleId") Integer articleId, @RequestParam("stars") Integer stars) {
         articleInfoService.updateStarsById(articleId, stars);
         return BaseResponse.ok();
@@ -143,7 +145,7 @@ public class ArticleInfoController {
     public BaseResponse writeArticle(@RequestParam(value = "slug", required = false) String slug) {
         if (ObjectUtils.isEmpty(RequestUtils.getUserName())) {
             // 如果当前用户未登录，直接提示异常信息
-            return ErrorResponse.error(UserErrorCode.LOGIN_USER_INFO_ERROR);
+            throw new  ErrorResponse(UserErrorCode.LOGIN_USER_INFO_ERROR);
         }
         ArticleEditVo vo = null;
         // 当slug参数是空的时候,则直接创建新的文章
@@ -177,11 +179,11 @@ public class ArticleInfoController {
             // 当slug存在时，查询文章信息
             vo = articleInfoService.getArticleEditBySlug(slug);
             if (ObjectUtils.isEmpty(vo)) {
-                return ErrorResponse.error(ArticleErrorCode.ARTICLE_IS_NOT_EXIST);
+                throw new  ErrorResponse(ArticleErrorCode.ARTICLE_IS_NOT_EXIST);
             }
             // 如果当前用户不是作者，提示不能修改
             if (!Objects.equals(RequestUtils.getUserName(), vo.getAuthor())) {
-                return ErrorResponse.error(ArticleErrorCode.ONLY_AUTHOR_CAN_MODIFY);
+                throw new  ErrorResponse(ArticleErrorCode.ONLY_AUTHOR_CAN_MODIFY);
             }
         }
         return new BaseResponse<>(vo);
@@ -189,7 +191,7 @@ public class ArticleInfoController {
 
 
     /**
-     * 功能描述：  根据类型修改文章
+     * 功能描述：  根据类型修改文章,类型为保存或者发布
      *
      * @param req
      * @param type
@@ -198,29 +200,30 @@ public class ArticleInfoController {
      * @since v1.0
      **/
     @PutMapping("/article/modify/{type}")
+    @OperationLog(action = LogConstant.ActionType.SAVE, object = LogConstant.ActionObject.ARTICLE,
+            info = LogConstant.ActionInfo.MODIFY_ARTICLE)
     public BaseResponse modifyArticle(@RequestBody ArticleEditReq req, @PathVariable("type") String type) {
         // 判断文章提交的类型，是保存还是发布，保存的话不修改文章的状态
         ArticleInfo info = new ArticleInfo();
+        info.setId(req.getId());
         if (ArticlePublishStatus.PUBLISH.getStatus().equals(type)) {
             info.setStatus(type);
-        } else if (ArticlePublishStatus.DRAFT.getStatus().equals(type)) {
-            info.setStatus(type);
-        } else {
-            return ErrorResponse.error(ArticleErrorCode.UNSUPPROTED_POST_METHOD);
+            //调用静态方法，修改注解中的操作类型
+            RequestUtils.setActionType(LogConstant.ActionType.PUBLISH);
         }
         //根据id查询原文信息
         ArticleInfoVo source = articleInfoService.getArticleById(req.getId());
         if (ObjectUtils.isEmpty(source)) {
             // 提示原文不存在
-            return ErrorResponse.error(ArticleErrorCode.ARTICLE_IS_NOT_EXIST);
+            throw new ErrorResponse(ArticleErrorCode.ARTICLE_IS_NOT_EXIST);
         }
         // 如果当前用户不是作者，提示不能修改
         if (!Objects.equals(RequestUtils.getUserName(), source.getAuthor())) {
-            return ErrorResponse.error(ArticleErrorCode.ONLY_AUTHOR_CAN_MODIFY);
+            throw new  ErrorResponse(ArticleErrorCode.ONLY_AUTHOR_CAN_MODIFY);
         }
         // 判断专题信息是否为空
         if (ObjectUtils.isEmpty(req.getCategory())) {
-            return ErrorResponse.error(ArticleErrorCode.CATEGORY_NULL_ERROR);
+            throw new  ErrorResponse(ArticleErrorCode.CATEGORY_NULL_ERROR);
         }
         info.setKeywords(ConvertIdUtils.getKeywordString(req.getKeywords()));
         info.setCategory(req.getCategory());
@@ -238,6 +241,7 @@ public class ArticleInfoController {
         } else {
             info.setAllowComment(CommentEnableStatus.NO_COMMENT.getStatus());
         }
+        info.setText(req.getText());
         // 统计文章内字数
         info.setWords(countArticleWords(req.getText()));
         // 更新标签的计数值
@@ -257,7 +261,10 @@ public class ArticleInfoController {
      * @since v1.0
      **/
     @PostMapping("/articlePic/upload/{id}")
-    public BaseResponse<ArticlePicInfoVo> uploadPicInfo(@RequestParam("image") MultipartFile picture, @PathVariable(value = "id") Integer id) {
+    @OperationLog(action = LogConstant.ActionType.UPLOAD, object = LogConstant.ActionObject.ARTICLE,
+            info = LogConstant.ActionInfo.UPLOAD_ARTICLE_PICTURE)
+    public BaseResponse<ArticlePicInfoVo> uploadPicInfo(@RequestParam("image") MultipartFile picture,
+                                                        @PathVariable(value = "id") Integer id) {
         // 先调用工具类，完成专题的封面上传
         PictureUploadInfo info = UploadFileUtils.uploadFace(picture, PictureType.ARTICLE_INFO);
         info.setBelongTo(id);
@@ -271,10 +278,12 @@ public class ArticleInfoController {
     }
 
     @DeleteMapping("articlePic/delete")
+    @OperationLog(action = LogConstant.ActionType.DELETE, object = LogConstant.ActionObject.ARTICLE,
+            info = LogConstant.ActionInfo.DELETE_ARTICLE_PICTURE)
     public BaseResponse deletePicInfo(@RequestParam("path") String path) {
         //先删除数据库中的图片，再删除实体图片
         if (ObjectUtils.isEmpty(path)) {
-            return ErrorResponse.error(FileUploadErrorCode.FILE_PATH_NULL);
+            throw new  ErrorResponse(FileUploadErrorCode.FILE_PATH_NULL);
         }
         String[] infos = path.split("/");
         int len = infos.length;
@@ -374,7 +383,7 @@ public class ArticleInfoController {
             return 0;
         }
         // 移除多余的空格
-        text=text.replaceAll("[ ]+", " ");
+        text = text.replaceAll("[ ]+", " ");
         // 获取字符串总长度
         int total = text.length();
         // 去掉中文字符

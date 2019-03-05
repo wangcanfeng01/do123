@@ -158,7 +158,6 @@ public interface ArticleInfoMapper {
      * @time 2019/2/23 22:53
      * @since v1.0
      **/
-    @Update("UPDATE info_article SET title=#{title},modify_time=#{modifyTime},text=#{text},keywords=#{keywords}, categories=#{category}, " +
-            "allow_comment=#{allowComment}, allow_see=#{allowSee}, words=#{words}, status=#{status}  WHERE id = #{id}")
+    @UpdateProvider(type = ArticleInfoProvider.class, method = "getModifyArticleSQL")
     void modifyArticleInfoById(ArticleInfo info);
 }

@@ -19,9 +19,9 @@ import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.controller.BaseController;
 import com.wcf.funny.core.entity.CodeAndName;
 import com.wcf.funny.core.entity.PictureUploadInfo;
+import com.wcf.funny.core.exception.ErrorResponse;
 import com.wcf.funny.core.exception.errorcode.CommonCode;
 import com.wcf.funny.core.reponse.BaseResponse;
-import com.wcf.funny.core.reponse.ErrorResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import com.wcf.funny.core.utils.ConvertIdUtils;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
@@ -74,7 +74,7 @@ public class UserInfoRestController extends BaseController {
         StringBuilder sb = new StringBuilder();
         if (ObjectUtils.isEmpty(relatedMenu)) {
             // 如果是查询不到的用户则直接报错
-            return ErrorResponse.error(UserErrorCode.LOGIN_USER_INFO_ERROR);
+            throw new  ErrorResponse(UserErrorCode.LOGIN_USER_INFO_ERROR);
         }
         if (ObjectUtils.isEmpty(relatedMenu.getMenuIds())) {
             sb.append(NULL_MENU_ID);

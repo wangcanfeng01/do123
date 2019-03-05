@@ -3,6 +3,7 @@ package com.wcf.funny.config.exception;
 import com.wcf.funny.core.exception.BaseException;
 import com.wcf.funny.core.exception.PgSqlException;
 import com.wcf.funny.core.reponse.BaseResponse;
+import com.wcf.funny.core.utils.I18Utils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -27,7 +28,9 @@ public class GlobalRestExceptionHandler {
     @ExceptionHandler(value = {BaseException.class})
     public BaseResponse unknownException(BaseException e) {
         log.error("error details :" + e.getMessage());
-        return new BaseResponse(e.getCode(), e.getMessage());
+        //传往前端的信息做一下多语言翻译
+        String message = I18Utils.getErrorMessage(e.getCode(), e.getMessage());
+        return new BaseResponse(e.getCode(), message);
     }
 
     /**

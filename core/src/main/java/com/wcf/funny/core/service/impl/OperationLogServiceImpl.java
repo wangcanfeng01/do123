@@ -7,6 +7,7 @@ import com.wcf.funny.core.exception.errorcode.LogErrorCode;
 import com.wcf.funny.core.entity.OperationLogInfo;
 import com.wcf.funny.core.mapper.OperationLogMapper;
 import com.wcf.funny.core.service.OperationLogService;
+import com.wcf.funny.core.utils.RequestUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,9 @@ public class OperationLogServiceImpl implements OperationLogService {
             logMapper.insertLog(logInfo);
         } catch (Exception e) {
             throw new PgSqlException(LogErrorCode.INSERT_OPERATION_ERROR, e);
+        }finally {
+            //清除本地变量中的操作信息
+            RequestUtils.clearAll();
         }
     }
 

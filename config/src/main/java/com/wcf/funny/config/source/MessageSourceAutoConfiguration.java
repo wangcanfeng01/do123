@@ -32,7 +32,8 @@ public class MessageSourceAutoConfiguration {
     @ConditionalOnMissingBean
     public ReloadableResourceBundleMessageSource messageSource() {
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-        messageSource.setBasename(path);
+        String[] paths=path.split(";");
+        messageSource.setBasenames(paths);
         messageSource.setDefaultEncoding("UTF-8");
         messageSource.setUseCodeAsDefaultMessage(true);
         messageSource.setFallbackToSystemLocale(false);

@@ -1,6 +1,7 @@
 package com.wcf.funny.core.utils;
 
 import com.wcf.funny.core.constant.CoreConstant;
+import com.wcf.funny.core.entity.OperationLogInfo;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -14,30 +15,38 @@ import javax.servlet.http.HttpServletResponse;
  * @function 请求处理工具类
  **/
 public class RequestUtils {
-    private static ThreadLocal<HttpServletResponse> response = new ThreadLocal<>();
-
-    private static ThreadLocal<HttpServletRequest> request = new ThreadLocal<>();
-
     /**
-     * 操作详情
+     * 操作日志信息
      */
-    private static ThreadLocal<String> actionDetails = new ThreadLocal<>();
+    private static ThreadLocal<OperationLogInfo> localLog = new ThreadLocal<>();
 
     /**
-     * 功能描述：  设置操作详情
+     * 功能描述：  设置操作日志对象
      *
-     * @param details
+     * @param logInfo
      * @return void
      * @author wangcanfeng
      * @time 2019/1/13 20:00
      * @since v1.0
      **/
-    public static void setActionDetails(String details) {
-        actionDetails.set(details);
+    public static void setLogInfo(OperationLogInfo logInfo) {
+        localLog.set(logInfo);
     }
 
     /**
-     * 功能描述：  获取本地变量的操作详情
+     * 功能描述：  获取操作对象
+     *
+     * @return void
+     * @author wangcanfeng
+     * @time 2019/1/13 20:00
+     * @since v1.0
+     **/
+    public static OperationLogInfo getLogInfo() {
+       return localLog.get();
+    }
+
+    /**
+     * 功能描述：  设置本地变量的操作详情
      *
      * @param
      * @return java.lang.String
@@ -45,8 +54,53 @@ public class RequestUtils {
      * @time 2019/1/13 20:01
      * @since v1.0
      **/
-    public static String getActionDetails() {
-        return actionDetails.get();
+    public static void setActionDetails(String details) {
+         localLog.get().setDetails(details);
+    }
+
+    /**
+     * 功能描述： 设置本地变量的操作类型
+     *@author wangcanfeng
+     *@time 2019/3/5 21:16
+     *@since v1.0
+     * @param type
+     **/
+    public static void setActionType(String type){
+        localLog.get().setActionType(type);
+    }
+
+
+    /**
+     * 功能描述： 设置本地变量中的操作内容
+     *@author wangcanfeng
+     *@time 2019/3/5 21:17
+     *@since v1.0
+     * @param info
+     **/
+    public static void setActionInfo(String info){
+        localLog.get().setActionInfo(info);
+    }
+
+    /**
+     * 功能描述： 设置本地变量中的操作对象
+     *@author wangcanfeng
+     *@time 2019/3/5 21:17
+     *@since v1.0
+     * @param object
+     **/
+    public static void setActionObject(String object){
+        localLog.get().setActionObject(object);
+    }
+
+    /**
+     * 功能描述：  清除本地变量中的日志信息
+     *@author wangcanfeng
+     *@time 2019/3/5 21:14
+     *@since v1.0
+     * @param
+     **/
+    public static void clearAll(){
+        localLog.remove();
     }
 
     /**
@@ -87,6 +141,8 @@ public class RequestUtils {
             return address;
         }
     }
+
+
 
 
 }

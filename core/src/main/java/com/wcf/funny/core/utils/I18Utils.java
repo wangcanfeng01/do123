@@ -1,10 +1,12 @@
 package com.wcf.funny.core.utils;
 
 import com.wcf.funny.core.constant.LogConstant;
+import com.wcf.funny.core.exception.errorcode.CoreCode;
 import org.springframework.context.MessageSource;
 import org.springframework.util.ObjectUtils;
 
 import java.util.Locale;
+import java.util.Objects;
 
 /**
  * @author wangcanfeng
@@ -88,20 +90,26 @@ public class I18Utils {
         if (ObjectUtils.isEmpty(code)) {
             return "";
         }
-        return code.toString();
+        return getLogMessage(code, LogConstant.ACTION_INFO_PREFIX);
     }
 
     /**
      * 功能描述：根据错误码code获取翻译信息
      *
      * @param code
+     * @param msg
      * @author wangcanfeng
      * @time 2019/3/4 23:19
      * @since v1.0
      **/
-    public static String getErrorMessage(String code) {
-        String key = code;
-        return source.getMessage(key, new Object[]{}, Locale.SIMPLIFIED_CHINESE);
+    public static String getErrorMessage(String code, String msg) {
+        String key = code + ".error";
+        String message = source.getMessage(key, new Object[]{}, Locale.SIMPLIFIED_CHINESE);
+        // 如果键值没有得到翻译，仍旧返回原先的msg
+        if (Objects.equals(message, key)) {
+            return msg;
+        }
+        return message;
     }
 
     /**

@@ -10,7 +10,7 @@ public class LogConstant {
     /**
      * 操作类型
      */
-    public final static String ACTION_TYPE_PREFIX = "log.action.type";
+    public final static String ACTION_TYPE_PREFIX = "log.action.type.";
 
     public static class ActionType {
         //增加
@@ -31,12 +31,16 @@ public class LogConstant {
         public final static String SAVE = "save";
         // 点赞
         public final static String STAR="star";
+        // 发布
+        public final static String PUBLISH="publish";
+        // 上传
+        public final static String UPLOAD="upload";
     }
 
     /**
      * 操作结果
      */
-    public final static String ACTION_RESULT_PREFIX = "log.action.result";
+    public final static String ACTION_RESULT_PREFIX = "log.action.result.";
 
     public static class ActionResult {
         //成功
@@ -48,7 +52,7 @@ public class LogConstant {
     /**
      * 操作对象
      */
-    public final static String ACTION_OBJECT_PREFIX = "log.action.object";
+    public final static String ACTION_OBJECT_PREFIX = "log.action.object.";
 
     public static class ActionObject {
         // 用户
@@ -72,7 +76,7 @@ public class LogConstant {
     /**
      * 操作信息
      */
-    public final static String ACTION_INFO_PREFIX = "log.action.info";
+    public final static String ACTION_INFO_PREFIX = "log.action.info.";
 
     public static class ActionInfo {
         //重置用户密码
@@ -105,6 +109,30 @@ public class LogConstant {
         public final static String DELETE_ROLE="delete_role";
         // 给文章点赞
         public final static String STAR_ARTICLE="star_article";
+        // 编辑文章
+        public final static String MODIFY_ARTICLE="modify_article";
+        // 上传文章图片
+        public final static String UPLOAD_ARTICLE_PICTURE="upload_article_picture";
+        // 删除文章内图片
+        public final static String DELETE_ARTICLE_PICTURE="delete_article_picture";
+        // 上传文章封面图片
+        public final static String UPLOAD_ARTICLE_COVER="upload_article_cover";
+        // 删除文章
+        public final static String DELETE_ARTICLE="delete_article";
+        // 删除评论信息
+        public final static String DELETE_COMMENT="delete_comment";
+        // 添加评论信息
+        public final static String ADD_COMMENT="add_comment";
+        // 删除专题信息
+        public final static String DELETE_CATEGORY="delete_category";
+        // 删除关键字信息
+        public final static String DELETE_KEYWORD="delete_keyword";
+        // 编辑专题信息
+        public final static String MODIFY_CATEGORY="modify_category";
+        // 添加专题信息
+        public final static String ADD_CATEGORY="add_category";
+        // 上传专题封面
+        public final static String UPLOAD_CATEGORY_COVER="upload_category_cover";
     }
 
     /**

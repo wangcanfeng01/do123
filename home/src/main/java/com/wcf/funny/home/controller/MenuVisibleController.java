@@ -36,40 +36,36 @@ public class MenuVisibleController {
     @Autowired
     MenuInfoService menuInfoService;
 
-    /**
-     * 功能描述： 基础导航栏显隐控制
-     *@author wangcanfeng
-     *@time 2019/2/12 23:08
-     *@since v1.0
-     * @param
-     *@return com.wcf.funny.core.reponse.BaseResponse
-     **/
-    @GetMapping("/home")
-    public BaseResponse<Map<String,String>> getHomeVisibleMenu() {
-        UserInfo info = userInfoService.getByUsername("wcf");
-        if (ObjectUtils.isEmpty(info)) {
-            // 如果是查询不到的用户则直接报错
-            throw new UserException(UserErrorCode.LOGIN_USER_INFO_ERROR);
-        }
-        String roles = info.getRole();
-        List<UserRole> userRoles = userRoleService.getUserRoleByIds(roles);
-        HashSet<Integer> menuIds = new HashSet<>();
-        // 对角色做去重处理
-        userRoles.forEach(userRole -> {
-            ConvertIdUtils.getList(userRole.getRoleAuth()).forEach(id -> {
-                menuIds.add(id);
-            });
-        });
-
-        // 根据获取到具有权限的菜单id串，获取菜单map
-        List<CodeAndName> codeAndNames = menuInfoService.selectMenuMap("",1);
-        HashMap<String, String> menuVisibleMap = new HashMap<>();
-        codeAndNames.forEach(codeAndName -> menuVisibleMap.put(codeAndName.getCode(), codeAndName.getName()));
-        return new BaseResponse<>(menuVisibleMap);
-    }
-
-
-//    private HashMap<String, String> defaultHashMap() {
+//    /**
+//     * 功能描述： 基础导航栏显隐控制
+//     *@author wangcanfeng
+//     *@time 2019/2/12 23:08
+//     *@since v1.0
+//     * @param
+//     *@return com.wcf.funny.core.reponse.BaseResponse
+//     **/
+//    @GetMapping("/home")
+//    public BaseResponse<Map<String,String>> getHomeVisibleMenu() {
+//        UserInfo info = userInfoService.getByUsername("wcf");
+//        if (ObjectUtils.isEmpty(info)) {
+//            // 如果是查询不到的用户则直接报错
+//            throw new UserException(UserErrorCode.LOGIN_USER_INFO_ERROR);
+//        }
+//        String roles = info.getRole();
+//        List<UserRole> userRoles = userRoleService.getUserRoleByIds(roles);
+//        HashSet<Integer> menuIds = new HashSet<>();
+//        // 对角色做去重处理
+//        userRoles.forEach(userRole -> {
+//            ConvertIdUtils.getList(userRole.getRoleAuth()).forEach(id -> {
+//                menuIds.add(id);
+//            });
+//        });
 //
+//        // 根据获取到具有权限的菜单id串，获取菜单map
+//        List<CodeAndName> codeAndNames = menuInfoService.selectMenuMap("",1);
+//        HashMap<String, String> menuVisibleMap = new HashMap<>();
+//        codeAndNames.forEach(codeAndName -> menuVisibleMap.put(codeAndName.getCode(), codeAndName.getName()));
+//        return new BaseResponse<>(menuVisibleMap);
 //    }
+
 }

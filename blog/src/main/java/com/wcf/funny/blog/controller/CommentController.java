@@ -5,7 +5,9 @@ import com.wcf.funny.blog.entity.CommentInfo;
 import com.wcf.funny.blog.service.CommentInfoService;
 import com.wcf.funny.blog.vo.CommentVo;
 import com.wcf.funny.blog.vo.req.CommentReq;
+import com.wcf.funny.core.annotation.OperationLog;
 import com.wcf.funny.core.constant.CoreConstant;
+import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
@@ -83,6 +85,8 @@ public class CommentController {
      * @since v1.0
      **/
     @DeleteMapping("/comment/delete/{id}")
+    @OperationLog(action = LogConstant.ActionType.DELETE, object = LogConstant.ActionObject.COMMENT,
+            info = LogConstant.ActionInfo.DELETE_COMMENT)
     public BaseResponse deleteCommentById(@PathVariable("id") Integer id) {
         commentInfoService.deleteCommentById(id);
         return BaseResponse.ok();
@@ -90,12 +94,15 @@ public class CommentController {
 
     /**
      * 功能描述：  增加文章的评论
-     *@author wangcanfeng
-     *@time 2019/2/21 22:58
-     *@since v1.0
+     *
      * @param req
+     * @author wangcanfeng
+     * @time 2019/2/21 22:58
+     * @since v1.0
      **/
     @PostMapping("/article/addComment")
+    @OperationLog(action = LogConstant.ActionType.ADD, object = LogConstant.ActionObject.COMMENT,
+            info = LogConstant.ActionInfo.ADD_COMMENT)
     public BaseResponse addCommentByArticleId(@RequestBody CommentReq req) {
         CommentInfo info = new CommentInfo();
         info.setArticleId(req.getArticleId());

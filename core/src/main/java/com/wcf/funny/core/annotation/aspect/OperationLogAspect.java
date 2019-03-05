@@ -54,22 +54,19 @@ public class OperationLogAspect {
     @Around("needLog()")
     public Object doAround(ProceedingJoinPoint point) throws Throwable {
         OperationLogInfo logInfo = null;
-        try {
-            MethodSignature signature = (MethodSignature) point.getSignature();
-            //获取到注解对应的方法
-            Method method = signature.getMethod();
-            OperationLog operationLog = method.getAnnotation(OperationLog.class);
-            Object obj = point.proceed();
-            if (operationLog != null) {
-                logInfo = getLog(operationLog);
-            }
-            if (!ObjectUtils.isEmpty(logInfo)) {
-                operationLogService.insertLog(logInfo);
-            }
-            return obj;
-        } finally {
-
+        MethodSignature signature = (MethodSignature) point.getSignature();
+        //获取到注解对应的方法
+        Method method = signature.getMethod();
+        OperationLog operationLog = method.getAnnotation(OperationLog.class);
+        if (operationLog != null) {
+            logInfo = getLog(operationLog);
         }
+        //可以在方法执行过程中设置操作日志的相关内容
+        Object obj = point.proceed();
+        if (!ObjectUtils.isEmpty(logInfo)) {
+            operationLogService.insertLog(logInfo);
+        }
+        return obj;
     }
 
     /**
@@ -83,15 +80,9 @@ public class OperationLogAspect {
      **/
     @AfterThrowing(pointcut = "needLog()", throwing = "e")
     public void afterThrow(JoinPoint jp, Exception e) {
-        MethodSignature signature = (MethodSignature) jp.getSignature();
-        Method method = signature.getMethod();
-        OperationLog operationLog = method.getAnnotation(OperationLog.class);
-        OperationLogInfo logInfo = null;
-        if (operationLog != null) {
-            logInfo = getLog(operationLog);
-            logInfo.setActionResult(LogConstant.ActionResult.FAILED);
-            operationLogService.insertLog(logInfo);
-        }
+        OperationLogInfo logInfo = RequestUtils.getLogInfo();
+        logInfo.setActionResult(LogConstant.ActionResult.FAILED);
+        operationLogService.insertLog(logInfo);
     }
 
     /**
@@ -107,6 +98,8 @@ public class OperationLogAspect {
         //获取当前请求内容
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         OperationLogInfo logInfo = new OperationLogInfo();
+        //将日志信息插入到本地变量中
+        RequestUtils.setLogInfo(logInfo);
         String username = request.getRemoteUser();
         logInfo.setAuthorName(username);
         logInfo.setCreateTime(FunnyTimeUtils.nowUnix());
@@ -117,12 +110,7 @@ public class OperationLogAspect {
         //默认操作结果为成功
         logInfo.setActionResult(LogConstant.ActionResult.SUCCESS);
         logInfo.setActionInfo(operationLog.info());
-        String details = RequestUtils.getActionDetails();
-        if (ObjectUtils.isEmpty(details)) {
-            logInfo.setDetails(operationLog.details());
-        } else {
-            logInfo.setDetails(details);
-        }
+        //操作日志的详情在注解对应的方法中插入
         logInfo.setIp(request.getRemoteHost());
         logInfo.setActionObject(operationLog.object());
         return logInfo;
