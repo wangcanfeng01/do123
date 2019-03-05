@@ -8,26 +8,26 @@ import com.wcf.funny.core.exception.errorcode.CoreCode;
  * @function
  **/
 public enum ArticleErrorCode implements CoreCode {
-    //插入关键字异常
-    INSERT_ARTICLE_ERROR("00000005", "Insert article info into database failed"),
-    //搜索关键字异常
-    SELECT_ARTICLE_ERROR("00000006", "Select article info from database failed"),
-    //更新关键字异常
-    UPDATE_ARTICLE_ERROR("00000007", "Update article info into database failed"),
-    //删除关键字异常
-    DELETE_ARTICLE_ERROR("00000008", "Delete article info from database failed"),
+       //插入文章异常
+    INSERT_ARTICLE_ERROR("0x03010001", "Insert article info into database failed"),
+    //搜索文章异常
+    SELECT_ARTICLE_ERROR("0x03010002", "Select article info from database failed"),
+    //更新文章异常
+    UPDATE_ARTICLE_ERROR("0x03010003", "Update article info into database failed"),
+    //删除文章异常
+    DELETE_ARTICLE_ERROR("0x03010004", "Delete article info from database failed"),
     //该文章标题已存在
-    ARTICLE_TITLE_ALREADY_EXIST("00000008", "this article title is already exist in database"),
+    ARTICLE_TITLE_ALREADY_EXIST("0x03010005", "this article title is already exist in database"),
     // 只有作者能删除该文章
-    ONLY_AUTHOR_CAN_DELETE("0000100001","only the article's author can delete this article"),
+    ONLY_AUTHOR_CAN_DELETE("0x03010006","only the article's author can delete this article"),
     //只有作者能修改文章
-    ONLY_AUTHOR_CAN_MODIFY("0000100001","only the article's author can modify this article"),
+    ONLY_AUTHOR_CAN_MODIFY("0x03010007","only the article's author can modify this article"),
     // 当前文章不存在
-    ARTICLE_IS_NOT_EXIST("000010001","this article is not exist"),
+    ARTICLE_IS_NOT_EXIST("0x03010008","this article is not exist"),
     // 文章提交类型不支持
-    UNSUPPROTED_POST_METHOD("0000010001","the article post method is unsupported"),
+    UNSUPPROTED_POST_METHOD("0x03010009","the article post method is unsupported"),
     // 专题信息不能为空
-    CATEGORY_NULL_ERROR("0000010001","category can not be null"),
+    CATEGORY_NULL_ERROR("0x0301000A","category can not be null"),
     ;
 
     /**
