@@ -8,14 +8,14 @@ import com.wcf.funny.core.exception.errorcode.CoreCode;
  * @function
  **/
 public enum VersionErrorCode implements CoreCode {
-    //插入版本信息异常
-    INSERT_VERSION_ERROR("0x00100001", "Insert version info into database failed"),
+     //插入版本信息异常
+    INSERT_VERSION_ERROR("0x01010001", "Insert version info into database failed"),
     //搜索版本信息异常
-    SELECT_VERSION_ERROR("00000006", "Select version info from database failed"),
+    SELECT_VERSION_ERROR("0x01010002", "Select version info from database failed"),
     //更新版本信息异常
-    UPDATE_VERSION_ERROR("00000007", "Update version info into database failed"),
+    UPDATE_VERSION_ERROR("0x01010003", "Update version info into database failed"),
     //删除版本信息异常
-    DELETE_VERSION_ERROR("00000008", "Delete version info from database failed");
+    DELETE_VERSION_ERROR("0x01010004", "Delete version info from database failed");
 
     /**
      * 错误信息
