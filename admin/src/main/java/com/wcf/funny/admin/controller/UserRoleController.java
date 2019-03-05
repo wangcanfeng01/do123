@@ -6,6 +6,8 @@ import com.wcf.funny.admin.entity.UserRole;
 import com.wcf.funny.admin.service.UserRoleService;
 import com.wcf.funny.admin.vo.RoleVo;
 import com.wcf.funny.admin.vo.req.RoleReq;
+import com.wcf.funny.core.annotation.OperationLog;
+import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.ListResponse;
 import com.wcf.funny.core.reponse.PageResponse;
@@ -87,6 +89,7 @@ public class UserRoleController {
      * @since v1.0
      **/
     @PostMapping("/add")
+    @OperationLog(action = LogConstant.ActionType.ADD,object = LogConstant.ActionObject.ROLE,info = LogConstant.ActionInfo.ADD_ROLE)
     public BaseResponse getRoleList(@RequestBody RoleReq req) {
         UserRole role = new UserRole();
         role.setCreateTime(FunnyTimeUtils.nowUnix());
@@ -109,6 +112,7 @@ public class UserRoleController {
      *@return com.wcf.funny.core.reponse.BaseResponse
      **/
     @PutMapping("/modify")
+    @OperationLog(action = LogConstant.ActionType.UPDATE,object = LogConstant.ActionObject.ROLE,info = LogConstant.ActionInfo.MODIFY_ROLE)
     public BaseResponse updateRole(@RequestBody RoleReq req){
         UserRole role = new UserRole();
         role.setId(req.getId());
@@ -123,6 +127,7 @@ public class UserRoleController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @OperationLog(action = LogConstant.ActionType.DELETE,object = LogConstant.ActionObject.ROLE,info = LogConstant.ActionInfo.DELETE_ROLE)
     public BaseResponse deleteRole(@PathVariable("id") Integer id){
         roleService.deleteRoleById(id);
         return BaseResponse.ok();
