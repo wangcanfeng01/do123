@@ -3,6 +3,8 @@ package com.wcf.funny.about.controller;
 import com.wcf.funny.about.service.VersionInfoService;
 import com.wcf.funny.about.vo.VersionInfoVo;
 import com.wcf.funny.about.vo.req.VersionReq;
+import com.wcf.funny.core.annotation.OperationLog;
+import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.ListResponse;
 import com.wcf.funny.core.utils.RequestUtils;
@@ -47,6 +49,8 @@ public class VersionInfoController {
      * @since v1.0
      **/
     @DeleteMapping("/version/delete/{id}")
+    @OperationLog(action = LogConstant.ActionType.DELETE, object = LogConstant.ActionObject.VERSION,
+            info = LogConstant.ActionInfo.DELETE_VERSION_INFO)
     public BaseResponse deleteVersionById(@PathVariable("id") Integer id) {
         versionInfoService.deleteVersionById(id);
         return BaseResponse.ok();
@@ -61,6 +65,8 @@ public class VersionInfoController {
      * @since v1.0
      **/
     @PutMapping("/modify/version")
+    @OperationLog(action = LogConstant.ActionType.UPDATE, object = LogConstant.ActionObject.VERSION,
+            info = LogConstant.ActionInfo.MODIFY_VERSION_INFO)
     public BaseResponse updateVersion(@RequestBody VersionReq req) {
         String username = RequestUtils.getUserName();
         versionInfoService.modifyVersion(req.getVersion(), req.getDescription(), username, req.getId());
@@ -77,6 +83,8 @@ public class VersionInfoController {
      * @since v1.0
      **/
     @PostMapping("add/version")
+    @OperationLog(action = LogConstant.ActionType.ADD, object = LogConstant.ActionObject.VERSION,
+            info = LogConstant.ActionInfo.ADD_VERSION_INFO)
     public BaseResponse addVersionInfo(@RequestBody VersionReq req) {
         String username = RequestUtils.getUserName();
         versionInfoService.insertVersion(req.getVersion(), req.getDescription(), username);
