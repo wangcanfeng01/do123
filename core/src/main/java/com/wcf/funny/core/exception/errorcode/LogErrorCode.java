@@ -7,10 +7,14 @@ package com.wcf.funny.core.exception.errorcode;
  **/
 public enum LogErrorCode implements CoreCode {
 
-    INSERT_OPERATION_ERROR("00000011", "Insert operation data into database failed"),
-    SELECT_OPERATION_ERROR("00000012", "Select operation data from database failed"),
-    UPDATE_OPERATION_ERROR("00000013", "Update operation data into database failed"),
-    DELETE_OPERATION_ERROR("00000014", "Delete operation data from database failed");
+     // 操作日志插入异常
+    INSERT_OPERATION_ERROR("0x05010001", "Insert operation data into database failed"),
+    // 查询操作日志异常
+    SELECT_OPERATION_ERROR("0x05010002", "Select operation data from database failed"),
+    // 更新操作日志异常
+    UPDATE_OPERATION_ERROR("0x05010003", "Update operation data into database failed"),
+    // 删除操作日志异常
+    DELETE_OPERATION_ERROR("0x05010004", "Delete operation data from database failed");
     /**
      * 原因
      */
