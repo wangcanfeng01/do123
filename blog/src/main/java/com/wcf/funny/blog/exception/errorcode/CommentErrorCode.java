@@ -9,13 +9,13 @@ import com.wcf.funny.core.exception.errorcode.CoreCode;
  **/
 public enum  CommentErrorCode implements CoreCode{
     //插入评论异常
-    INSERT_COMMENT_ERROR("00000005", "Insert comment info into database failed"),
+    INSERT_COMMENT_ERROR("0x03020001", "Insert comment info into database failed"),
     //搜索评论异常
-    SELECT_COMMENT_ERROR("00000006", "Select comment info from database failed"),
+    SELECT_COMMENT_ERROR("0x03020002", "Select comment info from database failed"),
     //更新评论异常
-    UPDATE_COMMENT_ERROR("00000007", "Update comment info into database failed"),
+    UPDATE_COMMENT_ERROR("0x03020003", "Update comment info into database failed"),
     //删除评论异常
-    DELETE_COMMENT_ERROR("00000008", "Delete comment info from database failed"),
+    DELETE_COMMENT_ERROR("0x03020004", "Delete comment info from database failed"),
     ;
 
     /**
