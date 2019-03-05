@@ -8,11 +8,16 @@ import com.wcf.funny.core.exception.errorcode.CoreCode;
  * @function
  **/
 public enum ConfigErrorCode implements CoreCode {
-    USER_PRIVILEGE_LESS("00010002", "The user's privilege is not enough"),
-    USER_PERMISSION_ERROR("00010003", "the user's permission is not right, detail: %s"),
-    USER_NOT_FOUND("00010001", "the user is not found in db"),
-    NAME_OR_PASSWORD_NULL("000010001", "name or password is null,please check it"),
-    PASSWORD_IS_ERROR("00010001", "password is not right");
+    // 用户权限不足
+    USER_PRIVILEGE_LESS("0x04010001", "The user's privilege is not enough"),
+    // 用户权限异常
+    USER_PERMISSION_ERROR("0x04010002", "the user's permission is not right, detail: %s"),
+    // 该用户不存在
+    USER_NOT_FOUND("0x04010003", "the user is not found in db"),
+    // 用户名或密码为空
+    NAME_OR_PASSWORD_NULL("0x04010004", "name or password is null,please check it"),
+    // 用户密码错误
+    PASSWORD_IS_ERROR("0x04010005", "password is not right");
 
 
     /**
