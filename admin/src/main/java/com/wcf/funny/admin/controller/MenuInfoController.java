@@ -10,7 +10,9 @@ import com.wcf.funny.admin.service.MenuInfoService;
 import com.wcf.funny.admin.service.UserInfoService;
 import com.wcf.funny.admin.vo.MenuVo;
 import com.wcf.funny.admin.vo.req.MenuReq;
+import com.wcf.funny.core.annotation.OperationLog;
 import com.wcf.funny.core.constant.CoreConstant;
+import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.entity.CodeAndName;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.ListResponse;
@@ -50,6 +52,8 @@ public class MenuInfoController {
      * @since v1.0
      **/
     @PostMapping("/add")
+    @OperationLog(action = LogConstant.ActionType.ADD,object = LogConstant.ActionObject.MENU,
+            info = LogConstant.ActionInfo.ADD_MENU_INFO)
     public BaseResponse addNewMenu(@RequestBody MenuReq req) {
         MenuInfo info = new MenuInfo();
         info.setCreateTime(FunnyTimeUtils.nowUnix());
@@ -124,6 +128,8 @@ public class MenuInfoController {
      * @since v1.0
      **/
     @PutMapping("/modify")
+    @OperationLog(action = LogConstant.ActionType.UPDATE,object = LogConstant.ActionObject.MENU,
+            info = LogConstant.ActionInfo.MODIFY_MENU_INFO)
     public BaseResponse updateMenu(@RequestBody MenuReq req) {
         MenuInfo info = new MenuInfo();
         info.setId(req.getId());
@@ -150,6 +156,8 @@ public class MenuInfoController {
      * @since v1.0
      **/
     @PutMapping("/auth")
+    @OperationLog(action = LogConstant.ActionType.UPDATE,object = LogConstant.ActionObject.MENU,
+            info = LogConstant.ActionInfo.MODIFY_MENU_AUTH)
     public BaseResponse updateMenuAuth(@RequestParam("id") Integer id, @RequestParam("auth") Integer auth) {
         menuInfoService.updateMenuAuthById(auth, id);
         return BaseResponse.ok();
@@ -167,6 +175,8 @@ public class MenuInfoController {
      * @since v1.0
      **/
     @PutMapping("/type")
+    @OperationLog(action = LogConstant.ActionType.UPDATE,object = LogConstant.ActionObject.MENU,
+            info = LogConstant.ActionInfo.MODIFY_MENU_TYPE)
     public BaseResponse updateMenu(@RequestParam("id") Integer id, @RequestParam("type") Integer type) {
         menuInfoService.updateMenuTypeById(type, id);
         return BaseResponse.ok();
@@ -182,11 +192,21 @@ public class MenuInfoController {
      * @since v1.0
      **/
     @DeleteMapping("/delete/{id}")
+    @OperationLog(action = LogConstant.ActionType.DELETE,object = LogConstant.ActionObject.MENU,
+            info = LogConstant.ActionInfo.DELETE_MENU_TYPE)
     public BaseResponse deleteMenu(@PathVariable("id") Integer id) {
         menuInfoService.deleteMenuById(id);
         return BaseResponse.ok();
     }
 
+
+    /**
+     * 功能描述: 查询有权限的菜单信息
+     * @param
+     * @since: v1.0
+     * @Author:wangcanfeng
+     * @Date: 2019/3/5 18:57
+     */
     @GetMapping("/authMenu")
     public BaseResponse<Map<String, String>> getAuthMenu() {
         String username = RequestUtils.getUserName();
