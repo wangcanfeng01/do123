@@ -9,9 +9,9 @@ import com.wcf.funny.core.exception.errorcode.CoreCode;
  **/
 public enum UploadErrorCode implements CoreCode {
     //本次上传的文件不是图片资源
-    NOT_PICTURE_ERROR("00000008", "this file is not a picture"),
+    NOT_PICTURE_ERROR("0x02020001", "this file is not a picture"),
     //头像大小不能超过1MB
-    FACE_SIZE_OVER_1MB("00000008"," the face-picture's size can not over 1MB"),
+    FACE_SIZE_OVER_1MB("0x02020002"," the face-picture's size can not over 1MB"),
     ;
 
     /**
