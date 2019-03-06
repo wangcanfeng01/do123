@@ -1,6 +1,9 @@
 package com.wcf.funny.config.security.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.wcf.funny.admin.entity.LoginUser;
+import com.wcf.funny.admin.service.LoginUserService;
 import com.wcf.funny.core.annotation.FunnyHandler;
 import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.exception.errorcode.CommonCode;
@@ -8,9 +11,11 @@ import com.wcf.funny.core.entity.OperationLogInfo;
 import com.wcf.funny.core.service.OperationLogService;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletException;
@@ -24,11 +29,15 @@ import java.io.PrintWriter;
  * @time 2018/3/4
  * @why 登录成功处理，这个类里面还可以设置登录成功后根据角色类型页面跳转
  **/
+@Log4j2
 @FunnyHandler
 public class FunnyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     @Autowired
-    private OperationLogService logService;
+    private LoginUserService loginUserService;
+
+    @Autowired
+    private RestTemplate restTemplate;
 
     private final static String DEFAULT_SUCCESS_URL = "/home";
 
@@ -60,15 +69,27 @@ public class FunnyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
             String json = JSON.toJSONString(res);
             writer.append(json);
         } finally {
-            OperationLogInfo info = new OperationLogInfo();
-            info.setActionResult(LogConstant.ActionResult.SUCCESS);
-            info.setActionObject(LogConstant.ActionObject.USER);
-            info.setIp(request.getRemoteHost());
-            info.setActionType(LogConstant.ActionType.LOGIN);
-            info.setDetails("");
-            info.setCreateTime(FunnyTimeUtils.nowUnix());
-            info.setAuthorName(request.getRemoteUser());
-            logService.insertLog(info);
+            //记录访客信息
+            LoginUser user = new LoginUser();
+            user.setUsername(request.getParameter("username"));
+            user.setLoginTime(FunnyTimeUtils.nowUnix());
+            String ip = request.getRemoteAddr();
+            user.setRemoteIp(ip);
+            //查询登录用户的地域信息
+
+            String area = "";
+            try {
+                JSONObject object = restTemplate.getForObject("http://ip.taobao.com/service/getIpInfo.php?ip=" + ip, JSONObject.class);
+                JSONObject data = object.getJSONObject("data");
+                String country = data.getString("country");
+                String region = data.getString("region");
+                String city = data.getString("city");
+                area = country + "." + region + "." + city;
+            } catch (Exception e) {
+                log.error("sssssssssss");
+            }
+            user.setRemoteArea(area);
+            loginUserService.insertLoginUser(user);
         }
 
     }

@@ -40,6 +40,7 @@ public class FunnyAuthenticationProvider implements AuthenticationProvider {
             throw new UserAuthException(ConfigErrorCode.USER_NOT_FOUND);
         }
         boolean isPass = false;
+        //如果是游客，直接不对密码做校验了
         if (name.equals(CoreConstant.VISITOR_NAME)) {
             isPass = true;
         } else {

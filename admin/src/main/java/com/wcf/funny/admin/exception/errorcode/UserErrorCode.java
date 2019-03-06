@@ -28,6 +28,13 @@ public enum UserErrorCode implements CoreCode {
     DELETE_ROLR_ERROR("0x02030009","delete role from db failed"),
     //登录用户信息存在异常
     LOGIN_USER_INFO_ERROR("0x0203000A","the login user has something not right"),
+
+    //登录记录插入失败
+    INSERT_LOGIN_ERROR("0x0203000B","insert the user's login info error"),
+    //登录记录查询失败
+    SELECT_LOGIN_ERROR("0x0203000C","select the user's login info error"),
+
+
     ;
 
     /**
