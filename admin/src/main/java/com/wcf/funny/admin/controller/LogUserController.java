@@ -32,8 +32,8 @@ public class LogUserController {
      *
      * @param currentPage
      * @param pageSize
-     * @param start
-     * @param end
+     * @param startTime
+     * @param endTime
      * @author wangcanfeng
      * @time 2019/3/6 22:49
      * @since v1.0
@@ -41,14 +41,18 @@ public class LogUserController {
     @GetMapping("/select")
     public BaseResponse<List<LoginUserVo>> getLoginUser(@RequestParam("currentPage") Integer currentPage,
                                                         @RequestParam("pageSize") Integer pageSize,
-                                                        @RequestParam(value = "start", required = false) Integer start,
-                                                        @RequestParam(value = "end", required = false) Integer end) {
+                                                        @RequestParam(value = "start", required = false) String startTime,
+                                                        @RequestParam(value = "end", required = false) String endTime) {
         PageInfo<LoginUserVo> pageInfo;
-        if (ObjectUtils.isEmpty(start)) {
+        if (ObjectUtils.isEmpty(startTime)) {
             pageInfo = loginUserService.getLoginUserList(currentPage, pageSize);
         } else {
-            if (ObjectUtils.isEmpty(end)) {
+            Integer end;
+            Integer start=FunnyTimeUtils.getUnixTime(startTime);
+            if (ObjectUtils.isEmpty(endTime)) {
                 end = FunnyTimeUtils.nowUnix();
+            }else {
+                end=FunnyTimeUtils.getUnixTime(endTime);
             }
             pageInfo = loginUserService.getLoginUserList(currentPage, pageSize, start, end);
         }

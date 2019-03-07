@@ -29,4 +29,9 @@ public class UserConstant {
      */
     public final static String DEFAULT_PASSWORD="123456+";
 
+    /**
+     * 请求用户登录区域的地址
+     */
+    public final static String REQUEST_FOR_AREA_ADDRESS="http://ip.taobao.com/service/getIpInfo.php";
+
 }

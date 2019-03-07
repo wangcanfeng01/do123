@@ -1,5 +1,6 @@
 package com.wcf.funny.core.utils;
 
+import com.wcf.funny.core.constant.CoreConstant;
 import com.wcf.funny.core.constant.PictureType;
 import com.wcf.funny.core.entity.PictureUploadInfo;
 import com.wcf.funny.core.exception.FileException;
@@ -34,9 +35,9 @@ public class UploadFileUtils {
         String uuid = UuidUtils.generateUuid() + ".jpg";
         info.setUuid(uuid);
         String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        path = path.replaceAll("\\\\", "/");
+        path = path.replaceAll("\\\\", CoreConstant.SEPARATOR);
         String filePath = path + type.getPrefix();
-        filePath = filePath.replaceAll("//", "/");
+        filePath = filePath.replaceAll("//", CoreConstant.SEPARATOR);
         //创建文件夹
         createDirectory(filePath);
         info.setPath(type.getPrefix() + uuid);
@@ -63,8 +64,8 @@ public class UploadFileUtils {
     public static String getFileName(String totalName) {
         String fileName = totalName;
         //因为系统不一致可能分隔符不一样,需要统一转成当前系统的分隔符在做处理
-        fileName = fileName.replaceAll("\\\\", File.separator);
-        String[] arr = fileName.split(File.separator);
+        fileName = fileName.replaceAll("\\\\", CoreConstant.SEPARATOR);
+        String[] arr = fileName.split(CoreConstant.SEPARATOR);
         //如果分割处理后获取到的数组只有一个元素，则直接取来当作文件名称
         if (arr.length < 2) {
             if (!ObjectUtils.isEmpty(arr[0])) {

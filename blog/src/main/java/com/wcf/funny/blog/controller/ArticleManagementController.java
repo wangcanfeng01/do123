@@ -68,15 +68,23 @@ public class ArticleManagementController {
      * @time 2019/2/23 12:38
      * @since v1.0
      **/
-    @PostMapping("/article/addCover/{id}")
+    @PostMapping("/article/addCover")
     @OperationLog(action = LogConstant.ActionType.UPLOAD, object = LogConstant.ActionObject.ARTICLE,
             info = LogConstant.ActionInfo.UPLOAD_ARTICLE_COVER)
-    public BaseResponse<String> uploadCover(@RequestParam("file") MultipartFile cover, @PathVariable("id") Integer id) {
+    public BaseResponse<String> uploadCover(@RequestParam("file") MultipartFile cover,
+                                            @RequestParam("id") Integer id,
+                                            @RequestParam(value = "path",required = false) String path) {
         // 先调用工具类，完成文章的封面上传
         PictureUploadInfo info = UploadFileUtils.uploadFace(cover, PictureType.ARTICLE_COVER);
         info.setBelongTo(id);
         info.setUploader(RequestUtils.getUserName());
         info.setUploadTime(FunnyTimeUtils.nowUnix());
+        //如果原先存在图片信息，则先删除
+        if(!ObjectUtils.isEmpty(path)){
+            // 提取路径参数中的uuid,先删除数据库中的记录，再删除文件夹中的图片
+            fileService.deletePictureInfo(UploadFileUtils.getFileName(path));
+            UploadFileUtils.deletePictureByRelative(path);
+        }
         //存储图片信息
         fileService.uploadPictureInfo(info);
         // 更新文章的封面信息
@@ -102,7 +110,7 @@ public class ArticleManagementController {
         // 从数据库中查询文章信息
         articleInfo = articleInfoService.getArticleById(id);
         if (!articleInfo.getAuthor().equals(userName)) {
-            throw new  ErrorResponse(ArticleErrorCode.ONLY_AUTHOR_CAN_DELETE);
+            throw new ErrorResponse(ArticleErrorCode.ONLY_AUTHOR_CAN_DELETE);
         }
         // 减少关键词的统计值
         if (!ObjectUtils.isEmpty(articleInfo.getKeywords())) {

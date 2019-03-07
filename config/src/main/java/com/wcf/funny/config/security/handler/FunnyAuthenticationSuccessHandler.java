@@ -2,6 +2,7 @@ package com.wcf.funny.config.security.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.wcf.funny.admin.constant.UserConstant;
 import com.wcf.funny.admin.entity.LoginUser;
 import com.wcf.funny.admin.service.LoginUserService;
 import com.wcf.funny.core.annotation.FunnyHandler;
@@ -36,9 +37,6 @@ public class FunnyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
     @Autowired
     private LoginUserService loginUserService;
 
-    @Autowired
-    private RestTemplate restTemplate;
-
     private final static String DEFAULT_SUCCESS_URL = "/home";
 
     @PostConstruct
@@ -69,27 +67,9 @@ public class FunnyAuthenticationSuccessHandler extends SimpleUrlAuthenticationSu
             String json = JSON.toJSONString(res);
             writer.append(json);
         } finally {
-            //记录访客信息
-            LoginUser user = new LoginUser();
-            user.setUsername(request.getParameter("username"));
-            user.setLoginTime(FunnyTimeUtils.nowUnix());
+            String username=request.getParameter("username");
             String ip = request.getRemoteAddr();
-            user.setRemoteIp(ip);
-            //查询登录用户的地域信息
-
-            String area = "";
-            try {
-                JSONObject object = restTemplate.getForObject("http://ip.taobao.com/service/getIpInfo.php?ip=" + ip, JSONObject.class);
-                JSONObject data = object.getJSONObject("data");
-                String country = data.getString("country");
-                String region = data.getString("region");
-                String city = data.getString("city");
-                area = country + "." + region + "." + city;
-            } catch (Exception e) {
-                log.error("sssssssssss");
-            }
-            user.setRemoteArea(area);
-            loginUserService.insertLoginUser(user);
+            loginUserService.insertLoginUser(username,ip);
         }
 
     }

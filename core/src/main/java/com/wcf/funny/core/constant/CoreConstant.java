@@ -33,5 +33,10 @@ public class CoreConstant {
      */
     public final static String NULL_MENU_ID = "0";
 
+    /**
+     * 路径分割器
+     */
+    public final static String SEPARATOR="/";
+
 
 }

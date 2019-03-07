@@ -1,6 +1,7 @@
 package com.wcf.funny.config.security.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.wcf.funny.admin.service.LoginUserService;
 import com.wcf.funny.core.annotation.FunnyHandler;
 import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.exception.errorcode.CommonCode;
@@ -29,7 +30,7 @@ import java.io.PrintWriter;
 public class FunnyLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Autowired
-    private OperationLogService logService;
+    private LoginUserService loginUserService;
 
     private final static String DEFAULT_SUCCESS_URL = "/home";
 
@@ -47,15 +48,9 @@ public class FunnyLogoutSuccessHandler implements LogoutSuccessHandler {
         } catch (IOException e) {
             log.error("logout failed, the details: " + e.getMessage());
         } finally {
-            OperationLogInfo info = new OperationLogInfo();
-            info.setActionResult(LogConstant.ActionResult.SUCCESS);
-            info.setActionObject(LogConstant.ActionObject.USER);
-            info.setIp(request.getRemoteHost());
-            info.setActionType(LogConstant.ActionType.LOGOUT);
-            info.setDetails("");
-            info.setCreateTime(FunnyTimeUtils.nowUnix());
-            info.setAuthorName(request.getRemoteUser());
-            logService.insertLog(info);
+            String username=request.getParameter("username");
+            String ip = request.getRemoteAddr();
+            loginUserService.insertLogoutUser(username,ip);
         }
     }
 }

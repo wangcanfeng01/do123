@@ -38,5 +38,10 @@
             <groupId>com.wcf.funny</groupId>
             <artifactId>do123-core</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -14,12 +14,24 @@ public interface LoginUserService {
     /**
      * 功能描述：插入登录登出的信息
      *
-     * @param user
+     * @param username
+     * @param ip
      * @author wangcanfeng
      * @time 2019/3/6 21:22
      * @since v1.0
      **/
-    void insertLoginUser(LoginUser user);
+    void insertLoginUser(String username, String ip);
+
+    /**
+     * 功能描述：插入登出信息
+     *
+     * @param username
+     * @param ip
+     * @author wangcanfeng
+     * @time 2019/3/7 21:15
+     * @since v1.0
+     **/
+    void insertLogoutUser(String username, String ip);
 
     /**
      * 功能描述：获取登录用户的分页列表

@@ -120,7 +120,7 @@ public class MetaInfoController {
             info = LogConstant.ActionInfo.DELETE_CATEGORY)
     public BaseResponse deleteCategoryById(@PathVariable("id") Integer id, @PathVariable Integer count) {
         if (!count.equals(0)) {
-            throw new  ErrorResponse(MetaErrorCode.CATEGORY_DELETE_DISABLE);
+            throw new ErrorResponse(MetaErrorCode.CATEGORY_DELETE_DISABLE);
         }
         // 只有当专题下面的统计值大于0的时候才真正执行删除操作
         metaInfoService.deleteCategoryById(id);
@@ -141,7 +141,7 @@ public class MetaInfoController {
             info = LogConstant.ActionInfo.DELETE_KEYWORD)
     public BaseResponse deleteKeywordById(@PathVariable("id") Integer id, @PathVariable Integer count) {
         if (!count.equals(0)) {
-            throw new  ErrorResponse(MetaErrorCode.KEYWORD_DELETE_DISABLE);
+            throw new ErrorResponse(MetaErrorCode.KEYWORD_DELETE_DISABLE);
         }
         // 只有当专题下面的统计值大于0的时候才真正执行删除操作
         metaInfoService.deleteKeywordById(id);
@@ -185,7 +185,7 @@ public class MetaInfoController {
         // 先查询一下数据库中是否已经存在该专题信息，如果已经存在，则提示异常信息
         MetaInfo old = metaInfoService.getMetaByNameAndType(req.getName(), MetaType.CATEGORY.getType());
         if (!ObjectUtils.isEmpty(old)) {
-            throw new  ErrorResponse(MetaErrorCode.CATEGORY_ALREADY_EXIST);
+            throw new ErrorResponse(MetaErrorCode.CATEGORY_ALREADY_EXIST);
         }
         MetaInfo info = new MetaInfo();
         info.setCreateTime(FunnyTimeUtils.nowUnix());
@@ -207,15 +207,23 @@ public class MetaInfoController {
      * @time 2019/2/23 12:38
      * @since v1.0
      **/
-    @PostMapping("/uploadCover/{id}")
+    @PostMapping("/uploadCover")
     @OperationLog(action = LogConstant.ActionType.UPLOAD, object = LogConstant.ActionObject.CATEGORY,
             info = LogConstant.ActionInfo.UPLOAD_CATEGORY_COVER)
-    public BaseResponse<String> uploadCover(@RequestParam("file") MultipartFile cover, @PathVariable("id") Integer id) {
+    public BaseResponse<String> uploadCover(@RequestParam("file") MultipartFile cover,
+                                            @RequestParam("id") Integer id,
+                                            @RequestParam("path") String path) {
         // 先调用工具类，完成专题的封面上传
         PictureUploadInfo info = UploadFileUtils.uploadFace(cover, PictureType.CATEGORY_COVER);
         info.setBelongTo(id);
         info.setUploader(RequestUtils.getUserName());
         info.setUploadTime(FunnyTimeUtils.nowUnix());
+        //如果原先存在图片信息，则先删除
+        if (!ObjectUtils.isEmpty(path)) {
+            // 提取路径参数中的uuid,先删除数据库中的记录，再删除文件夹中的图片
+            fileService.deletePictureInfo(UploadFileUtils.getFileName(path));
+            UploadFileUtils.deletePictureByRelative(path);
+        }
         fileService.uploadPictureInfo(info);
         metaInfoService.updateMetaCoverById(info.getPath(), id);
         return new BaseResponse<>(info.getPath());
