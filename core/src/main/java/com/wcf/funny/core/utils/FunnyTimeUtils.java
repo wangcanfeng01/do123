@@ -122,6 +122,32 @@ public class FunnyTimeUtils {
     public static int getUnixTime(String time) {
         return toUnixTime(getLocalDateTime(time));
     }
+    
+      /**
+     * 功能描述: 将localDateTime转成毫秒
+     *
+     * @param dateTime
+     * @return:long
+     * @since: v1.0
+     * @Author:wangcanfeng
+     * @Date: 2019/3/8 11:05
+     */
+    public static long toMillsTime(LocalDateTime dateTime) {
+        return dateTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli();
+    }
+
+    /**
+     * 功能描述: 将时间字符串转成毫秒
+     *
+     * @param time
+     * @return:long
+     * @since: v1.0
+     * @Author:wangcanfeng
+     * @Date: 2019/3/8 11:06
+     */
+    public static long getMillsTime(String time) {
+        return toMillsTime(getLocalDateTime(time));
+    }
 
     /**
      * @param time
