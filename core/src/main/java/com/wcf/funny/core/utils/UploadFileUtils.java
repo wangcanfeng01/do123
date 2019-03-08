@@ -119,9 +119,9 @@ public class UploadFileUtils {
      **/
     public static void deletePictureByRelative(String relativePath) {
         String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-        path = path.replaceAll("\\\\", "/");
+        path = path.replaceAll("\\\\", CoreConstant.SEPARATOR);
         String filePath = path + relativePath;
-        filePath = filePath.replaceAll("//", "/");
+        filePath = filePath.replaceAll("//", CoreConstant.SEPARATOR);
         deletePicture(filePath);
     }
 

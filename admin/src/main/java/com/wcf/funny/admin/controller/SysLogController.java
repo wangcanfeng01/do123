@@ -1,6 +1,7 @@
 package com.wcf.funny.admin.controller;
 
 import com.wcf.funny.admin.vo.SysLogVo;
+import com.wcf.funny.core.constant.CoreConstant;
 import com.wcf.funny.core.filter.FileTimeFilter;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.ListResponse;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -56,11 +59,13 @@ public class SysLogController {
             fileFilter = new FileTimeFilter(FunnyTimeUtils.getMillsTime(startTime), FunnyTimeUtils.getMillsTime(endTime));
         }
         fileList = total.listFiles(fileFilter);
-        List<SysLogVo> vos = new ArrayList<>();
+        List<SysLogVo> vos = new LinkedList<>();
         for (File file : fileList) {
             //调用递归方法获取文件列表
             getFileList(file, vos, fileFilter);
         }
+        //对于已经得到的列表，做反序列
+        Collections.reverse(vos);
         return new ListResponse<>(vos);
     }
 
@@ -75,7 +80,7 @@ public class SysLogController {
      * @Author:wangcanfeng
      * @Date: 2019/3/8 14:25
      */
-    @GetMapping(value = "download")
+    @GetMapping("/download")
     public void download(HttpServletResponse response, @RequestParam("path") String path) {
         //获取要下载的文件名
         String fileName = UploadFileUtils.getFileName(path);
@@ -105,6 +110,7 @@ public class SysLogController {
      */
     @GetMapping("/delete")
     public BaseResponse deleteFile(@RequestParam("path") String path) {
+        path = path.replaceAll("\\\\", CoreConstant.SEPARATOR);
         UploadFileUtils.deletePicture(path);
         return BaseResponse.ok();
     }

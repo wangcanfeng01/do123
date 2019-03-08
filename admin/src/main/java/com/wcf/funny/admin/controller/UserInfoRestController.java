@@ -8,6 +8,7 @@ import com.wcf.funny.admin.entity.UserRelatedMenu;
 import com.wcf.funny.admin.exception.errorcode.UploadErrorCode;
 import com.wcf.funny.admin.exception.errorcode.UserErrorCode;
 import com.wcf.funny.admin.service.MenuInfoService;
+import com.wcf.funny.admin.service.PersonDetailsService;
 import com.wcf.funny.admin.service.UserInfoService;
 import com.wcf.funny.admin.service.UserRoleService;
 import com.wcf.funny.admin.vo.UserMenuAuthVo;
@@ -54,6 +55,8 @@ public class UserInfoRestController extends BaseController {
 
     @Autowired
     private MenuInfoService menuInfoService;
+    @Autowired
+    private PersonDetailsService personDetailsService;
 
     /**
      * 这个id对应的菜单是不存在的
@@ -74,7 +77,7 @@ public class UserInfoRestController extends BaseController {
         StringBuilder sb = new StringBuilder();
         if (ObjectUtils.isEmpty(relatedMenu)) {
             // 如果是查询不到的用户则直接报错
-            throw new  ErrorResponse(UserErrorCode.LOGIN_USER_INFO_ERROR);
+            throw new ErrorResponse(UserErrorCode.LOGIN_USER_INFO_ERROR);
         }
         if (ObjectUtils.isEmpty(relatedMenu.getMenuIds())) {
             sb.append(NULL_MENU_ID);
@@ -135,8 +138,10 @@ public class UserInfoRestController extends BaseController {
         //注册时生成默认头像
         String facePath = UserConstant.DEFAULT_FACE;
         // 根据默认角色查询角色id
-        Integer roleId=roleService.getRoleIdByType(UserConstant.DEFAULT_REGISTER_ROLE_TYPE);
+        Integer roleId = roleService.getRoleIdByType(UserConstant.DEFAULT_REGISTER_ROLE_TYPE);
         userInfoService.addNewUser(username, password, facePath, roleId);
+        //插入用户相详细信息
+        personDetailsService.insertDetails(username);
         return BaseResponse.ok();
     }
 
@@ -166,6 +171,8 @@ public class UserInfoRestController extends BaseController {
         info.setUserLevel(user.getLevel());
         info.setIsEnable(UserConstant.USER_ENABLE);
         userInfoService.addNewUser(info);
+        //插入用户相详细信息
+        personDetailsService.insertDetails(user.getUsername());
         return BaseResponse.ok();
     }
 
