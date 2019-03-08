@@ -25,8 +25,23 @@ public class FileTimeFilter implements FileFilter {
         this.end = end;
     }
 
+    public FileTimeFilter() {
+        //默认的查询时间段设置
+        this.end = System.currentTimeMillis();
+        this.start = 0l;
+    }
+
     @Override
     public boolean accept(File pathname) {
+        if (pathname.isDirectory()) {
+            // 当它是一个文件夹时不做过滤
+            return true;
+        } else {
+            // 当在结束时间和起始时间范围内时返回true
+            if (pathname.lastModified() >= start && pathname.lastModified() <= end) {
+                return true;
+            }
+        }
         return false;
     }
 }
