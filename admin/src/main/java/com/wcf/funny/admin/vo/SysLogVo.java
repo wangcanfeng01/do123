@@ -21,4 +21,9 @@ public class SysLogVo {
      * 最后修改时间
      */
     private String lastModifyTime;
+
+    /**
+     * 日志文件路径
+     */
+    private String path;
 }
