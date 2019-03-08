@@ -96,6 +96,22 @@ public class FunnyTimeUtils {
         return getFormatter(Formatter.COMMON_TIME_FORMATTER).format(time);
     }
 
+     /**
+     * 功能描述: 根据毫秒时间获取时间字符串
+     * @param millsTime
+     * @return:java.lang.String
+     * @since: v1.0
+     * @Author:wangcanfeng
+     * @Date: 2019/3/8 11:31
+     */
+    public static String getTimeByMillsTime(Long millsTime){
+        if(ObjectUtils.isEmpty(millsTime)){
+            return "";
+        }
+        LocalDateTime time= Instant.ofEpochMilli(millsTime).atZone(ZoneOffset.ofHours(8)).toLocalDateTime();
+        return getFormatter(Formatter.COMMON_TIME_FORMATTER).format(time);
+    }
+    
     /**
      * 功能描述：  将localdateTime对象转成unix
      *
