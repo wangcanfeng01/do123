@@ -1,6 +1,8 @@
 package com.wcf.funny.home.vo;
 
+import com.wcf.funny.admin.entity.PersonDetailsInfo;
 import com.wcf.funny.admin.entity.SimpleRoleInfo;
+import com.wcf.funny.core.entity.CodeAndName;
 import lombok.Data;
 
 import java.util.List;
@@ -11,20 +13,21 @@ import java.util.List;
  * @function 个人信息视图信息
  **/
 @Data
-public class PersonalInfoVo {
+public class PersonalInfoVo extends PersonDetailsInfo{
     /**
      * 用户id
      */
     private Integer id;
-    /**
-     * 用户名
-     */
-    private String username;
 
     /**
      * 头像图片路径
      */
     private String facePath;
+
+    /**
+     * 注册时间
+     */
+    private String registerTime;
     /**
      * 用户等级
      */
@@ -44,31 +47,5 @@ public class PersonalInfoVo {
      * 积分
      */
     private Integer score;
-    /**
-     * 真实名称
-     */
-    private String personName;
-    /**
-     * 邮箱地址
-     */
-    private String email;
 
-    /**
-     * 工作地址
-     */
-    private String wordArea;
-
-    /**
-     * 联系方式
-     */
-    private String telephone;
-    /**
-     * 思维导图地址
-     */
-    private String mind;
-
-    /**
-     * 个人标签
-     */
-    private String tags;
 }

@@ -61,4 +61,9 @@ public class UserInfoVo {
      * 是否禁用
      */
     private String isEnable;
+
+    /**
+     * 用户类型
+     */
+    private String userType;
 }

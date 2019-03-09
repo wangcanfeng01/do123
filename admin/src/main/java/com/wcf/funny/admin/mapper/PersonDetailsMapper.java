@@ -25,7 +25,8 @@ public interface PersonDetailsMapper {
      * @time 2019/3/8 22:08
      * @since v1.0
      **/
-    @Insert("")
+    @Insert("insert into info_user_details (person_name, username, email, work_area, telephone, mind, tags)" +
+            "  VALUES (#{personName}, #{username}, #{email}, #{workArea}, #{telephone}, #{mind}, #{tags})")
     void insertDetails(PersonDetailsInfo detailsInfo);
 
     /**
@@ -36,7 +37,8 @@ public interface PersonDetailsMapper {
      * @time 2019/3/8 22:39
      * @since v1.0
      **/
-    @Update("")
+    @Update("update info_user_details set person_name=#{personName}, email=#{email}, work_area=#{workArea}, telephone=#{telephone}," +
+            "  mind=#{mind}, tags=#{tags} where username=#{username}")
     void updateDetails(PersonDetailsInfo detailsInfo);
 
     /**
@@ -46,17 +48,20 @@ public interface PersonDetailsMapper {
      * @time 2019/3/8 22:27
      * @since v1.0
      **/
-    @Select("")
-    List<PersonalInfo> getPersonByName(String username);
+    @Select(" SELECT id, person_name as personName, username, email, work_area as workArea, telephone," +
+            " mind, tags FROM info_user_details WHERE username=#{username}")
+    PersonDetailsInfo getPersonDetailByName(String username);
 
     /**
-     * 功能描述：  获取详情列表
+     * 功能描述：  获取开发者详情列表
      *
      * @param
      * @author wangcanfeng
      * @time 2019/3/8 22:29
      * @since v1.0
      **/
-    @Select("")
+    @Select(" SELECT a.id, a.person_name as personName, a.username, a.email, a.work_area as workArea, a.telephone," +
+            " a.mind, a.tags, b.face_path as facePath FROM info_user_details as a LEFT JOIN info_user as b ON a.username=b.name" +
+            " WHERE b.user_type='programmer'")
     List<PersonDetailsInfo> getProgrammerDetails();
 }

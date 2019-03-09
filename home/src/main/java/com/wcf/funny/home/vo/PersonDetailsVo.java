@@ -1,30 +1,22 @@
-package com.wcf.funny.home.vo.req;
+package com.wcf.funny.home.vo;
 
-import com.wcf.funny.admin.entity.SimpleRoleInfo;
+import com.wcf.funny.core.entity.CodeAndName;
+import com.wcf.funny.core.entity.NameAndType;
 import lombok.Data;
 
 import java.util.List;
 
 /**
  * @author wangcanfeng
- * @time 2019/3/8
- * @function 个人信息请求对象
+ * @time 2019/3/9
+ * @function 个人详细视图信息
  **/
 @Data
-public class PersonnalInfoReq {
+public class PersonDetailsVo {
     /**
      * 用户名
      */
     private String username;
-
-    /**
-     * 头像图片路径
-     */
-    private String facePath;
-    /**
-     * 签名档
-     */
-    private String introduce;
     /**
      * 真实名称
      */
@@ -37,7 +29,7 @@ public class PersonnalInfoReq {
     /**
      * 工作地址
      */
-    private String wordArea;
+    private String workArea;
 
     /**
      * 联系方式
@@ -49,7 +41,7 @@ public class PersonnalInfoReq {
     private String mind;
 
     /**
-     * 个人标签
+     * 个人标签列表
      */
-    private String tags;
+    private List<NameAndType> tags;
 }

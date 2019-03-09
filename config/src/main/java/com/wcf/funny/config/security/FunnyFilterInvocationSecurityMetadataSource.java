@@ -37,38 +37,64 @@ public class FunnyFilterInvocationSecurityMetadataSource implements FilterInvoca
 
     /**
      * 功能描述：  初始化权限的map
-     *@author wangcanfeng
-     *@time 2019/2/12 16:20
-     *@since v1.0
+     *
      * @param
-     *@return java.lang.Boolean
+     * @return java.lang.Boolean
+     * @author wangcanfeng
+     * @time 2019/2/12 16:20
+     * @since v1.0
      **/
     @Bean
     public Boolean setAuthMap() {
         List<UserRole> roles = roleService.getRoleList();
         roles.forEach(userRole -> {
             //重组角色与路径的关系，路径作为键值，角色类型的列表作为值
-            userRole.getMenuInfos().forEach(simpleMenuInfo -> {
-                if (!authMap.containsKey(simpleMenuInfo.getMenuPath())) {
-                    HashSet<String> roleSet = new HashSet<>();
-                    roleSet.add(userRole.getRoleType());
-                    authMap.put(simpleMenuInfo.getMenuPath(), roleSet);
-                } else {
-                    authMap.get(simpleMenuInfo.getMenuPath()).add(userRole.getRoleType());
-                }
-            });
+            userRole.getMenuInfos().forEach(simpleMenuInfo -> addAuth(simpleMenuInfo.getMenuPath(), userRole.getRoleType()));
         });
         return true;
+    }
+
+    /**
+     * 功能描述：增加菜单路径对应的角色
+     *
+     * @param path
+     * @param roleType
+     * @author wangcanfeng
+     * @time 2019/3/9 23:21
+     * @since v1.0
+     **/
+    public void addAuth(String path, String roleType) {
+        if (!authMap.containsKey(path)) {
+            HashSet<String> roleSet = new HashSet<>();
+            roleSet.add(roleType);
+            authMap.put(path, roleSet);
+        } else {
+            authMap.get(path).add(roleType);
+        }
+    }
+
+    /**
+     * 功能描述：增加菜单路径对应所需的权限
+     *
+     * @param path
+     * @param roleType
+     * @author wangcanfeng
+     * @time 2019/3/9 23:21
+     * @since v1.0
+     **/
+    public void removeAuth(String path, String roleType) {
+        authMap.get(path).remove(roleType);
     }
 
 
     /**
      * 功能描述：  根据拦截到的信息获取路径对应所需的角色列表
-     *@author wangcanfeng
-     *@time 2019/2/12 16:20
-     *@since v1.0
+     *
      * @param obj
-     *@return java.util.Collection<org.springframework.security.access.ConfigAttribute>
+     * @return java.util.Collection<org.springframework.security.access.ConfigAttribute>
+     * @author wangcanfeng
+     * @time 2019/2/12 16:20
+     * @since v1.0
      **/
     @Override
     public Collection<ConfigAttribute> getAttributes(Object obj) throws IllegalArgumentException {
@@ -78,7 +104,7 @@ public class FunnyFilterInvocationSecurityMetadataSource implements FilterInvoca
         String url = filterInvocation.getRequestUrl();
         HashSet<String> roles = authMap.get(url);
         if (!ObjectUtils.isEmpty(roles)) {
-            roles.forEach(role->{
+            roles.forEach(role -> {
                 ConfigAttribute configAttribute = new SecurityConfig(role);
                 collection.add(configAttribute);
             });

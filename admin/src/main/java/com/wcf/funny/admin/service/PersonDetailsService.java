@@ -42,14 +42,14 @@ public interface PersonDetailsService {
     void updateDetails(PersonDetailsInfo detailsInfo);
 
     /**
-     * 功能描述：查询用户列表
+     * 功能描述：根据用户名称查询用户个人信息
      *
      * @param username
      * @author wangcanfeng
      * @time 2019/3/8 22:27
      * @since v1.0
      **/
-    List<PersonalInfo> getPersonByName(String username);
+    PersonDetailsInfo getPersonDetailByName(String username);
 
     /**
      * 功能描述：  获取开发者详情列表

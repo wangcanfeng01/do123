@@ -2,6 +2,7 @@ package com.wcf.funny.admin.service.impl;
 
 import com.wcf.funny.admin.entity.PersonDetailsInfo;
 import com.wcf.funny.admin.entity.PersonalInfo;
+import com.wcf.funny.admin.exception.errorcode.UserErrorCode;
 import com.wcf.funny.admin.mapper.PersonDetailsMapper;
 import com.wcf.funny.admin.service.PersonDetailsService;
 import com.wcf.funny.core.exception.PgSqlException;
@@ -34,7 +35,7 @@ public class PersonDetailsServiceImpl implements PersonDetailsService {
         try {
             personDetailsMapper.insertDetails(detailsInfo);
         } catch (Exception e) {
-            throw new PgSqlException();
+            throw new PgSqlException(UserErrorCode.INSERT_USER_DETAILS_ERROR, e);
         }
     }
 
@@ -49,6 +50,7 @@ public class PersonDetailsServiceImpl implements PersonDetailsService {
     @Override
     public void insertDetails(String username) {
         PersonDetailsInfo detailsInfo = new PersonDetailsInfo();
+        detailsInfo.setUsername(username);
         insertDetails(detailsInfo);
     }
 
@@ -64,13 +66,13 @@ public class PersonDetailsServiceImpl implements PersonDetailsService {
     public void updateDetails(PersonDetailsInfo detailsInfo) {
         try {
             personDetailsMapper.updateDetails(detailsInfo);
-        }catch (Exception e){
-            throw new PgSqlException();
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.UPDATE_USER_DETAILS_ERROR, e);
         }
     }
 
     /**
-     * 功能描述：查询用户列表
+     * 功能描述：根据用户名称查询用户个人信息
      *
      * @param username
      * @author wangcanfeng
@@ -78,12 +80,12 @@ public class PersonDetailsServiceImpl implements PersonDetailsService {
      * @since v1.0
      **/
     @Override
-    public List<PersonalInfo> getPersonByName(String username) {
-       try {
-           personDetailsMapper.getPersonByName(username);
-       }catch (Exception e){
-           throw new PgSqlException();
-       }
+    public PersonDetailsInfo getPersonDetailByName(String username) {
+        try {
+            return personDetailsMapper.getPersonDetailByName(username);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.SELECT_USER_DETAILS_ERROR, e);
+        }
     }
 
     /**
@@ -96,9 +98,9 @@ public class PersonDetailsServiceImpl implements PersonDetailsService {
     @Override
     public List<PersonDetailsInfo> getProgrammerDetails() {
         try {
-            personDetailsMapper.getProgrammerDetails();
-        }catch (Exception e){
-            throw new PgSqlException();
+           return personDetailsMapper.getProgrammerDetails();
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.SELECT_USER_DETAILS_ERROR, e);
         }
     }
 }

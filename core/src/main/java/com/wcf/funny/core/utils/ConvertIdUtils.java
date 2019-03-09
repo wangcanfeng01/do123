@@ -2,6 +2,7 @@ package com.wcf.funny.core.utils;
 
 import com.wcf.funny.core.constant.CoreConstant;
 import com.wcf.funny.core.entity.CodeAndName;
+import com.wcf.funny.core.entity.NameAndType;
 import org.springframework.util.ObjectUtils;
 
 import java.util.*;
@@ -123,5 +124,49 @@ public class ConvertIdUtils {
         Map<String, String> menuMap = new HashMap<>();
         list.forEach(codeAndName -> menuMap.put(codeAndName.getCode(), codeAndName.getName()));
         return menuMap;
+    }
+
+    /**
+     * 功能描述： 将标签转成编号和名称的列表
+     *
+     * @param tags
+     * @author wangcanfeng
+     * @time 2019/3/9 18:13
+     * @since v1.0
+     **/
+    public static List<NameAndType> convertTagsToList(String tags) {
+        if (ObjectUtils.isEmpty(tags)) {
+            return Collections.emptyList();
+        }
+        String[] arr = tags.split(";");
+        List<NameAndType> list = new ArrayList<>();
+        for (String tag : arr) {
+            NameAndType nameAndType = new NameAndType();
+            String[] info = tag.split(":");
+            nameAndType.setName(info[0]);
+            nameAndType.setType(info[1]);
+            list.add(nameAndType);
+        }
+        return list;
+    }
+
+    /**
+     * 功能描述： 将tag列表转成字符串
+     *@author wangcanfeng
+     *@time 2019/3/9 19:58
+     *@since v1.0
+     * @param list
+     **/
+    public static String convertListToTags(List<NameAndType> list) {
+        if(ObjectUtils.isEmpty(list)){
+            return "";
+        }
+        StringBuilder sb=new StringBuilder();
+        list.forEach(nameAndType -> {
+            sb.append(nameAndType.getName()).append(":").append(nameAndType.getType()).append(";");
+        });
+        // 去除最后一个分号
+        sb.deleteCharAt(sb.length() - 1);
+        return sb.toString();
     }
 }

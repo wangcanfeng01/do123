@@ -39,5 +39,9 @@ public class PersonalInfo extends PersonDetailsInfo{
      * 积分
      */
     private Integer score;
+    /**
+     * 注册的时间
+     */
+    private String registerTime;
 
 }

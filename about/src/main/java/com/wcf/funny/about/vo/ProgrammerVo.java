@@ -1,16 +1,19 @@
-package com.wcf.funny.admin.entity;
+package com.wcf.funny.about.vo;
 
+import com.wcf.funny.core.entity.NameAndType;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author wangcanfeng
- * @time 2019/3/8
- * @function
+ * @time 2019/3/9
+ * @function 开发者视图信息
  **/
 @Data
-public class PersonDetailsInfo {
+public class ProgrammerVo {
     /**
-     * 头像路径
+     *  头像路径
      */
     private String facePath;
     /**
@@ -41,7 +44,7 @@ public class PersonDetailsInfo {
     private String mind;
 
     /**
-     * 个人标签
+     * 个人标签列表
      */
-    private String tags;
+    private List<NameAndType> tags;
 }

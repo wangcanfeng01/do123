@@ -33,8 +33,18 @@ public enum UserErrorCode implements CoreCode {
     INSERT_LOGIN_ERROR("0x0203000B","insert the user's login info error"),
     //登录记录查询失败
     SELECT_LOGIN_ERROR("0x0203000C","select the user's login info error"),
-
-
+    // 用户类型不支持
+    USER_TYPE_ERROR("0x0203000D","the input user type is not supported"),
+    // 用户状态不支持
+    USER_STATUS_ERROR("0x0203000E","the input user status is not supported"),
+    // 插入用户详细信息异常
+    INSERT_USER_DETAILS_ERROR("0x0203000F","insert user's details error"),
+    // 修改用户详细信息异常
+    UPDATE_USER_DETAILS_ERROR("0x02030010","update user's details error"),
+    // 查询用户详细信息异常
+    SELECT_USER_DETAILS_ERROR("0x02030011","select user's details error"),
+    //原密码输入不正确
+    SOURCE_PASSWORD_ERROR("0x02030012","user's source password is error"),
     ;
 
     /**

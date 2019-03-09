@@ -1,22 +1,23 @@
-package com.wcf.funny.admin.entity;
+package com.wcf.funny.home.vo.req;
 
+import com.wcf.funny.admin.entity.SimpleRoleInfo;
+import com.wcf.funny.core.entity.NameAndType;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author wangcanfeng
  * @time 2019/3/8
- * @function
+ * @function 个人详细信息请求对象
  **/
 @Data
-public class PersonDetailsInfo {
-    /**
-     * 头像路径
-     */
-    private String facePath;
+public class PersonalDetailInfoReq {
     /**
      * 用户名
      */
     private String username;
+
     /**
      * 真实名称
      */
@@ -43,5 +44,5 @@ public class PersonDetailsInfo {
     /**
      * 个人标签
      */
-    private String tags;
+    private List<NameAndType> tags;
 }

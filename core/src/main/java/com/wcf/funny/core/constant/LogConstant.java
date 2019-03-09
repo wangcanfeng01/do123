@@ -85,6 +85,8 @@ public class LogConstant {
         public final static String UPDATE_USER_ROLE = "update_user_role";
         //修改用户状态信息
         public final static String CHANGE_USER_STATUS = "change_user_status";
+        //修改用户类型信息
+        public final static String CHANGE_USER_TYPE = "change_user_type";
         // 删除版本信息
         public final static String DELETE_VERSION_INFO="delete_version_info";
         // 编辑版本信息
@@ -133,6 +135,14 @@ public class LogConstant {
         public final static String ADD_CATEGORY="add_category";
         // 上传专题封面
         public final static String UPLOAD_CATEGORY_COVER="upload_category_cover";
+        // 上传用户头像
+        public final static String UPLOAD_USER_FACE="upload_user_face";
+        // 修改用户基本信息
+        public final static String UPDATE_USER_BASE="update_user_base";
+        // 修改用户密码
+        public final static String UPDATE_USER_PASSWORD="update_user_password";
+        // 更新用户详情
+        public final static String UPDATE_USER_DETAILS="update_user_details";
     }
 
     /**

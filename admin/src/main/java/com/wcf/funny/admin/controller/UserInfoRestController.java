@@ -3,6 +3,8 @@ package com.wcf.funny.admin.controller;
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.admin.constant.AdminConstant;
 import com.wcf.funny.admin.constant.UserConstant;
+import com.wcf.funny.admin.constant.UserStatus;
+import com.wcf.funny.admin.constant.UserType;
 import com.wcf.funny.admin.entity.UserInfo;
 import com.wcf.funny.admin.entity.UserRelatedMenu;
 import com.wcf.funny.admin.exception.errorcode.UploadErrorCode;
@@ -13,6 +15,8 @@ import com.wcf.funny.admin.service.UserInfoService;
 import com.wcf.funny.admin.service.UserRoleService;
 import com.wcf.funny.admin.vo.UserMenuAuthVo;
 import com.wcf.funny.admin.vo.UserInfoVo;
+import com.wcf.funny.admin.vo.req.PasswordReq;
+import com.wcf.funny.admin.vo.req.UserBaseReq;
 import com.wcf.funny.admin.vo.req.UserInfoReq;
 import com.wcf.funny.core.annotation.OperationLog;
 import com.wcf.funny.core.constant.CoreConstant;
@@ -37,6 +41,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author wangcanfeng
@@ -169,7 +174,8 @@ public class UserInfoRestController extends BaseController {
         //初始0分
         info.setScore(0);
         info.setUserLevel(user.getLevel());
-        info.setIsEnable(UserConstant.USER_ENABLE);
+        info.setIsEnable(UserStatus.ENABLE.getInfo());
+        info.setUserType(UserType.USER.getInfo());
         userInfoService.addNewUser(info);
         //插入用户相详细信息
         personDetailsService.insertDetails(user.getUsername());
@@ -189,7 +195,9 @@ public class UserInfoRestController extends BaseController {
     @PutMapping("/status/{id}/{isEnable}")
     @OperationLog(action = LogConstant.ActionType.UPDATE, object = LogConstant.ActionObject.USER, info = LogConstant.ActionInfo.CHANGE_USER_STATUS)
     public BaseResponse changeUserStatus(@PathVariable("isEnable") Integer isEnable, @PathVariable("id") Integer id) {
-        userInfoService.changeStatus(isEnable, id);
+        //在枚举转型方法中加入了参数类型检验
+        UserStatus status = UserStatus.valueOfInteger(isEnable);
+        userInfoService.changeStatus(status.getInfo(), id);
         return BaseResponse.ok();
     }
 
@@ -229,42 +237,81 @@ public class UserInfoRestController extends BaseController {
 
 
     /**
-     * 功能描述：  上传头像
+     * 功能描述：  根据用户的id修改用户类型
      *
-     * @param face 头像文件，只能是图片
+     * @param userType
+     * @param id
      * @return com.wcf.funny.core.reponse.BaseResponse
      * @author wangcanfeng
-     * @time 2019/2/2 18:52
+     * @time 2019/2/3 15:22
      * @since v1.0
      **/
-    @PostMapping("/uploadFace")
-    public BaseResponse uploadFace(@RequestParam("file") MultipartFile face) {
-        if (face.isEmpty() || !face.getContentType().startsWith("image")) {
-            return new BaseResponse<>(UploadErrorCode.NOT_PICTURE_ERROR);
+    @PutMapping("/type/{id}/{userType}")
+    @OperationLog(action = LogConstant.ActionType.UPDATE, object = LogConstant.ActionObject.USER, info = LogConstant.ActionInfo.CHANGE_USER_TYPE)
+    public BaseResponse changeUserStatus(@PathVariable("userType") String userType, @PathVariable("id") Integer id) {
+        // 枚举转型方法中涵盖了参数类型校验
+        UserType type = UserType.valueOfString(userType);
+        userInfoService.changeUserTypeById(type.getInfo(), id);
+        return BaseResponse.ok();
+    }
+
+    /**
+     * 功能描述： 根据用户名称获取用户信息
+     *
+     * @param username
+     * @author wangcanfeng
+     * @time 2019/3/9 16:13
+     * @since v1.0
+     **/
+    @GetMapping("/userBaseInfo")
+    public BaseResponse<UserInfoVo> getUserBaseInfoByName(@RequestParam("username") String username) {
+        UserInfoVo vo = userInfoService.getVoByUsername(username);
+        return new BaseResponse<>(vo);
+    }
+
+    /**
+     * 功能描述：  更新用户基础信息
+     *
+     * @param req
+     * @author wangcanfeng
+     * @time 2019/3/9 16:55
+     * @since v1.0
+     **/
+    @PutMapping("/update/userBase")
+    @OperationLog(action = LogConstant.ActionType.UPDATE, object = LogConstant.ActionObject.USER,
+            info = LogConstant.ActionInfo.UPDATE_USER_BASE)
+    public BaseResponse updateUserBaseInfo(@RequestBody UserBaseReq req) {
+        UserInfo info = new UserInfo();
+        info.setUsername(req.getUsername());
+        info.setFacePath(req.getFacePath());
+        info.setId(req.getId());
+        info.setIntroduce(req.getIntroduce());
+        userInfoService.modifyUserBase(info);
+        return BaseResponse.ok();
+    }
+
+    /**
+     * 功能描述：修改用户密码
+     *
+     * @param req
+     * @return com.wcf.funny.core.reponse.BaseResponse
+     * @author wangcanfeng
+     * @time 2019/2/3 15:50
+     * @since v1.0
+     **/
+    @PutMapping("/updatePass")
+    @OperationLog(action = LogConstant.ActionType.UPDATE, object = LogConstant.ActionObject.USER,
+            info = LogConstant.ActionInfo.UPDATE_USER_PASSWORD)
+    public BaseResponse updatePassword(@RequestBody PasswordReq req) {
+        UserInfo info = userInfoService.getUserByid(req.getId());
+        String source = MD5Utils.encode(req.getSourcePass());
+        //判断输入的原密码和数据库中的密码是否相同
+        if (!Objects.equals(source, info.getPassword())) {
+            throw new ErrorResponse(UserErrorCode.SOURCE_PASSWORD_ERROR);
         }
-        long size = face.getSize();
-        if (size > CoreConstant.MB) {
-            return new BaseResponse<>(UploadErrorCode.FACE_SIZE_OVER_1MB);
-        }
-        PictureUploadInfo info = new PictureUploadInfo();
-//        UploadFileUtils uploadFileUtils=new UploadFileUtils(staticPicturePath,backupPicturePath);
-//        String fileLink = uploadFileUtils.uploadPicture(file, picturePath, info);
-//        if (!ObjectUtils.isEmpty(fileLink)) {
-//            info.setAuthor(authorName);
-//            info.setSize((int) size / 1024);
-//            info.setOrganisationId(articleId);
-//            info.setType("picture");
-//            info.setCreateTime(DateUtils.getCurrentUnixTime());
-//            info.setModifyTime(DateUtils.getCurrentUnixTime());
-//            try {
-//                pictureUploadService.insertPicture(info);
-//            } catch (PgSqlException e) {
-//                return BaseResponse.error(e);
-//            }
-//            return BaseResponse.ok(fileLink);
-//        }
-//        return BaseResponse.error("图片上传失败");
-        return new BaseResponse<>("/upload/banner.gif");
+        //更新用户密码
+        userInfoService.changePassword(MD5Utils.encode(req.getPassword()), req.getId());
+        return BaseResponse.ok();
     }
 
 }

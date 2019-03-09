@@ -19,10 +19,6 @@ public class UserConstant {
      * 默认头像
      */
     public final static String DEFAULT_FACE="/upload/image/face/default.jpg";
-    /**
-     * 用户启用
-     */
-    public final static Integer USER_ENABLE=1;
 
     /**
      * 默认的密码，重置的初始密码

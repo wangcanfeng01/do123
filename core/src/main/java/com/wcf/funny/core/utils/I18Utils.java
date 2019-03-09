@@ -1,5 +1,6 @@
 package com.wcf.funny.core.utils;
 
+import com.wcf.funny.core.constant.InfoEnum;
 import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.exception.errorcode.CoreCode;
 import org.springframework.context.MessageSource;
@@ -124,5 +125,23 @@ public class I18Utils {
     public static String getLogMessage(String code, String prefix) {
         String key = prefix + code;
         return source.getMessage(key, new Object[]{}, Locale.SIMPLIFIED_CHINESE);
+    }
+
+    /**
+     * 功能描述：根据信息code获取翻译信息
+     *
+     * @param infoEnum
+     * @author wangcanfeng
+     * @time 2019/3/4 23:19
+     * @since v1.0
+     **/
+    public static String getInfoTranslation(InfoEnum infoEnum) {
+        String key = "translation." + infoEnum.getCode();
+        String message = source.getMessage(key, new Object[]{}, Locale.SIMPLIFIED_CHINESE);
+        // 如果键值没有得到翻译，仍旧返回原先的msg
+        if (Objects.equals(message, key)) {
+            return infoEnum.getInfo().toString();
+        }
+        return message;
     }
 }

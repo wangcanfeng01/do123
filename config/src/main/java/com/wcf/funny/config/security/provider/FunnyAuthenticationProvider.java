@@ -55,6 +55,14 @@ public class FunnyAuthenticationProvider implements AuthenticationProvider {
         return null;
     }
 
+    /**
+     * 功能描述：  对密码做校验
+     *@author wangcanfeng
+     *@time 2019/3/9 20:35
+     *@since v1.0
+     * @param password
+    * @param authPassword
+     **/
     private boolean checkPassword(String password, String authPassword) {
         if (ObjectUtils.isEmpty(password) || ObjectUtils.isEmpty(authPassword)) {
             throw new UserAuthException(ConfigErrorCode.NAME_OR_PASSWORD_NULL);

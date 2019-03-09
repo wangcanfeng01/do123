@@ -3,6 +3,8 @@ package com.wcf.funny.admin.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.admin.constant.UserConstant;
+import com.wcf.funny.admin.constant.UserStatus;
+import com.wcf.funny.admin.constant.UserType;
 import com.wcf.funny.admin.entity.UserInfo;
 import com.wcf.funny.admin.entity.UserRelatedMenu;
 import com.wcf.funny.admin.exception.UserException;
@@ -13,6 +15,7 @@ import com.wcf.funny.admin.vo.UserInfoVo;
 import com.wcf.funny.core.exception.PgSqlException;
 import com.wcf.funny.core.utils.ConvertIdUtils;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
+import com.wcf.funny.core.utils.I18Utils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -100,7 +103,7 @@ public class UserInfoServiceImpl implements UserInfoService {
      * @since v1.0
      **/
     @Override
-    public boolean addNewUser(String name, String password, String facePath,Integer roleId) {
+    public boolean addNewUser(String name, String password, String facePath, Integer roleId) {
         UserInfo info = new UserInfo();
         info.setUsername(name);
         info.setPassword(password);
@@ -113,7 +116,9 @@ public class UserInfoServiceImpl implements UserInfoService {
         info.setScore(0);
         //新注册的用户默认都是1级会员
         info.setUserLevel(1);
-        info.setIsEnable(UserConstant.USER_ENABLE);
+        info.setIsEnable(UserStatus.ENABLE.getInfo());
+        // 默认用户类型都是普通用户
+        info.setUserType(UserType.USER.getInfo());
         return addNewUser(info);
     }
 
@@ -134,6 +139,18 @@ public class UserInfoServiceImpl implements UserInfoService {
         }
     }
 
+    /**
+     * @param name
+     * @return com.wcf.hellohome.user.model.UserInfo
+     * @note 通过用户名获取用户视图信息
+     * @author WCF
+     * @time 2018/6/12 22:15
+     * @since v1.0
+     **/
+    @Override
+    public UserInfoVo getVoByUsername(String name) {
+        return convertToVo(getByUsername(name));
+    }
 
     /**
      * @param id
@@ -178,8 +195,12 @@ public class UserInfoServiceImpl implements UserInfoService {
      * @since v1.0
      **/
     @Override
-    public void modifyUserBase() {
-
+    public void modifyUserBase(UserInfo info) {
+        try {
+            mapper.updateUserBaseById(info);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.UPDATE_USER_ERROR, e);
+        }
     }
 
     /**
@@ -237,9 +258,9 @@ public class UserInfoServiceImpl implements UserInfoService {
             throw new PgSqlException(UserErrorCode.SELECT_USER_ERROR, e);
         }
     }
-    
-    
-        /**
+
+
+    /**
      * 功能描述: 根据用户名称查询用户拥有角色对应的菜单id字符串
      *
      * @param username
@@ -258,6 +279,42 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     /**
+     * 功能描述：根据用户的id修改用户的类型
+     *
+     * @param userType
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/3/9 12:36
+     * @since v1.0
+     **/
+    @Override
+    public void changeUserTypeById(String userType, Integer id) {
+        try {
+            mapper.changeUserTypeById(userType, id);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.UPDATE_USER_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述： 根据用户
+     *
+     * @param facePath
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/3/9 15:53
+     * @since v1.0
+     **/
+    @Override
+    public void changeUserFaceById(String facePath, Integer id) {
+        try {
+            mapper.changeUserFaceById(facePath, id);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.UPDATE_USER_ERROR, e);
+        }
+    }
+
+    /**
      * 功能描述：  将数据库信息转换成视图信息
      *
      * @param infos
@@ -270,28 +327,41 @@ public class UserInfoServiceImpl implements UserInfoService {
         List<UserInfo> userList = infos.getList();
         List<UserInfoVo> userVos = new ArrayList<>(userList.size());
         for (UserInfo user : userList) {
-            UserInfoVo vo = new UserInfoVo();
-            vo.setId(user.getId());
-            vo.setRegisterTime(user.getRegisterTime());
-            vo.setUpdateTime(user.getUpdateTime());
-            vo.setIntroduce(user.getIntroduce());
-            vo.setFacePath(user.getFacePath());
-            vo.setUserAuth(ConvertIdUtils.getList(user.getRole()));
-            if (ObjectUtils.isEmpty(user.getIsEnable()) || user.getIsEnable() != UserConstant.USER_ENABLE) {
-                vo.setIsEnable("已禁用");
-            } else {
-                vo.setIsEnable("已启用");
-            }
-            vo.setUsername(user.getUsername());
-            vo.setScore(user.getScore());
-            vo.setUserLevel(user.getUserLevel());
-            vo.setRoleInfos(user.getRoleInfos());
-            userVos.add(vo);
+            userVos.add(convertToVo(user));
         }
         PageInfo<UserInfoVo> pageInfo = new PageInfo<>();
         pageInfo.setTotal(infos.getTotal());
         pageInfo.setList(userVos);
         return pageInfo;
+    }
+
+    /**
+     * 功能描述：  将用户信息转成视图信息
+     *
+     * @param user
+     * @author wangcanfeng
+     * @time 2019/3/9 16:16
+     * @since v1.0
+     **/
+    private UserInfoVo convertToVo(UserInfo user) {
+        UserInfoVo vo = new UserInfoVo();
+        vo.setId(user.getId());
+        vo.setRegisterTime(user.getRegisterTime());
+        vo.setUpdateTime(user.getUpdateTime());
+        vo.setIntroduce(user.getIntroduce());
+        vo.setFacePath(user.getFacePath());
+        vo.setUserAuth(ConvertIdUtils.getList(user.getRole()));
+        // 处理用户状态
+        Integer userStatus = user.getIsEnable();
+        vo.setIsEnable(I18Utils.getInfoTranslation(UserStatus.valueOfInteger(userStatus)));
+        vo.setUsername(user.getUsername());
+        vo.setScore(user.getScore());
+        vo.setUserLevel(user.getUserLevel());
+        vo.setRoleInfos(user.getRoleInfos());
+        // 处理用户类型
+        String userType = user.getUserType();
+        vo.setUserType(I18Utils.getInfoTranslation(UserType.valueOfString(userType)));
+        return vo;
     }
 
 

@@ -66,4 +66,9 @@ public class UserInfo {
      * 是否禁用
      */
     private Integer isEnable;
+
+    /**
+     * 用户类型，如开发者，如单纯的用户
+     */
+    private String userType;
 }
