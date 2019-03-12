@@ -3,6 +3,8 @@ package com.wcf.funny.config.security;
 import com.wcf.funny.admin.entity.UserRole;
 import com.wcf.funny.admin.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.access.ConfigAttribute;
@@ -25,7 +27,7 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Service
 @Order(999)
-public class FunnyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource {
+public class FunnyFilterInvocationSecurityMetadataSource implements FilterInvocationSecurityMetadataSource, ApplicationRunner {
 
     @Autowired
     private UserRoleService roleService;
@@ -36,7 +38,23 @@ public class FunnyFilterInvocationSecurityMetadataSource implements FilterInvoca
     private static ConcurrentHashMap<String, HashSet<String>> authMap = new ConcurrentHashMap<>();
 
     /**
-     * 功能描述：  初始化权限的map
+     * 功能描述：初始化权限的map
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/3/12 21:23
+     * @since v1.0
+     **/
+    public void initAuthMap() {
+        List<UserRole> roles = roleService.getRoleList();
+        roles.forEach(userRole -> {
+            //重组角色与路径的关系，路径作为键值，角色类型的列表作为值
+            userRole.getMenuInfos().forEach(simpleMenuInfo -> addAuth(simpleMenuInfo.getMenuPath(), userRole.getRoleType()));
+        });
+    }
+
+    /**
+     * 功能描述： 在springboot启动之后在调用该方法，完成权限重构
      *
      * @param
      * @return java.lang.Boolean
@@ -44,14 +62,9 @@ public class FunnyFilterInvocationSecurityMetadataSource implements FilterInvoca
      * @time 2019/2/12 16:20
      * @since v1.0
      **/
-    @Bean
-    public Boolean setAuthMap() {
-        List<UserRole> roles = roleService.getRoleList();
-        roles.forEach(userRole -> {
-            //重组角色与路径的关系，路径作为键值，角色类型的列表作为值
-            userRole.getMenuInfos().forEach(simpleMenuInfo -> addAuth(simpleMenuInfo.getMenuPath(), userRole.getRoleType()));
-        });
-        return true;
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        initAuthMap();
     }
 
     /**
@@ -74,16 +87,14 @@ public class FunnyFilterInvocationSecurityMetadataSource implements FilterInvoca
     }
 
     /**
-     * 功能描述：增加菜单路径对应所需的权限
+     * 功能描述：重构菜单路径对应所需的权限
      *
-     * @param path
-     * @param roleType
      * @author wangcanfeng
      * @time 2019/3/9 23:21
      * @since v1.0
      **/
-    public void removeAuth(String path, String roleType) {
-        authMap.get(path).remove(roleType);
+    public void reInit() {
+       initAuthMap();
     }
 
 
@@ -121,4 +132,6 @@ public class FunnyFilterInvocationSecurityMetadataSource implements FilterInvoca
     public boolean supports(Class<?> aClass) {
         return true;
     }
+
+
 }

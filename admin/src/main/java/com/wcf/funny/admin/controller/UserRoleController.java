@@ -8,11 +8,13 @@ import com.wcf.funny.admin.vo.RoleVo;
 import com.wcf.funny.admin.vo.req.RoleReq;
 import com.wcf.funny.core.annotation.OperationLog;
 import com.wcf.funny.core.constant.LogConstant;
+import com.wcf.funny.core.event.BeanMethodEvent;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.ListResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +31,11 @@ public class UserRoleController {
 
     @Autowired
     private UserRoleService roleService;
+    /**
+     * 注入publisher，用于发布事件
+     */
+    @Autowired
+    private ApplicationEventPublisher publisher;
 
 
     /**
@@ -67,11 +74,12 @@ public class UserRoleController {
 
     /**
      * 功能描述：
-     *@author wangcanfeng
-     *@time 2019/1/30 22:31
-     *@since v1.0
+     *
      * @param
-     *@return com.wcf.funny.core.reponse.BaseResponse<java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>>
+     * @return com.wcf.funny.core.reponse.BaseResponse<java.util.List<com.wcf.funny.admin.entity.SimpleMenuInfo>>
+     * @author wangcanfeng
+     * @time 2019/1/30 22:31
+     * @since v1.0
      **/
     @GetMapping("/roleList/simple")
     public BaseResponse<List<SimpleRoleInfo>> getMenuList() {
@@ -89,7 +97,7 @@ public class UserRoleController {
      * @since v1.0
      **/
     @PostMapping("/add")
-    @OperationLog(action = LogConstant.ActionType.ADD,object = LogConstant.ActionObject.ROLE,info = LogConstant.ActionInfo.ADD_ROLE)
+    @OperationLog(action = LogConstant.ActionType.ADD, object = LogConstant.ActionObject.ROLE, info = LogConstant.ActionInfo.ADD_ROLE)
     public BaseResponse getRoleList(@RequestBody RoleReq req) {
         UserRole role = new UserRole();
         role.setCreateTime(FunnyTimeUtils.nowUnix());
@@ -100,20 +108,24 @@ public class UserRoleController {
         role.setRoleName(req.getName());
         role.setRoleType(req.getType());
         roleService.insertRole(role);
+        //新建角色之后再重构一下角色的菜单权限
+        publisher.publishEvent(BeanMethodEvent.create(new Object[]{},
+                "funnyFilterInvocationSecurityMetadataSource","reInit"));
         return BaseResponse.ok();
     }
 
     /**
      * 功能描述：  更新角色信息
-     *@author wangcanfeng
-     *@time 2019/1/31 22:23
-     *@since v1.0
+     *
      * @param req
-     *@return com.wcf.funny.core.reponse.BaseResponse
+     * @return com.wcf.funny.core.reponse.BaseResponse
+     * @author wangcanfeng
+     * @time 2019/1/31 22:23
+     * @since v1.0
      **/
     @PutMapping("/modify")
-    @OperationLog(action = LogConstant.ActionType.UPDATE,object = LogConstant.ActionObject.ROLE,info = LogConstant.ActionInfo.MODIFY_ROLE)
-    public BaseResponse updateRole(@RequestBody RoleReq req){
+    @OperationLog(action = LogConstant.ActionType.UPDATE, object = LogConstant.ActionObject.ROLE, info = LogConstant.ActionInfo.MODIFY_ROLE)
+    public BaseResponse updateRole(@RequestBody RoleReq req) {
         UserRole role = new UserRole();
         role.setId(req.getId());
         role.setUpdateTime(FunnyTimeUtils.nowUnix());
@@ -123,32 +135,35 @@ public class UserRoleController {
         role.setRoleName(req.getName());
         role.setRoleType(req.getType());
         roleService.updateRoleById(role);
+        //修改角色之后再重构一下角色的菜单权限
+        publisher.publishEvent(BeanMethodEvent.create(new Object[]{},
+                "funnyFilterInvocationSecurityMetadataSource","reInit"));
         return BaseResponse.ok();
     }
 
     @DeleteMapping("/delete/{id}")
-    @OperationLog(action = LogConstant.ActionType.DELETE,object = LogConstant.ActionObject.ROLE,info = LogConstant.ActionInfo.DELETE_ROLE)
-    public BaseResponse deleteRole(@PathVariable("id") Integer id){
+    @OperationLog(action = LogConstant.ActionType.DELETE, object = LogConstant.ActionObject.ROLE, info = LogConstant.ActionInfo.DELETE_ROLE)
+    public BaseResponse deleteRole(@PathVariable("id") Integer id) {
         roleService.deleteRoleById(id);
         return BaseResponse.ok();
     }
 
 
-
     /**
      * 功能描述：将权限转成String，中间用逗号隔开
-     *@author wangcanfeng
-     *@time 2019/1/31 22:20
-     *@since v1.0
+     *
      * @param auths
-     *@return java.lang.String
+     * @return java.lang.String
+     * @author wangcanfeng
+     * @time 2019/1/31 22:20
+     * @since v1.0
      **/
-    private String getAuth(List<Integer> auths){
+    private String getAuth(List<Integer> auths) {
         StringBuilder sb = new StringBuilder();
         if (!ObjectUtils.isEmpty(auths)) {
             auths.forEach(auth -> sb.append(auth).append(","));
             //将最后一位的,去掉
-            sb.deleteCharAt(sb.length()-1);
+            sb.deleteCharAt(sb.length() - 1);
         }
         return sb.toString();
     }

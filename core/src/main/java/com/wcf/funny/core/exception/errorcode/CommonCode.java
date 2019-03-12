@@ -7,7 +7,15 @@ public enum  CommonCode implements CoreCode{
     // 时间格式异常
     TIME_FORMAT_ERROR("0x05020001","time format is not right"),
     // 不支持的图片类型
-    UNSUPPORTED_PICTURE_TYPE("0x05020002","unsupported picture type");
+    UNSUPPORTED_PICTURE_TYPE("0x05020002","unsupported picture type"),
+    // 类名不能为空
+    CLASS_NAME_NULL("0x05020003","target class can not be null"),
+    // bean的名称不能为空
+    BEAN_NAME_NULL("0x05020004","bean name can not be null"),
+    // 找不到目标类
+    CAN_NOT_FIND_CLASS("0x05020005","bean name can not be null"),
+    // 找不到bean名称对应的类
+    CAN_NOT_FIND_BEAN("0x05020006","bean name can not be null"),;
 
     /**
      * 原因

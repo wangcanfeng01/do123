@@ -6,6 +6,7 @@ import com.wcf.funny.config.security.handler.FunnyLogoutSuccessHandler;
 import com.wcf.funny.config.security.provider.FunnyAuthenticationProvider;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,6 +25,12 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 @EnableWebSecurity
 @Log4j2
 public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
+
+    /**
+     * 是否开启权限
+     */
+    @Value("${open.security}")
+    private String openSecurity;
 
     /**
      * 权限过滤器
@@ -77,13 +84,18 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
      **/
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        String[] paths;
+        if (Boolean.valueOf(openSecurity)) {
+            paths = new String[]{"/ui/user/get/login", "/ui/user/register", "/", "/home", "/index.html"};
+        } else {
+            //不开启权限的时候直接打开所有路径
+            paths = new String[]{"/**"};
+        }
         http
                 .csrf().disable().cors().disable()
                 .addFilterBefore(securityFilterInterceptor, FilterSecurityInterceptor.class)
                 .authorizeRequests()
-                .antMatchers("/ui/user/get/login", "/ui/user/register").permitAll()
-                //默认首页不做拦截
-                .antMatchers("/", "/home", "/index.html").permitAll()
+                .antMatchers(paths).permitAll()
                 .anyRequest().authenticated().and()
                 .formLogin().loginPage("/login").loginProcessingUrl("/ui/user/login").permitAll()
                 .successHandler(authenticationSuccessHandler).failureHandler(authenticationFailureHandler).and()

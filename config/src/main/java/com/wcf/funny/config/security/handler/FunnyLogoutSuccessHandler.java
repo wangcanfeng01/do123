@@ -9,6 +9,7 @@ import com.wcf.funny.core.entity.OperationLogInfo;
 import com.wcf.funny.core.service.OperationLogService;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
+import com.wcf.funny.core.utils.RequestUtils;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -48,8 +49,8 @@ public class FunnyLogoutSuccessHandler implements LogoutSuccessHandler {
         } catch (IOException e) {
             log.error("logout failed, the details: " + e.getMessage());
         } finally {
-            String username=request.getParameter("username");
-            String ip = request.getRemoteAddr();
+            String username= RequestUtils.getUserName();
+            String ip =  RequestUtils.getRemoteIp();
             loginUserService.insertLogoutUser(username,ip);
         }
     }
