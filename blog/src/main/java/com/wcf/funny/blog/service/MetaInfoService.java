@@ -136,6 +136,15 @@ public interface MetaInfoService {
      **/
     MetaInfo getMetaByNameAndType(String name, String type);
 
+    /**
+     * 功能描述：  根据id获取标签信息
+     *@author wangcanfeng
+     *@time 2019/3/14 22:36
+     *@since v1.0
+     * @param id
+     **/
+    MetaInfo getMetaById(Integer id);
+
 
     /**
      * 功能描述：  根据名称和类型，增加标签的统计值

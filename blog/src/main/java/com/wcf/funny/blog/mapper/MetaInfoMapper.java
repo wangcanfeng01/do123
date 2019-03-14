@@ -110,7 +110,7 @@ public interface MetaInfoMapper {
 
 
     /**
-     * 功能描述：  根据id获取标签信息
+     * 功能描述：  根据标签名称和类型获取标签信息
      *
      * @param name
      * @author wangcanfeng
@@ -120,6 +120,17 @@ public interface MetaInfoMapper {
     @Select("SELECT id, name FROM info_metas WHERE name=#{name} and type=#{type}")
     MetaInfo getMetaByNameAndType(@Param("name") String name, @Param("type") String type);
 
+    /**
+     * 功能描述：  根据id获取标签信息
+     *
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/2/23 16:27
+     * @since v1.0
+     **/
+    @Select("SELECT id, name, type, cover, description, modify_time as modifyTime, create_time as createTime, count " +
+            " FROM info_metas WHERE id= #{id} ")
+    MetaInfo getMetaById(Integer id);
 
     /**
      * 功能描述： 根据专题名称和类型增加统计值

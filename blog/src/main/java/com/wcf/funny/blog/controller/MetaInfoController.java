@@ -122,6 +122,13 @@ public class MetaInfoController {
         if (!count.equals(0)) {
             throw new ErrorResponse(MetaErrorCode.CATEGORY_DELETE_DISABLE);
         }
+        //查询标签信息,如果原先有封面先删除封面
+        MetaInfo info = metaInfoService.getMetaById(id);
+        if (!ObjectUtils.isEmpty(info) && !ObjectUtils.isEmpty(info.getCover())) {
+            UploadFileUtils.deletePictureByRelative(info.getCover());
+            String uuid=UploadFileUtils.getFileName(info.getCover());
+            fileService.deletePictureInfo(uuid);
+        }
         // 只有当专题下面的统计值大于0的时候才真正执行删除操作
         metaInfoService.deleteCategoryById(id);
         return BaseResponse.ok();

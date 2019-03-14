@@ -21,7 +21,7 @@ public interface ServerInfoService {
      * @time 2019/3/13 23:19
      * @since v1.0
      **/
-    PageInfo<ServerInfoVo> getServerInfos(Integer currentPage,Integer pageSize);
+    PageInfo<ServerInfoVo> getServerInfos(Integer currentPage, Integer pageSize);
 
     /**
      * 功能描述：插入服务器运行信息
@@ -32,4 +32,55 @@ public interface ServerInfoService {
      * @since v1.0
      **/
     void insertServerInfo(ServerInfo info);
+
+    /**
+     * 功能描述：根据类型插入服务器运行信息
+     *
+     * @param type
+     * @author wangcanfeng
+     * @time 2019/3/13 23:19
+     * @since v1.0
+     **/
+    void insertServerInfoByType(String type);
+
+
+    /**
+     * 功能描述：获取cpu使用量
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/3/14 23:13
+     * @since v1.0
+     **/
+    String cpuUsed();
+
+    /**
+     * 功能描述：获取硬盘使用量
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/3/14 23:13
+     * @since v1.0
+     **/
+    String diskUsed();
+
+    /**
+     * 功能描述：获取非堆内存使用量
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/3/14 23:13
+     * @since v1.0
+     **/
+    String noHeapUsed();
+
+    /**
+     * 功能描述：获取堆内存使用量
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/3/14 23:13
+     * @since v1.0
+     **/
+    String heapUsed();
 }

@@ -251,6 +251,24 @@ public class MetaInfoServiceImpl implements MetaInfoService {
         }
     }
 
+
+    /**
+     * 功能描述：  根据id获取标签信息
+     *
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/3/14 22:36
+     * @since v1.0
+     **/
+    @Override
+    public MetaInfo getMetaById(Integer id) {
+        try {
+            return metaInfoMapper.getMetaById(id);
+        } catch (Exception e) {
+            throw new PgSqlException(MetaErrorCode.SELECT_META_ERROR, e);
+        }
+    }
+
     /**
      * 功能描述：  根据名称和类型，增加标签的统计值
      *
