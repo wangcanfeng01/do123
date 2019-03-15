@@ -22,10 +22,26 @@ public enum UserType implements InfoEnum{
 
     private String code;
 
+    /**
+     *@note 获取信息
+     *@author WCF
+     *@time 2018/12/28 22:49
+     *@since v1.0
+     * @param
+     *@return java.lang.String
+     **/
     public String getInfo() {
         return type;
     }
 
+    /**
+     *@note 获取状态码
+     *@author WCF
+     *@time 2018/12/28 22:49
+     *@since v1.0
+     * @param
+     *@return java.lang.String
+     **/
     public String getCode(){
         return code;
     }

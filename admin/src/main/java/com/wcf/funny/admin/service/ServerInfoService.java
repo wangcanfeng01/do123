@@ -34,14 +34,13 @@ public interface ServerInfoService {
     void insertServerInfo(ServerInfo info);
 
     /**
-     * 功能描述：根据类型插入服务器运行信息
+     * 功能描述：插入服务器运行信息
      *
-     * @param type
      * @author wangcanfeng
      * @time 2019/3/13 23:19
      * @since v1.0
      **/
-    void insertServerInfoByType(String type);
+    void insertServerInfo();
 
 
     /**

@@ -38,5 +38,8 @@ public class CoreConstant {
      */
     public final static String SEPARATOR="/";
 
+    // 1GB的byte数
+    public final static int GB=1073741824;
+
 
 }

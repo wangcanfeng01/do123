@@ -33,8 +33,4 @@ public class ServerInfo {
      * cpu使用量
      */
     private String cpuUsed;
-    /**
-     * 统计类型
-     */
-    private String statisticType;
 }

@@ -2,18 +2,24 @@ package com.wcf.funny.admin.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.admin.constant.AdminConstant;
 import com.wcf.funny.admin.entity.ServerInfo;
 import com.wcf.funny.admin.exception.errorcode.ServerInfoErrorCode;
 import com.wcf.funny.admin.mapper.ServerInfoMapper;
 import com.wcf.funny.admin.service.ServerInfoService;
 import com.wcf.funny.admin.vo.ServerInfoVo;
+import com.wcf.funny.core.constant.CoreConstant;
 import com.wcf.funny.core.exception.PgSqlException;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.actuate.health.Health;
+import org.springframework.boot.actuate.health.HealthEndpoint;
 import org.springframework.boot.actuate.metrics.MetricsEndpoint;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +29,7 @@ import java.util.List;
  * @function 服务器信息查询接口实现类
  **/
 @Service
+@Log4j2
 public class ServerInfoServiceImpl implements ServerInfoService {
 
     @Autowired
@@ -30,6 +37,9 @@ public class ServerInfoServiceImpl implements ServerInfoService {
 
     @Autowired
     private MetricsEndpoint metricsEndpoint;
+
+    @Autowired
+    private HealthEndpoint healthEndpoint;
 
     /**
      * 功能描述：查询服务器信息列表
@@ -74,10 +84,9 @@ public class ServerInfoServiceImpl implements ServerInfoService {
      * @since v1.0
      **/
     @Override
-    public void insertServerInfoByType(String type) {
+    public void insertServerInfo() {
         ServerInfo info = new ServerInfo();
         info.setCreateTime(FunnyTimeUtils.nowUnix());
-        info.setStatisticType(type);
         info.setHeapUsed(heapUsed());
         info.setNoHeapUsed(noHeapUsed());
         info.setDiskUsed(diskUsed());
@@ -108,10 +117,9 @@ public class ServerInfoServiceImpl implements ServerInfoService {
                 vo.setHeapUsed(info.getHeapUsed());
                 vo.setId(info.getId());
                 vo.setNoHeapUsed(info.getNoHeapUsed());
-                vo.setStatisticType(info.getStatisticType());
-                pageVo.setTotal(pageInfo.getTotal());
-                pageVo.setList(vos);
             });
+            pageVo.setTotal(pageInfo.getTotal());
+            pageVo.setList(vos);
         }
 
         return pageVo;
@@ -125,9 +133,10 @@ public class ServerInfoServiceImpl implements ServerInfoService {
      * @time 2019/3/14 23:13
      * @since v1.0
      **/
-    private String cpuUsed() {
-
-        MetricsEndpoint.MetricResponse response = metricsEndpoint.metric("");
+    public String cpuUsed() {
+        Double used = getMetricStatistic(AdminConstant.SYSTEM_CPU_USED, "");
+        DecimalFormat format = new DecimalFormat("0.00");
+        return format.format(used);
     }
 
     /**
@@ -138,9 +147,22 @@ public class ServerInfoServiceImpl implements ServerInfoService {
      * @time 2019/3/14 23:13
      * @since v1.0
      **/
-    private String diskUsed() {
-
-        MetricsEndpoint.MetricResponse response = metricsEndpoint.metric("");
+    public String diskUsed() {
+        Health health = healthEndpoint.healthForComponent(AdminConstant.DISK_SPACE);
+        Object totalStr = health.getDetails().get("total");
+        Object freeStr = health.getDetails().get("free");
+        if (ObjectUtils.isEmpty(totalStr) || ObjectUtils.isEmpty(freeStr)) {
+            log.error("diskSpace information obtain failed");
+            return "0.00";
+        }
+        Double total = Double.valueOf(totalStr.toString());
+        if (total.equals(0.0)) {
+            return "0.00";
+        }
+        Double free = Double.valueOf(freeStr.toString());
+        DecimalFormat format = new DecimalFormat("0.00");
+        Double used = (total - free) / total;
+        return format.format(used);
     }
 
     /**
@@ -151,9 +173,12 @@ public class ServerInfoServiceImpl implements ServerInfoService {
      * @time 2019/3/14 23:13
      * @since v1.0
      **/
-    private String noHeapUsed() {
-
-        MetricsEndpoint.MetricResponse response = metricsEndpoint.metric("");
+    public String noHeapUsed() {
+        String tag = "area:noheap";
+        Double used = getMetricStatistic(AdminConstant.JVM_MEMORY_USED, tag);
+        used = used / CoreConstant.MB;
+        DecimalFormat format = new DecimalFormat("0.00");
+        return format.format(used);
     }
 
     /**
@@ -164,10 +189,35 @@ public class ServerInfoServiceImpl implements ServerInfoService {
      * @time 2019/3/14 23:13
      * @since v1.0
      **/
-    private String heapUsed() {
-
-        MetricsEndpoint.MetricResponse response = metricsEndpoint.metric("");
+    public String heapUsed() {
+        String tag = "area:heap";
+        Double used = getMetricStatistic(AdminConstant.JVM_MEMORY_USED, tag);
+        used = used / CoreConstant.MB;
+        DecimalFormat format = new DecimalFormat("0.00");
+        return format.format(used);
     }
 
+    /**
+     * 功能描述：  根据metric的名称和标签获取metric的统计值
+     *
+     * @param metricName
+     * @param tag
+     * @author wangcanfeng
+     * @time 2019/3/15 21:08
+     * @since v1.0
+     **/
+    private Double getMetricStatistic(String metricName, String tag) {
+        Double result;
+        List<String> tags = new ArrayList<>();
+        tags.add(tag);
+        MetricsEndpoint.MetricResponse response = metricsEndpoint.metric(metricName, tags);
+        if (ObjectUtils.isEmpty(response) || ObjectUtils.isEmpty(response.getMeasurements())) {
+            log.error("can not get the statistic info, the response or the measurements is null");
+            return 0.0;
+        } else {
+            result = response.getMeasurements().get(0).getValue();
+        }
+        return result;
+    }
 
 }
