@@ -6,21 +6,20 @@ import com.wcf.funny.core.constant.InfoEnum;
 
 /**
  * @author wangcanfeng
- * @time 2019/3/15
- * @function 任务类型
+ * @time 2019/3/17
+ * @function 任务分组
  **/
-public enum TaskType implements InfoEnum {
-    //单次任务
-    SINGLE("task_single_time_code", "single"),
-    //定时多次任务
-    MULTI("task_multi_times_code", "multi");
+public enum TaskGroup implements InfoEnum {
+    // 系统信息统计任务组
+    SYSTEM_STATISTIC("system_statistic_code", "system_statistic"),;
 
-    TaskType(String code, String type) {
+    TaskGroup(String code, String group) {
         this.code = code;
-        this.type = type;
+        this.group = group;
     }
 
-    private String type;
+
+    private String group;
 
     private String code;
 
@@ -45,33 +44,28 @@ public enum TaskType implements InfoEnum {
      **/
     @Override
     public Object getInfo() {
-        return type;
+        return group;
     }
 
-
     /**
-     * 功能描述：  将字符串信息转成枚举类型
+     * 功能描述：将任务组名转成枚举
      *
-     * @param type
+     * @param group
      * @author wangcanfeng
-     * @time 2019/3/9 12:59
+     * @time 2019/3/17 12:59
      * @since v1.0
      **/
-    public static TaskType valueOfString(String type) {
-        TaskType taskType;
-        switch (type) {
-            case "single": {
-                taskType = SINGLE;
-                break;
-            }
-            case "multi": {
-                taskType = MULTI;
+    public static TaskGroup valueOfGroup(String group) {
+        TaskGroup taskGroup;
+        switch (group) {
+            case "system_statistic": {
+                taskGroup = SYSTEM_STATISTIC;
                 break;
             }
             default: {
-                throw new TaskException(TaskErrorCode.TASK_TYPE_UNSUPPORTED);
+                throw new TaskException(TaskErrorCode.TASK_GROUP_UNSUPPORTED);
             }
         }
-        return taskType;
+        return taskGroup;
     }
 }

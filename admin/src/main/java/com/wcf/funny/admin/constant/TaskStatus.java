@@ -16,6 +16,8 @@ public enum TaskStatus implements InfoEnum {
     FINISHED("finish_code","finished"),
     //等待中
     WAITING("waiting_code","waiting"),
+    //已暂停
+    PAUSED("paused_code","paused"),
             ;
 
     TaskStatus(String code,String result) {

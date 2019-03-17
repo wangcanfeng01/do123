@@ -15,7 +15,10 @@ public enum  CommonCode implements CoreCode{
     // 找不到目标类
     CAN_NOT_FIND_CLASS("0x05020005","bean name can not be null"),
     // 找不到bean名称对应的类
-    CAN_NOT_FIND_BEAN("0x05020006","bean name can not be null"),;
+    CAN_NOT_FIND_BEAN("0x05020006","bean name can not be null"),
+    //当前方法还未提供使用
+    UNSUPPORTED_METHOD("0x05020007","unsupported method"),
+    ;
 
     /**
      * 原因

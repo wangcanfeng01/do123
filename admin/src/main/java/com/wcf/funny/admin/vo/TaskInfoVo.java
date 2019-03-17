@@ -1,14 +1,11 @@
-package com.wcf.funny.admin.entity;
-
-import lombok.Data;
+package com.wcf.funny.admin.vo;
 
 /**
  * @author wangcanfeng
- * @time 2019/3/15
- * @function 任务信息
+ * @time 2019/3/17
+ * @function 任务视图信息
  **/
-@Data
-public class ScheduleTaskInfo {
+public class TaskInfoVo {
     /**
      * 序列号
      */
@@ -20,7 +17,7 @@ public class ScheduleTaskInfo {
     /**
      * 创建时间
      */
-    private Integer createTime;
+    private String createTime;
     /**
      * 任务状态
      */
@@ -40,11 +37,11 @@ public class ScheduleTaskInfo {
     /**
      * 任务更新时间
      */
-    private Integer updateTime;
+    private String updateTime;
     /**
-     * 任务执行间隔
+     * 任务执行周期
      */
-    private String taskInterval;
+    private String taskPeriod;
     /**
      * 任务分组
      */
@@ -52,6 +49,5 @@ public class ScheduleTaskInfo {
     /**
      * 任务点火时间
      */
-    private Long triggerTime;
-
+    private String triggerTime;
 }
