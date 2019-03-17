@@ -20,7 +20,10 @@ public interface TaskLogMapper {
      * @time 2019/3/17 13:16
      * @since v1.0
      **/
-    @Insert("")
+    @Insert("insert into info_task (task_name, create_time, task_status, task_type, task_creator, task_result," +
+            "  update_time, task_interval, task_group, trigger_time)" +
+            " VALUES (#{taskName}, #{createTime}, #{taskStatus}, #{taskType}, #{taskCreator}, #{taskResult}," +
+            "  #{updateTime}, #{taskInterval}, #{taskGroup}, #{triggerTime} )")
     void insertTask(ScheduleTaskInfo info);
 
     /**
@@ -30,7 +33,10 @@ public interface TaskLogMapper {
      * @time 2019/3/17 13:16
      * @since v1.0
      **/
-    @Select("")
+    @Select(" SELECT id, task_name as taskName, create_time as createTime, task_status as taskStatus," +
+            " task_type as taskType,  task_creator as taskCreator, task_result as taskResult, update_time as updateTime," +
+            " task_interval as taskInterval, task_group as taskGroup, trigger_time as triggerTime" +
+            " FROM info_task ORDER BY id desc")
     List<ScheduleTaskInfo> selectTaskList();
 
     /**
@@ -41,7 +47,8 @@ public interface TaskLogMapper {
      * @time 2019/3/17 13:37
      * @since v1.0
      **/
-    @Update("")
+    @Update("update info_task set task_status=#{taskStatus}, task_result=#{taskResult}, update_time=#{updateTime}, " +
+            "  task_group=#{taskGroup} where id=#{id}")
     void updateTask(ScheduleTaskInfo info);
 
     /**
@@ -52,7 +59,7 @@ public interface TaskLogMapper {
      * @time 2019/3/17 13:49
      * @since v1.0
      **/
-    @Delete("")
+    @Delete("delete from info_task where id=#{id}")
     void deleteTaskById(Integer id);
 
     /**
@@ -74,6 +81,9 @@ public interface TaskLogMapper {
      * @time 2019/3/17 14:58
      * @since v1.0
      **/
-    @Select("")
+    @Select(" SELECT id, task_name as taskName, create_time as createTime, task_status as taskStatus," +
+            " task_type as taskType,  task_creator as taskCreator, task_result as taskResult, update_time as updateTime," +
+            " task_interval as taskInterval, task_group as taskGroup, trigger_time as triggerTime" +
+            " FROM info_task where id=#{taskId}")
     ScheduleTaskInfo selectTaskById(Integer taskId);
 }

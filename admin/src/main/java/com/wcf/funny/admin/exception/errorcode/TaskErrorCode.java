@@ -34,6 +34,8 @@ public enum TaskErrorCode implements CoreCode {
     TASK_UNSUPPORTED_PAUSED("0x0205000C", "this type of task can not be paused"),
     //任务复位异常
     TASK_RESUME_FAILED("0x0205000D", "resume task failed"),
+    //任务状态类型不支持
+    TASK_STATUS_UNSUPPORTED("0x0205000E","ths status of task is unsupported"),
     ;
 
 

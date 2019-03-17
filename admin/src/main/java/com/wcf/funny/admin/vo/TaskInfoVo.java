@@ -1,10 +1,13 @@
 package com.wcf.funny.admin.vo;
 
+import lombok.Data;
+
 /**
  * @author wangcanfeng
  * @time 2019/3/17
  * @function 任务视图信息
  **/
+@Data
 public class TaskInfoVo {
     /**
      * 序列号

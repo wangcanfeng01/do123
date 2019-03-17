@@ -2,12 +2,16 @@ package com.wcf.funny.admin.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.admin.constant.TaskInterval;
+import com.wcf.funny.admin.constant.TaskStatus;
 import com.wcf.funny.admin.entity.ScheduleTaskInfo;
 import com.wcf.funny.admin.exception.errorcode.TaskErrorCode;
 import com.wcf.funny.admin.mapper.TaskLogMapper;
 import com.wcf.funny.admin.service.TaskLogService;
 import com.wcf.funny.admin.vo.TaskInfoVo;
 import com.wcf.funny.core.exception.PgSqlException;
+import com.wcf.funny.core.utils.FunnyTimeUtils;
+import com.wcf.funny.core.utils.I18Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -146,8 +150,22 @@ public class TaskLogServiceImpl implements TaskLogService {
             List<TaskInfoVo> vos = new ArrayList<>();
             pageInfo.getList().forEach(task -> {
                 TaskInfoVo vo = new TaskInfoVo();
-
-
+                vo.setId(task.getId());
+                vo.setTaskName(task.getTaskName());
+                vo.setCreateTime(FunnyTimeUtils.getTimeByUnixTime(task.getCreateTime()));
+                //任务状态信息翻译
+                vo.setTaskStatus(I18Utils.getInfoTranslation(TaskStatus.valueOfStatus(task.getTaskStatus())));
+                //任务类型翻译
+                vo.setTaskType(I18Utils.getInfoTranslation(TaskStatus.valueOfStatus(task.getTaskType())));
+                vo.setTaskCreator(task.getTaskCreator());
+                //任务结果翻译
+                vo.setTaskResult(I18Utils.getInfoTranslation(TaskStatus.valueOfStatus(task.getTaskResult())));
+                vo.setUpdateTime(FunnyTimeUtils.getTimeByUnixTime(task.getUpdateTime()));
+                //任务周期翻译
+                vo.setTaskPeriod(I18Utils.getInfoTranslation(TaskInterval.valueOfInterval(task.getTaskInterval())));
+                //任务组翻译
+                vo.setTaskGroup(I18Utils.getInfoTranslation(TaskInterval.valueOfInterval(task.getTaskGroup())));
+                vo.setTriggerTime(FunnyTimeUtils.getTimeByMillsTime(task.getTriggerTime()));
                 vos.add(vo);
             });
             pageVo.setTotal(pageInfo.getTotal());

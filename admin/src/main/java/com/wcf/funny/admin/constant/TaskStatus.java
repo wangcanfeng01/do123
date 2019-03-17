@@ -1,5 +1,7 @@
 package com.wcf.funny.admin.constant;
 
+import com.wcf.funny.admin.exception.TaskException;
+import com.wcf.funny.admin.exception.errorcode.TaskErrorCode;
 import com.wcf.funny.core.constant.InfoEnum;
 
 /**
@@ -9,19 +11,18 @@ import com.wcf.funny.core.constant.InfoEnum;
  **/
 public enum TaskStatus implements InfoEnum {
     //未开始
-    UNSTART("unstart_code","unstart"),
+    UNSTART("unstart_code", "unstart"),
     //执行中
-    EXECUTING("executing_code","executing"),
+    EXECUTING("executing_code", "executing"),
     //已结束
-    FINISHED("finish_code","finished"),
+    FINISHED("finish_code", "finished"),
     //等待中
-    WAITING("waiting_code","waiting"),
+    WAITING("waiting_code", "waiting"),
     //已暂停
-    PAUSED("paused_code","paused"),
-            ;
+    PAUSED("paused_code", "paused"),;
 
-    TaskStatus(String code,String result) {
-        this.code=code;
+    TaskStatus(String code, String result) {
+        this.code = code;
         this.status = result;
     }
 
@@ -53,4 +54,42 @@ public enum TaskStatus implements InfoEnum {
         return status;
     }
 
+
+    /**
+     * 功能描述：  将字符串信息转成枚举类型
+     *
+     * @param status
+     * @author wangcanfeng
+     * @time 2019/3/9 12:59
+     * @since v1.0
+     **/
+    public static TaskStatus valueOfStatus(String status) {
+        TaskStatus taskStatus;
+        switch (status) {
+            case "unstart": {
+                taskStatus = UNSTART;
+                break;
+            }
+            case "executing": {
+                taskStatus = EXECUTING;
+                break;
+            }
+            case "finished": {
+                taskStatus = FINISHED;
+                break;
+            }
+            case "waiting": {
+                taskStatus = WAITING;
+                break;
+            }
+            case "paused": {
+                taskStatus = PAUSED;
+                break;
+            }
+            default: {
+                throw new TaskException(TaskErrorCode.TASK_STATUS_UNSUPPORTED);
+            }
+        }
+        return taskStatus;
+    }
 }
