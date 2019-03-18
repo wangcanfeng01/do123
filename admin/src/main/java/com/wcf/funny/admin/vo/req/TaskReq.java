@@ -10,10 +10,6 @@ import lombok.Data;
 @Data
 public class TaskReq {
     /**
-     * 序列号
-     */
-    private Integer id;
-    /**
      * 任务名称
      */
     private String taskName;
@@ -38,5 +34,5 @@ public class TaskReq {
     /**
      * 点火时间
      */
-    private String TriggerTime;
+    private String triggerTime;
 }
