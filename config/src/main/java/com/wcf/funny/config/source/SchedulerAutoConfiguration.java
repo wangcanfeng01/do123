@@ -4,6 +4,7 @@ import org.quartz.Scheduler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
+import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 
 /**
  * @author wangcanfeng
@@ -20,6 +21,7 @@ public class SchedulerAutoConfiguration {
         factory.setAutoStartup(true);
         //这里如果不配置任务池，它就会默认加载SimpleThreadPool
         //factory.setTaskExecutor();
+        factory.setJobFactory(new SpringBeanJobFactory());
         return factory;
     }
 

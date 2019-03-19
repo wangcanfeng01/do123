@@ -51,9 +51,8 @@ public class JobScheduleServiceImpl implements JobScheduleService {
     @Override
     public void addJob(ScheduleTaskInfo info) {
         // 创建任务信息
-        JobDetail jobDetail = JobBuilder.newJob(TaskGroupMap.getJobClazz(info.getTaskGroup()))
-                .withIdentity(info.getTaskName() + "_" + FunnyTimeUtils.now(), info.getTaskGroup())
-                .build();
+        JobBuilder jobBuilder=JobBuilder.newJob(TaskGroupMap.getJobClazz(info.getTaskGroup()))
+                .withIdentity(info.getTaskName() + "_" + FunnyTimeUtils.now(), info.getTaskGroup());
         // 将任务类型字符串转成枚举，顺便检验是否类型是存在的
         TaskType type = TaskType.valueOfString(info.getTaskType());
         Trigger trigger = null;
@@ -83,6 +82,8 @@ public class JobScheduleServiceImpl implements JobScheduleService {
         }
         //往数据库中插入任务记录
         taskLogService.insertTask(info);
+        jobBuilder.usingJobData("taskInfo",info.toJson());
+        JobDetail jobDetail = jobBuilder.build();
         try {
             scheduler.scheduleJob(jobDetail, trigger);
         } catch (SchedulerException e) {

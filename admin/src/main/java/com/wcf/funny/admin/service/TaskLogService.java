@@ -73,4 +73,5 @@ public interface TaskLogService {
      * @since v1.0
      **/
     ScheduleTaskInfo selectTaskById(Integer taskId);
+
 }

@@ -4,9 +4,7 @@ import com.wcf.funny.core.exception.TimeException;
 import com.wcf.funny.core.exception.errorcode.CommonCode;
 import org.springframework.util.ObjectUtils;
 
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 
 /**
@@ -90,29 +88,30 @@ public class FunnyTimeUtils {
      * @since v1.0
      **/
     public static String getTimeByUnixTime(Integer unixTime) {
-        if(ObjectUtils.isEmpty(unixTime)){
+        if (ObjectUtils.isEmpty(unixTime)) {
             return "";
         }
         LocalDateTime time = LocalDateTime.ofEpochSecond(unixTime, 0, ZoneOffset.ofHours(8));
         return getFormatter(Formatter.COMMON_TIME_FORMATTER).format(time);
     }
 
-     /**
+    /**
      * 功能描述: 根据毫秒时间获取时间字符串
+     *
      * @param millsTime
      * @return:java.lang.String
      * @since: v1.0
      * @Author:wangcanfeng
      * @Date: 2019/3/8 11:31
      */
-    public static String getTimeByMillsTime(Long millsTime){
-        if(ObjectUtils.isEmpty(millsTime)){
+    public static String getTimeByMillsTime(Long millsTime) {
+        if (ObjectUtils.isEmpty(millsTime)) {
             return "";
         }
-        LocalDateTime time= Instant.ofEpochMilli(millsTime).atZone(ZoneOffset.ofHours(8)).toLocalDateTime();
+        LocalDateTime time = Instant.ofEpochMilli(millsTime).atZone(ZoneOffset.ofHours(8)).toLocalDateTime();
         return getFormatter(Formatter.COMMON_TIME_FORMATTER).format(time);
     }
-    
+
     /**
      * 功能描述：  将localdateTime对象转成unix
      *
@@ -139,8 +138,8 @@ public class FunnyTimeUtils {
     public static int getUnixTime(String time) {
         return toUnixTime(getLocalDateTime(time));
     }
-    
-      /**
+
+    /**
      * 功能描述: 将localDateTime转成毫秒
      *
      * @param dateTime
@@ -167,6 +166,20 @@ public class FunnyTimeUtils {
     }
 
     /**
+     * 功能描述: 将时间字符串转成毫秒(时间不包含日期)
+     *
+     * @param time
+     * @return:long
+     * @since: v1.0
+     * @Author:wangcanfeng
+     * @Date: 2019/3/8 11:06
+     */
+    public static long getMillsTimeUseTime(String time) {
+        LocalDateTime dateTime = LocalDateTime.of(LocalDate.now(), getLocalTime(time));
+        return toMillsTime(dateTime);
+    }
+
+    /**
      * @param time
      * @return java.time.LocalDateTime
      * @note 将字符串转成localDate
@@ -177,6 +190,22 @@ public class FunnyTimeUtils {
     public static LocalDateTime getLocalDateTime(String time) {
         try {
             return LocalDateTime.parse(time, getFormatter(Formatter.COMMON_TIME_FORMATTER));
+        } catch (Exception e) {
+            throw new TimeException(CommonCode.TIME_FORMAT_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  将时间转成LocalTime
+     *
+     * @param time
+     * @author wangcanfeng
+     * @time 2019/3/19 22:36
+     * @since v1.0
+     **/
+    public static LocalTime getLocalTime(String time) {
+        try {
+            return LocalTime.parse(time);
         } catch (Exception e) {
             throw new TimeException(CommonCode.TIME_FORMAT_ERROR, e);
         }

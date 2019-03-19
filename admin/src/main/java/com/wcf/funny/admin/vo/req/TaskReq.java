@@ -18,10 +18,6 @@ public class TaskReq {
      */
     private String taskType;
     /**
-     * 任务执行结果
-     */
-    private String taskResult;
-    /**
      * 任务执行间隔
      */
     private String taskInterval;

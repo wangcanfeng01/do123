@@ -134,7 +134,7 @@ public class ServerInfoServiceImpl implements ServerInfoService {
      * @since v1.0
      **/
     public String cpuUsed() {
-        Double used = getMetricStatistic(AdminConstant.SYSTEM_CPU_USED, "");
+        Double used = getMetricStatistic(AdminConstant.SYSTEM_CPU_USED, null);
         DecimalFormat format = new DecimalFormat("0.00");
         return format.format(used);
     }
@@ -174,7 +174,7 @@ public class ServerInfoServiceImpl implements ServerInfoService {
      * @since v1.0
      **/
     public String noHeapUsed() {
-        String tag = "area:noheap";
+        String tag = "area:nonheap";
         Double used = getMetricStatistic(AdminConstant.JVM_MEMORY_USED, tag);
         used = used / CoreConstant.MB;
         DecimalFormat format = new DecimalFormat("0.00");
@@ -208,8 +208,11 @@ public class ServerInfoServiceImpl implements ServerInfoService {
      **/
     private Double getMetricStatistic(String metricName, String tag) {
         Double result;
-        List<String> tags = new ArrayList<>();
-        tags.add(tag);
+        List<String> tags = null;
+        if (!ObjectUtils.isEmpty(tag)) {
+            tags = new ArrayList<>();
+            tags.add(tag);
+        }
         MetricsEndpoint.MetricResponse response = metricsEndpoint.metric(metricName, tags);
         if (ObjectUtils.isEmpty(response) || ObjectUtils.isEmpty(response.getMeasurements())) {
             log.error("can not get the statistic info, the response or the measurements is null");

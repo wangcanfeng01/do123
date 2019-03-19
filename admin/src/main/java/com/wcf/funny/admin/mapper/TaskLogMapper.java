@@ -24,6 +24,7 @@ public interface TaskLogMapper {
             "  update_time, task_interval, task_group, trigger_time)" +
             " VALUES (#{taskName}, #{createTime}, #{taskStatus}, #{taskType}, #{taskCreator}, #{taskResult}," +
             "  #{updateTime}, #{taskInterval}, #{taskGroup}, #{triggerTime} )")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
     void insertTask(ScheduleTaskInfo info);
 
     /**

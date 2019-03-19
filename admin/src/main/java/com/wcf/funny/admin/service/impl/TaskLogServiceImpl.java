@@ -2,8 +2,7 @@ package com.wcf.funny.admin.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.wcf.funny.admin.constant.TaskInterval;
-import com.wcf.funny.admin.constant.TaskStatus;
+import com.wcf.funny.admin.constant.*;
 import com.wcf.funny.admin.entity.ScheduleTaskInfo;
 import com.wcf.funny.admin.exception.errorcode.TaskErrorCode;
 import com.wcf.funny.admin.mapper.TaskLogMapper;
@@ -62,7 +61,7 @@ public class TaskLogServiceImpl implements TaskLogService {
             List<ScheduleTaskInfo> list = taskLogMapper.selectTaskList();
             return convertPage(list);
         } catch (Exception e) {
-            throw new PgSqlException(TaskErrorCode.INSERT_TASK_FAILED, e);
+            throw new PgSqlException(TaskErrorCode.SEARCH_TASK_FAILED, e);
         }
     }
 
@@ -133,6 +132,7 @@ public class TaskLogServiceImpl implements TaskLogService {
         }
     }
 
+
     /**
      * 功能描述：将数据库中的信息转成视图信息
      *
@@ -156,15 +156,15 @@ public class TaskLogServiceImpl implements TaskLogService {
                 //任务状态信息翻译
                 vo.setTaskStatus(I18Utils.getInfoTranslation(TaskStatus.valueOfStatus(task.getTaskStatus())));
                 //任务类型翻译
-                vo.setTaskType(I18Utils.getInfoTranslation(TaskStatus.valueOfStatus(task.getTaskType())));
+                vo.setTaskType(I18Utils.getInfoTranslation(TaskType.valueOfString(task.getTaskType())));
                 vo.setTaskCreator(task.getTaskCreator());
                 //任务结果翻译
-                vo.setTaskResult(I18Utils.getInfoTranslation(TaskStatus.valueOfStatus(task.getTaskResult())));
+                vo.setTaskResult(I18Utils.getInfoTranslation(TaskResult.valueOfString(task.getTaskResult())));
                 vo.setUpdateTime(FunnyTimeUtils.getTimeByUnixTime(task.getUpdateTime()));
                 //任务周期翻译
                 vo.setTaskPeriod(I18Utils.getInfoTranslation(TaskInterval.valueOfInterval(task.getTaskInterval())));
                 //任务组翻译
-                vo.setTaskGroup(I18Utils.getInfoTranslation(TaskInterval.valueOfInterval(task.getTaskGroup())));
+                vo.setTaskGroup(I18Utils.getInfoTranslation(TaskGroup.valueOfGroup(task.getTaskGroup())));
                 vo.setTriggerTime(FunnyTimeUtils.getTimeByMillsTime(task.getTriggerTime()));
                 vos.add(vo);
             });

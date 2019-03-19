@@ -10,13 +10,18 @@ import com.wcf.funny.admin.service.JobScheduleService;
 import com.wcf.funny.admin.service.TaskLogService;
 import com.wcf.funny.admin.vo.TaskInfoVo;
 import com.wcf.funny.admin.vo.req.TaskReq;
+import com.wcf.funny.core.entity.CodeAndName;
 import com.wcf.funny.core.reponse.BaseResponse;
+import com.wcf.funny.core.reponse.ListResponse;
 import com.wcf.funny.core.reponse.PageResponse;
 import com.wcf.funny.core.utils.FunnyTimeUtils;
+import com.wcf.funny.core.utils.I18Utils;
 import com.wcf.funny.core.utils.RequestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,7 +63,9 @@ public class ScheduleTaskController {
         //检测任务组
         TaskGroup group = TaskGroup.valueOfGroup(req.getTaskGroup());
         taskInfo.setTaskGroup(group.getInfo().toString());
-        taskInfo.setTriggerTime(FunnyTimeUtils.getMillsTime(req.getTriggerTime()));
+        if(!ObjectUtils.isEmpty(req.getTriggerTime())){
+            taskInfo.setTriggerTime(FunnyTimeUtils.getMillsTimeUseTime(req.getTriggerTime()));
+        }
         //默认任务结果为执行成功
         taskInfo.setTaskResult(TaskResult.SUCCESS.getInfo().toString());
         scheduleService.addJob(taskInfo);
@@ -89,7 +96,7 @@ public class ScheduleTaskController {
      * @time 2019/3/17 16:13
      * @since v1.0
      **/
-    @GetMapping("/pauseJob")
+    @PutMapping("/pauseJob")
     public BaseResponse pauseJob(@RequestParam("taskId") Integer taskId) {
         scheduleService.pauseJobById(taskId);
         return BaseResponse.ok();
@@ -104,7 +111,7 @@ public class ScheduleTaskController {
      * @time 2019/3/17 16:15
      * @since v1.0
      **/
-    @GetMapping("/deleteJob")
+    @DeleteMapping("/deleteJob")
     public BaseResponse deleteJob(@RequestParam("taskId") Integer taskId) {
 
         scheduleService.deleteJobById(taskId);
@@ -119,9 +126,51 @@ public class ScheduleTaskController {
      * @time 2019/3/17 16:15
      * @since v1.0
      **/
-    @GetMapping("/resumeJob")
+    @PutMapping("/resumeJob")
     public BaseResponse resumeJob(@RequestParam("taskId") Integer taskId) {
         scheduleService.resumeJobById(taskId);
         return BaseResponse.ok();
+    }
+
+    /**
+     * 功能描述：  获取执行周期的列表
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/3/19 21:56
+     * @since v1.0
+     **/
+    @GetMapping("/intervalList")
+    public BaseResponse<List<CodeAndName>> intervalList() {
+        List<CodeAndName> codeAndNames = new ArrayList<>();
+        TaskInterval[] intervals = TaskInterval.values();
+        for (TaskInterval interval : intervals) {
+            CodeAndName codeAndName = new CodeAndName();
+            codeAndName.setName(I18Utils.getInfoTranslation(interval));
+            codeAndName.setCode(interval.getInfo().toString());
+            codeAndNames.add(codeAndName);
+        }
+        return new ListResponse<>(codeAndNames);
+    }
+
+    /**
+     * 功能描述：  获取任务组的列表
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/3/19 21:56
+     * @since v1.0
+     **/
+    @GetMapping("/groupList")
+    public BaseResponse<List<CodeAndName>> groupList() {
+        List<CodeAndName> codeAndNames = new ArrayList<>();
+        TaskGroup[] groups = TaskGroup.values();
+        for (TaskGroup group : groups) {
+            CodeAndName codeAndName = new CodeAndName();
+            codeAndName.setName(I18Utils.getInfoTranslation(group));
+            codeAndName.setCode(group.getInfo().toString());
+            codeAndNames.add(codeAndName);
+        }
+        return new ListResponse<>(codeAndNames);
     }
 }
