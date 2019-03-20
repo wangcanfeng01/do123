@@ -113,7 +113,6 @@ public class ScheduleTaskController {
      **/
     @DeleteMapping("/deleteJob")
     public BaseResponse deleteJob(@RequestParam("taskId") Integer taskId) {
-
         scheduleService.deleteJobById(taskId);
         return BaseResponse.ok();
     }

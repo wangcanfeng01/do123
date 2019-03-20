@@ -51,7 +51,7 @@ public class JobScheduleServiceImpl implements JobScheduleService {
     @Override
     public void addJob(ScheduleTaskInfo info) {
         // 创建任务信息
-        JobBuilder jobBuilder=JobBuilder.newJob(TaskGroupMap.getJobClazz(info.getTaskGroup()))
+        JobBuilder jobBuilder = JobBuilder.newJob(TaskGroupMap.getJobClazz(info.getTaskGroup()))
                 .withIdentity(info.getTaskName() + "_" + FunnyTimeUtils.now(), info.getTaskGroup());
         // 将任务类型字符串转成枚举，顺便检验是否类型是存在的
         TaskType type = TaskType.valueOfString(info.getTaskType());
@@ -64,7 +64,7 @@ public class JobScheduleServiceImpl implements JobScheduleService {
                     //如果是定时到某个时间点的任务，任务状态设置为未开始
                     info.setTaskStatus(TaskStatus.UNSTART.getInfo().toString());
                     date.setTime(info.getTriggerTime());
-                }else {
+                } else {
                     // 如果没有设置定时时间，将点火时间设置为当前时间
                     info.setTriggerTime(System.currentTimeMillis());
                 }
@@ -82,7 +82,7 @@ public class JobScheduleServiceImpl implements JobScheduleService {
         }
         //往数据库中插入任务记录
         taskLogService.insertTask(info);
-        jobBuilder.usingJobData("taskInfo",info.toJson());
+        jobBuilder.usingJobData("taskInfo", info.toJson());
         JobDetail jobDetail = jobBuilder.build();
         try {
             scheduler.scheduleJob(jobDetail, trigger);
@@ -188,7 +188,11 @@ public class JobScheduleServiceImpl implements JobScheduleService {
         }
         JobKey key = new JobKey(taskInfo.getTaskName(), taskInfo.getTaskGroup());
         try {
-            scheduler.deleteJob(key);
+            // 如果还在任务池中则进行删除
+            JobDetail detail = scheduler.getJobDetail(key);
+            if (!ObjectUtils.isEmpty(detail)) {
+                scheduler.deleteJob(key);
+            }
         } catch (SchedulerException e) {
             throw new TaskException(TaskErrorCode.DELETE_TASK_FAILED, e);
         }
