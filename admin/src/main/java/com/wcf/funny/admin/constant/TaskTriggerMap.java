@@ -40,12 +40,13 @@ public class TaskTriggerMap {
      * @since v1.0
      **/
     private static void init() {
-        triggerMap.put("perHour", createTrigger("perHourTrigger", "0 0 * * * ? *"));
-        triggerMap.put("perDay", createTrigger("perDayTrigger", "0 0 0 * * ? *"));
-        triggerMap.put("perWeek", createTrigger("perWeekTrigger", "0 0 0 0 0 * *"));
-        triggerMap.put("perMonth", createTrigger("perMonthTrigger", "0 0 0 0 * ? *"));
-        triggerMap.put("perYear", createTrigger("perYearTrigger", "0 0 0 0 0 ? *"));
+        triggerMap.put("perHour", createTrigger("perHourTrigger", "0 0 0-23 * * ? *"));
+        triggerMap.put("perDay", createTrigger("perDayTrigger", "0 0 0 1/1 * ? *"));
+        triggerMap.put("perWeek", createTrigger("perWeekTrigger", "0 0 0 ? * 1"));
+        triggerMap.put("perMonth", createTrigger("perMonthTrigger", "0 0 0 1 1-12 ? *"));
+        triggerMap.put("perYear", createTrigger("perYearTrigger", "0 0 0 1 1 ? *"));
     }
+
 
     /**
      * 功能描述： 创建trigger

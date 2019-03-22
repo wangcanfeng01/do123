@@ -71,7 +71,10 @@ public interface TaskLogMapper {
      * @time 2019/3/17 13:51
      * @since v1.0
      **/
-    @Select("")
+    @Select(" SELECT id, task_name as taskName, create_time as createTime, task_status as taskStatus," +
+            " task_type as taskType,  task_creator as taskCreator, task_result as taskResult, update_time as updateTime," +
+            " task_interval as taskInterval, task_group as taskGroup, trigger_time as triggerTime" +
+            " FROM info_task where task_status!='finished' and task_type!='single' and task_result!='failed'")
     List<ScheduleTaskInfo> searchUnFinishedTask();
 
     /**

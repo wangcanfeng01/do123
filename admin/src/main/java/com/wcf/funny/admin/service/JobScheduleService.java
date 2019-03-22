@@ -23,6 +23,17 @@ public interface JobScheduleService {
 
 
     /**
+     * 功能描述： 服务器重启之后恢复任务
+     *
+     * @param info
+     * @author wangcanfeng
+     * @time 2019/3/22 21:02
+     * @since v1.0
+     **/
+    void restartJob(ScheduleTaskInfo info);
+
+
+    /**
      * 功能描述: 修改任务Trigger，即修改任务的定时机制
      *
      * @param

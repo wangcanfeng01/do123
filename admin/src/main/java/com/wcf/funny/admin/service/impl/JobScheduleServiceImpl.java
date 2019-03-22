@@ -52,7 +52,7 @@ public class JobScheduleServiceImpl implements JobScheduleService {
     public void addJob(ScheduleTaskInfo info) {
         // 创建任务信息
         JobBuilder jobBuilder = JobBuilder.newJob(TaskGroupMap.getJobClazz(info.getTaskGroup()))
-                .withIdentity(info.getTaskName() + "_" + FunnyTimeUtils.now(), info.getTaskGroup());
+                .withIdentity(info.getTaskName(), info.getTaskGroup());
         // 将任务类型字符串转成枚举，顺便检验是否类型是存在的
         TaskType type = TaskType.valueOfString(info.getTaskType());
         Trigger trigger = null;
@@ -63,8 +63,10 @@ public class JobScheduleServiceImpl implements JobScheduleService {
                 if (!ObjectUtils.isEmpty(info.getTriggerTime())) {
                     //如果是定时到某个时间点的任务，任务状态设置为未开始
                     info.setTaskStatus(TaskStatus.UNSTART.getInfo().toString());
+                    info.setTaskInterval(TaskInterval.ONCE.getInfo().toString());
                     date.setTime(info.getTriggerTime());
                 } else {
+                    info.setTaskInterval(TaskInterval.RIGHT_NOW.getInfo().toString());
                     // 如果没有设置定时时间，将点火时间设置为当前时间
                     info.setTriggerTime(System.currentTimeMillis());
                 }
@@ -84,15 +86,25 @@ public class JobScheduleServiceImpl implements JobScheduleService {
         taskLogService.insertTask(info);
         jobBuilder.usingJobData("taskInfo", info.toJson());
         JobDetail jobDetail = jobBuilder.build();
-        try {
-            scheduler.scheduleJob(jobDetail, trigger);
-        } catch (SchedulerException e) {
-            //任务执行结果设置为失败
-            info.setTaskResult(TaskResult.FAILED.getInfo().toString());
-            info.setTaskStatus(TaskStatus.FINISHED.getInfo().toString());
-            taskLogService.updateTask(info);
-            throw new TaskException(TaskErrorCode.TASK_EXECUTE_FAILED, e);
-        }
+        doSchedule(jobDetail, trigger, info);
+    }
+
+    /**
+     * 功能描述： 服务器重启之后恢复任务
+     *
+     * @param info
+     * @author wangcanfeng
+     * @time 2019/3/22 21:02
+     * @since v1.0
+     **/
+    @Override
+    public void restartJob(ScheduleTaskInfo info) {
+        //利用已有的任务信息，创建新的任务信息对象
+        JobDetail jobDetail = JobBuilder.newJob(TaskGroupMap.getJobClazz(info.getTaskGroup()))
+                .withIdentity(info.getTaskName(), info.getTaskGroup()).build();
+        //创建点火器
+        Trigger trigger = TaskTriggerMap.getCronTrigger(info.getTaskInterval());
+        doSchedule(jobDetail, trigger, info);
     }
 
     /**
@@ -197,6 +209,28 @@ public class JobScheduleServiceImpl implements JobScheduleService {
             throw new TaskException(TaskErrorCode.DELETE_TASK_FAILED, e);
         }
         taskLogService.deleteTaskById(taskId);
+    }
+
+    /**
+     * 功能描述：  将任务委托给调度器
+     *
+     * @param detail
+     * @param trigger
+     * @param info
+     * @author wangcanfeng
+     * @time 2019/3/22 21:10
+     * @since v1.0
+     **/
+    private void doSchedule(JobDetail detail, Trigger trigger, ScheduleTaskInfo info) {
+        try {
+            scheduler.scheduleJob(detail, trigger);
+        } catch (SchedulerException e) {
+            //任务执行结果设置为失败
+            info.setTaskResult(TaskResult.FAILED.getInfo().toString());
+            info.setTaskStatus(TaskStatus.FINISHED.getInfo().toString());
+            taskLogService.updateTask(info);
+            throw new TaskException(TaskErrorCode.TASK_EXECUTE_FAILED, e);
+        }
     }
 
 }
