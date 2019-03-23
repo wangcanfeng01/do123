@@ -66,6 +66,18 @@ public class FunnyTimeUtils {
     }
 
     /**
+     * 功能描述：  返回当前时间，不包含年月日
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/3/23 23:05
+     * @since v1.0
+     **/
+    public static String onlyTime() {
+        return LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+    }
+
+    /**
      * 功能描述：  获取当前系统时间的10位数
      *
      * @param

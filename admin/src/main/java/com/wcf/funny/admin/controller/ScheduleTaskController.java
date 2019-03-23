@@ -50,7 +50,7 @@ public class ScheduleTaskController {
     public BaseResponse addTask(@RequestBody TaskReq req) {
         ScheduleTaskInfo taskInfo = new ScheduleTaskInfo();
         //给任务加上时间后缀
-        taskInfo.setTaskName(req.getTaskName()+ "_" + FunnyTimeUtils.now());
+        taskInfo.setTaskName(req.getTaskName()+ "_" + FunnyTimeUtils.onlyTime());
         taskInfo.setCreateTime(FunnyTimeUtils.nowUnix());
         // 默认任务开始状态为执行中
         taskInfo.setTaskStatus(TaskStatus.EXECUTING.getInfo().toString());
@@ -58,11 +58,8 @@ public class ScheduleTaskController {
         taskInfo.setTaskType(req.getTaskType());
         taskInfo.setTaskCreator(RequestUtils.getUserName());
         taskInfo.setUpdateTime(FunnyTimeUtils.nowUnix());
-        // 检测任务的执行间隔
-        if(!ObjectUtils.isEmpty(req.getTaskInterval())){
-            TaskInterval interval = TaskInterval.valueOfInterval(req.getTaskInterval());
-            taskInfo.setTaskInterval(interval.getInfo().toString());
-        }
+        // 检测任务的执行间隔,间隔类型检测在service中，避免重复检测
+        taskInfo.setTaskInterval(req.getTaskInterval());
         //检测任务组
         TaskGroup group = TaskGroup.valueOfGroup(req.getTaskGroup());
         taskInfo.setTaskGroup(group.getInfo().toString());

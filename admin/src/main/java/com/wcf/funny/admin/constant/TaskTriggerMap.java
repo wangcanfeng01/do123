@@ -1,11 +1,10 @@
 package com.wcf.funny.admin.constant;
 
+import com.wcf.funny.core.utils.UuidUtils;
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
 import org.quartz.TriggerBuilder;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author wangcanfeng
@@ -13,7 +12,26 @@ import java.util.Map;
  * @function 任务间隔对应的cron表达式map
  **/
 public class TaskTriggerMap {
-    private final static Map<String, CronTrigger> triggerMap = new HashMap<>();
+    /**
+     * 每小时执行
+     */
+    private final static String HOUR_CRON = "0 0 0-23 * * ? *";
+    /**
+     * 每天执行
+     */
+    private final static String DAY_CRON = "0 0 0 1/1 * ? *";
+    /**
+     * 每周执行
+     */
+    private final static String WEEK_CRON = "0 0 0 ? 1-12 2 *";
+    /**
+     * 每月执行
+     */
+    private final static String MONTH_CRON = "0 0 0 1 1-12 ? *";
+    /**
+     * 每年执行
+     */
+    private final static String YEAR_CRON = "0 0 0 1 1 ? *";
 
     /**
      * 功能描述：根据interval对应的cron表达式
@@ -23,28 +41,37 @@ public class TaskTriggerMap {
      * @time 2019/3/15 23:03
      * @since v1.0
      **/
-    public static CronTrigger getCronTrigger(String interval) {
-        // 如果还没有赋初值，则调用赋值方法
-        if (triggerMap.size() == 0) {
-            init();
+    public static CronTrigger getCronTrigger(TaskInterval interval) {
+        String cron = null;
+        String trigger_name = null;
+        switch (interval) {
+            case PER_HOUR: {
+                cron = HOUR_CRON;
+                trigger_name = "perHourTrigger";
+                break;
+            }
+            case PER_DAY: {
+                cron = DAY_CRON;
+                trigger_name = "perDayTrigger";
+                break;
+            }
+            case PER_WEEK: {
+                cron = WEEK_CRON;
+                trigger_name = "perWeekTrigger";
+                break;
+            }
+            case PER_MONTH: {
+                cron = MONTH_CRON;
+                trigger_name = "perMonthTrigger";
+                break;
+            }
+            case PER_YEAR: {
+                cron = YEAR_CRON;
+                trigger_name = "perYearTrigger";
+                break;
+            }
         }
-        return triggerMap.get(interval);
-    }
-
-    /**
-     * 功能描述：  初始化类型与cron表达式的map
-     *
-     * @param
-     * @author wangcanfeng
-     * @time 2019/3/15 23:01
-     * @since v1.0
-     **/
-    private static void init() {
-        triggerMap.put("perHour", createTrigger("perHourTrigger", "0 0 0-23 * * ? *"));
-        triggerMap.put("perDay", createTrigger("perDayTrigger", "0 0 0 1/1 * ? *"));
-        triggerMap.put("perWeek", createTrigger("perWeekTrigger", "0 0 0 ? * 1"));
-        triggerMap.put("perMonth", createTrigger("perMonthTrigger", "0 0 0 1 1-12 ? *"));
-        triggerMap.put("perYear", createTrigger("perYearTrigger", "0 0 0 1 1 ? *"));
+        return createTrigger(trigger_name + "_" + UuidUtils.generateShortUuid(), cron);
     }
 
 
@@ -66,4 +93,5 @@ public class TaskTriggerMap {
                 .build();
         return trigger;
     }
+
 }

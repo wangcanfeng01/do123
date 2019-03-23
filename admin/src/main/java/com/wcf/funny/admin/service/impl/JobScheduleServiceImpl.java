@@ -78,7 +78,8 @@ public class JobScheduleServiceImpl implements JobScheduleService {
             }
             // 多次定时执行的任务
             case MULTI: {
-                trigger = TaskTriggerMap.getCronTrigger(info.getTaskInterval());
+                TaskInterval interval = TaskInterval.valueOfInterval(info.getTaskInterval());
+                trigger = TaskTriggerMap.getCronTrigger(interval);
                 break;
             }
         }
@@ -103,7 +104,8 @@ public class JobScheduleServiceImpl implements JobScheduleService {
         JobDetail jobDetail = JobBuilder.newJob(TaskGroupMap.getJobClazz(info.getTaskGroup()))
                 .withIdentity(info.getTaskName(), info.getTaskGroup()).build();
         //创建点火器
-        Trigger trigger = TaskTriggerMap.getCronTrigger(info.getTaskInterval());
+       TaskInterval interval= TaskInterval.valueOfInterval(info.getTaskInterval());
+        Trigger trigger = TaskTriggerMap.getCronTrigger(interval);
         doSchedule(jobDetail, trigger, info);
     }
 
