@@ -77,6 +77,7 @@ public class FunnyTimeUtils {
         return LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
     }
 
+
     /**
      * 功能描述：  获取当前系统时间的10位数
      *
@@ -105,6 +106,22 @@ public class FunnyTimeUtils {
         }
         LocalDateTime time = LocalDateTime.ofEpochSecond(unixTime, 0, ZoneOffset.ofHours(8));
         return getFormatter(Formatter.COMMON_TIME_FORMATTER).format(time);
+    }
+
+    /**
+     * 功能描述：根据unix时间获取小时
+     *
+     * @param unixTime
+     * @author wangcanfeng
+     * @time 2019/3/24 14:12
+     * @since v1.0
+     **/
+    public static Integer getHour(Integer unixTime) {
+        if (ObjectUtils.isEmpty(unixTime)) {
+            return 0;
+        }
+        LocalDateTime time = LocalDateTime.ofEpochSecond(unixTime, 0, ZoneOffset.ofHours(8));
+        return time.getHour();
     }
 
     /**

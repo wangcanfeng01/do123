@@ -2,6 +2,7 @@ package com.wcf.funny.admin.service;
 
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.admin.entity.ServerInfo;
+import com.wcf.funny.admin.vo.ServerChartVo;
 import com.wcf.funny.admin.vo.ServerInfoVo;
 
 import java.util.List;
@@ -40,8 +41,27 @@ public interface ServerInfoService {
      * @time 2019/3/13 23:19
      * @since v1.0
      **/
-    void insertServerInfo();
+    void insertServerInfo(String type);
 
+
+    /**
+     * 功能描述：根据统计类型查询服务器信息列表
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/3/13 23:19
+     * @since v1.0
+     **/
+    PageInfo<ServerInfoVo> getServerInfosByType(Integer currentPage, Integer pageSize,String type);
+
+    /**
+     * 功能描述：  查询服务器24小时内的数据信息
+     *@author wangcanfeng
+     *@time 2019/3/24 13:28
+     *@since v1.0
+     * @param
+     **/
+    ServerChartVo serverChart24();
 
     /**
      * 功能描述：获取cpu使用量

@@ -24,7 +24,7 @@ public interface ServerInfoMapper {
      * @since v1.0
      **/
     @Select(" SELECT id, create_time as createTime, heap_used as heapUsed, noheap_used as noHeapUsed," +
-            " disk_used as diskUsed, cpu_used as cpuUsed " +
+            " disk_used as diskUsed, cpu_used as cpuUsed, statistic_type as statisticType " +
             " FROM info_server ORDER BY id desc")
     List<ServerInfo> getServerInfos();
 
@@ -36,7 +36,21 @@ public interface ServerInfoMapper {
      * @time 2019/3/13 23:19
      * @since v1.0
      **/
-    @Insert("insert into info_server (create_time, heap_used, noheap_used, disk_used, cpu_used )" +
-            " VALUES (#{createTime}, #{heapUsed}, #{noHeapUsed}, #{diskUsed}, #{cpuUsed} )")
+    @Insert("insert into info_server (create_time, heap_used, noheap_used, disk_used, cpu_used, statistic_type )" +
+            " VALUES (#{createTime}, #{heapUsed}, #{noHeapUsed}, #{diskUsed}, #{cpuUsed}, #{statisticType} )")
     void insertServerInfo(ServerInfo info);
+
+    /**
+     * 功能描述：根据统计类型查询服务器信息列表,按时间顺序排
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/3/13 23:19
+     * @since v1.0
+     **/
+    @Select(" SELECT id, create_time as createTime, heap_used as heapUsed, noheap_used as noHeapUsed," +
+            " disk_used as diskUsed, cpu_used as cpuUsed, statistic_type as statisticType " +
+            " FROM info_server WHERE statistic_type=#{statisticType} ORDER BY create_time")
+    List<ServerInfo> getServerInfosByType(String type);
+
 }

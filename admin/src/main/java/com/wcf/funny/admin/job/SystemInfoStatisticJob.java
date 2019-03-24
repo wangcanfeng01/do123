@@ -37,7 +37,7 @@ public class SystemInfoStatisticJob implements Job {
         String json = jobExecutionContext.getMergedJobDataMap().getString("taskInfo");
         ScheduleTaskInfo task = JSON.parseObject(json, ScheduleTaskInfo.class);
         try {
-            serverInfoService.insertServerInfo();
+            serverInfoService.insertServerInfo(task.getTaskInterval());
         } catch (Exception e) {
             log.error("task executes failed, details:" + json);
             //任务结果设置为失败
