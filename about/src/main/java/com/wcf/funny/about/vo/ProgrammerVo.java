@@ -47,4 +47,9 @@ public class ProgrammerVo {
      * 个人标签列表
      */
     private List<NameAndType> tags;
+
+    /**
+     * 个人简历路径
+     */
+    private String resume;
 }

@@ -45,4 +45,9 @@ public class PersonalDetailInfoReq {
      * 个人标签
      */
     private List<NameAndType> tags;
+
+    /**
+     * 个人简历
+     */
+    private String resume;
 }

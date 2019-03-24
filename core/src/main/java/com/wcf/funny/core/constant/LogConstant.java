@@ -143,6 +143,8 @@ public class LogConstant {
         public final static String UPDATE_USER_PASSWORD="update_user_password";
         // 更新用户详情
         public final static String UPDATE_USER_DETAILS="update_user_details";
+        // 上传个人简历
+        public final static String UPLOAD_RESUME="upload_resume";
     }
 
     /**

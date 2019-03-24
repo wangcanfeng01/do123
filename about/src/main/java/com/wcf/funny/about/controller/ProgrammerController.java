@@ -3,10 +3,12 @@ package com.wcf.funny.about.controller;
 import com.wcf.funny.about.vo.ProgrammerVo;
 import com.wcf.funny.admin.entity.PersonDetailsInfo;
 import com.wcf.funny.admin.service.PersonDetailsService;
+import com.wcf.funny.core.constant.CoreConstant;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.ListResponse;
 import com.wcf.funny.core.utils.ConvertIdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,6 +62,12 @@ public class ProgrammerController {
             vo.setTelephone(details.getTelephone());
             vo.setWorkArea(details.getWorkArea());
             vo.setUsername(details.getUsername());
+            if (!ObjectUtils.isEmpty(details.getResume())) {
+                String[] infos = details.getResume().split(CoreConstant.SEPARATOR);
+                if (infos.length > 0) {
+                    vo.setResume(infos[infos.length - 1]);
+                }
+            }
             vos.add(vo);
         });
         return vos;

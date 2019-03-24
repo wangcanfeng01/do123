@@ -2,10 +2,7 @@ package com.wcf.funny.admin.mapper;
 
 import com.wcf.funny.admin.entity.PersonDetailsInfo;
 import com.wcf.funny.admin.entity.PersonalInfo;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -25,8 +22,8 @@ public interface PersonDetailsMapper {
      * @time 2019/3/8 22:08
      * @since v1.0
      **/
-    @Insert("insert into info_user_details (person_name, username, email, work_area, telephone, mind, tags)" +
-            "  VALUES (#{personName}, #{username}, #{email}, #{workArea}, #{telephone}, #{mind}, #{tags})")
+    @Insert("insert into info_user_details (person_name, username, email, work_area, telephone, mind, tags, resume)" +
+            "  VALUES (#{personName}, #{username}, #{email}, #{workArea}, #{telephone}, #{mind}, #{tags}, #{resume})")
     void insertDetails(PersonDetailsInfo detailsInfo);
 
     /**
@@ -38,7 +35,7 @@ public interface PersonDetailsMapper {
      * @since v1.0
      **/
     @Update("update info_user_details set person_name=#{personName}, email=#{email}, work_area=#{workArea}, telephone=#{telephone}," +
-            "  mind=#{mind}, tags=#{tags} where username=#{username}")
+            "  mind=#{mind}, tags=#{tags}, resume=#{resume} where username=#{username}")
     void updateDetails(PersonDetailsInfo detailsInfo);
 
     /**
@@ -49,8 +46,18 @@ public interface PersonDetailsMapper {
      * @since v1.0
      **/
     @Select(" SELECT id, person_name as personName, username, email, work_area as workArea, telephone," +
-            " mind, tags FROM info_user_details WHERE username=#{username}")
+            " mind, tags, resume FROM info_user_details WHERE username=#{username}")
     PersonDetailsInfo getPersonDetailByName(String username);
+
+    /**
+     * 功能描述：根据用户名称修改用户简历
+     *
+     * @author wangcanfeng
+     * @time 2019/3/8 22:27
+     * @since v1.0
+     **/
+    @Select("update info_user_details set resume=#{resume} where username=#{username}")
+    void updateResumeByName(@Param("username") String username,@Param("resume") String resume);
 
     /**
      * 功能描述：  获取开发者详情列表
@@ -61,7 +68,7 @@ public interface PersonDetailsMapper {
      * @since v1.0
      **/
     @Select(" SELECT a.id, a.person_name as personName, a.username, a.email, a.work_area as workArea, a.telephone," +
-            " a.mind, a.tags, b.face_path as facePath FROM info_user_details as a LEFT JOIN info_user as b ON a.username=b.name" +
+            " a.mind, a.tags, a.resume, b.face_path as facePath FROM info_user_details as a LEFT JOIN info_user as b ON a.username=b.name" +
             " WHERE b.user_type='programmer'")
     List<PersonDetailsInfo> getProgrammerDetails();
 }

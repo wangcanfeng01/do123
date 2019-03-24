@@ -125,6 +125,7 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
                 .and().ignoring().antMatchers("/static/js/**")
 
                 .and().ignoring().antMatchers("/favicon.ico")
+                .and().ignoring().antMatchers("/upload/files/**")
                 .and().ignoring().antMatchers("/upload/image/face/**")
                 .and().ignoring().antMatchers("/upload/image/article/**")
                 .and().ignoring().antMatchers("/upload/image/cover/article/**")

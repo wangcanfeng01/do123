@@ -39,6 +39,8 @@ public class PersonDetailsServiceImpl implements PersonDetailsService {
         }
     }
 
+
+
     /**
      * 功能描述：插入详细信息
      *
@@ -101,6 +103,23 @@ public class PersonDetailsServiceImpl implements PersonDetailsService {
            return personDetailsMapper.getProgrammerDetails();
         } catch (Exception e) {
             throw new PgSqlException(UserErrorCode.SELECT_USER_DETAILS_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：根据用户名称修改用户简历
+     *
+     * @param username
+     * @author wangcanfeng
+     * @time 2019/3/24 23:34
+     * @since v1.0
+     **/
+    @Override
+    public void updateResumeByName(String username,String resume) {
+        try {
+            personDetailsMapper.updateResumeByName(username,resume);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.UPDATE_USER_DETAILS_ERROR, e);
         }
     }
 }

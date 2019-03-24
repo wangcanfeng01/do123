@@ -60,4 +60,13 @@ public interface PersonDetailsService {
      * @since v1.0
      **/
     List<PersonDetailsInfo> getProgrammerDetails();
+
+    /**
+     * 功能描述：根据用户名称修改用户简历
+     *@author wangcanfeng
+     *@time 2019/3/24 23:34
+     *@since v1.0
+     * @param username
+     **/
+    void updateResumeByName(String username,String resume);
 }

@@ -44,4 +44,8 @@ public class PersonDetailsVo {
      * 个人标签列表
      */
     private List<NameAndType> tags;
+    /**
+     * 个人简历
+     */
+    private String resume;
 }

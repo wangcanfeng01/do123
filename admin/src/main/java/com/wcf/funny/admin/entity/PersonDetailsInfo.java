@@ -44,4 +44,9 @@ public class PersonDetailsInfo {
      * 个人标签
      */
     private String tags;
+
+    /**
+     * 个人简历
+     */
+    private String resume;
 }

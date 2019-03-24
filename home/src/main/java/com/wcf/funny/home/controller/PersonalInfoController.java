@@ -103,9 +103,31 @@ public class PersonalInfoController {
         detailsInfo.setWorkArea(req.getWorkArea());
         detailsInfo.setTelephone(req.getTelephone());
         detailsInfo.setTags(ConvertIdUtils.convertListToTags(req.getTags()));
+        detailsInfo.setResume(req.getResume());
         personDetailsService.updateDetails(detailsInfo);
         return BaseResponse.ok();
     }
+
+
+    /**
+     * 功能描述：  上传个人简历
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/3/24 23:30
+     * @since v1.0
+     **/
+    @PostMapping("/uploadResume")
+    @OperationLog(action = LogConstant.ActionType.UPDATE, object = LogConstant.ActionObject.USER,
+            info = LogConstant.ActionInfo.UPLOAD_RESUME)
+    public BaseResponse uploadResume(@RequestParam("resume") String resume) {
+        String username = RequestUtils.getUserName();
+        //删除原先的简历
+
+        personDetailsService.updateResumeByName(username, resume);
+        return BaseResponse.ok();
+    }
+
 
     /**
      * 功能描述：将详细信息转成视图信息
@@ -124,6 +146,7 @@ public class PersonalInfoController {
         vo.setTelephone(detailsInfo.getTelephone());
         vo.setUsername(detailsInfo.getUsername());
         vo.setWorkArea(detailsInfo.getWorkArea());
+        vo.setResume(detailsInfo.getResume());
         return vo;
     }
 
