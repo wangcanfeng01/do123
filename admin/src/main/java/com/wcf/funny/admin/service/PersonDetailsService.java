@@ -31,6 +31,7 @@ public interface PersonDetailsService {
      * @since v1.0
      **/
     void insertDetails(String username);
+
     /**
      * 功能描述： 更新用户详细信息
      *
@@ -63,10 +64,22 @@ public interface PersonDetailsService {
 
     /**
      * 功能描述：根据用户名称修改用户简历
-     *@author wangcanfeng
-     *@time 2019/3/24 23:34
-     *@since v1.0
+     *
      * @param username
+     * @author wangcanfeng
+     * @time 2019/3/24 23:34
+     * @since v1.0
      **/
-    void updateResumeByName(String username,String resume);
+    void updateResumeByName(String username, String resume);
+
+    /**
+     * 功能描述：根据用户名更新用户的思维导图信息
+     *
+     * @param username
+     * @param mind
+     * @author wangcanfeng
+     * @time 2019/3/25 22:08
+     * @since v1.0
+     **/
+    void updateMindByName(String username, String mind);
 }

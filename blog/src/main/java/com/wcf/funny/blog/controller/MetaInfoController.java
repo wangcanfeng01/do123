@@ -125,7 +125,7 @@ public class MetaInfoController {
         //查询标签信息,如果原先有封面先删除封面
         MetaInfo info = metaInfoService.getMetaById(id);
         if (!ObjectUtils.isEmpty(info) && !ObjectUtils.isEmpty(info.getCover())) {
-            UploadFileUtils.deletePictureByRelative(info.getCover());
+            UploadFileUtils.deleteFileByRelative(info.getCover());
             String uuid=UploadFileUtils.getFileName(info.getCover());
             fileService.deletePictureInfo(uuid);
         }
@@ -221,7 +221,7 @@ public class MetaInfoController {
                                             @RequestParam("id") Integer id,
                                             @RequestParam("path") String path) {
         // 先调用工具类，完成专题的封面上传
-        PictureUploadInfo info = UploadFileUtils.uploadFace(cover, PictureType.CATEGORY_COVER);
+        PictureUploadInfo info = UploadFileUtils.uploadPic(cover, PictureType.CATEGORY_COVER);
         info.setBelongTo(id);
         info.setUploader(RequestUtils.getUserName());
         info.setUploadTime(FunnyTimeUtils.nowUnix());
@@ -229,7 +229,7 @@ public class MetaInfoController {
         if (!ObjectUtils.isEmpty(path)) {
             // 提取路径参数中的uuid,先删除数据库中的记录，再删除文件夹中的图片
             fileService.deletePictureInfo(UploadFileUtils.getFileName(path));
-            UploadFileUtils.deletePictureByRelative(path);
+            UploadFileUtils.deleteFileByRelative(path);
         }
         fileService.uploadPictureInfo(info);
         metaInfoService.updateMetaCoverById(info.getPath(), id);

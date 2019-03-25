@@ -17,6 +17,7 @@ import java.io.*;
  * @function 图片上传工具类
  **/
 public class UploadFileUtils {
+
     /**
      * @param file
      * @param type
@@ -26,7 +27,7 @@ public class UploadFileUtils {
      * @time 2018/6/15 19:09
      * @since v1.0
      **/
-    public static PictureUploadInfo uploadFace(MultipartFile file, PictureType type) {
+    public static PictureUploadInfo uploadPic(MultipartFile file, PictureType type) {
         // 新建一个返回信息的对象，这里只填充部分信息，还有部分信息在业务层填充
         PictureUploadInfo info = new PictureUploadInfo();
         //插入数据库中的是图片原名
@@ -52,6 +53,32 @@ public class UploadFileUtils {
         }
         return info;
     }
+
+    /**
+     * 功能描述：  上传文件
+     *
+     * @param file
+     * @author wangcanfeng
+     * @time 2019/3/25 21:05
+     * @since v1.0
+     **/
+    public static String uploadFile(MultipartFile file) {
+        String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+        path = path.replaceAll("\\\\", CoreConstant.SEPARATOR) + CoreConstant.FILE_PATH;
+        String filePath = path.replaceAll("//", CoreConstant.SEPARATOR);
+        //创建文件夹
+        createDirectory(filePath);
+        //写入文件
+        try (InputStream in = file.getInputStream();
+             OutputStream out = new FileOutputStream(filePath + file.getOriginalFilename())) {
+            IOUtils.copy(in, out);
+        } catch (Exception e) {
+            throw new FileException(FileUploadErrorCode.FILE_COPY_TO_DIRECTORY_ERROR, e);
+        }
+        return file.getOriginalFilename();
+    }
+
+
 
     /**
      * 功能描述：  获取上传的文件名称
@@ -117,7 +144,7 @@ public class UploadFileUtils {
      * @time 2019/2/25 21:50
      * @since v1.0
      **/
-    public static void deletePictureByRelative(String relativePath) {
+    public static void deleteFileByRelative(String relativePath) {
         String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
         path = path.replaceAll("\\\\", CoreConstant.SEPARATOR);
         String filePath = path + relativePath;

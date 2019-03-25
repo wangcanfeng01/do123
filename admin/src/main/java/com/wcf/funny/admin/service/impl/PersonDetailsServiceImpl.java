@@ -122,4 +122,22 @@ public class PersonDetailsServiceImpl implements PersonDetailsService {
             throw new PgSqlException(UserErrorCode.UPDATE_USER_DETAILS_ERROR, e);
         }
     }
+
+    /**
+     * 功能描述：根据用户名更新用户的思维导图信息
+     *
+     * @param username
+     * @param mind
+     * @author wangcanfeng
+     * @time 2019/3/25 22:08
+     * @since v1.0
+     **/
+    @Override
+    public void updateMindByName(String username, String mind) {
+        try {
+            personDetailsMapper.updateMindByName(username,mind);
+        } catch (Exception e) {
+            throw new PgSqlException(UserErrorCode.UPDATE_USER_DETAILS_ERROR, e);
+        }
+    }
 }

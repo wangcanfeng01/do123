@@ -3,6 +3,7 @@ package com.wcf.funny.home.controller;
 import com.wcf.funny.admin.entity.PersonDetailsInfo;
 import com.wcf.funny.admin.entity.PersonalInfo;
 import com.wcf.funny.admin.exception.errorcode.UploadErrorCode;
+import com.wcf.funny.admin.exception.errorcode.UserErrorCode;
 import com.wcf.funny.admin.service.PersonDetailsService;
 import com.wcf.funny.admin.service.UserInfoService;
 import com.wcf.funny.core.annotation.OperationLog;
@@ -11,6 +12,7 @@ import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.constant.PictureType;
 import com.wcf.funny.core.entity.NameAndType;
 import com.wcf.funny.core.entity.PictureUploadInfo;
+import com.wcf.funny.core.exception.ErrorResponse;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.service.UploadFileService;
 import com.wcf.funny.core.utils.ConvertIdUtils;
@@ -19,6 +21,7 @@ import com.wcf.funny.core.utils.RequestUtils;
 import com.wcf.funny.core.utils.UploadFileUtils;
 import com.wcf.funny.home.vo.PersonDetailsVo;
 import com.wcf.funny.home.vo.req.PersonalDetailInfoReq;
+import org.apache.logging.log4j.core.Core;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
@@ -66,7 +69,7 @@ public class PersonalInfoController {
                                    @RequestParam("id") Integer id,
                                    @RequestParam("path") String path) {
         // 先调用工具类，完成用户头像上传
-        PictureUploadInfo info = UploadFileUtils.uploadFace(face, PictureType.FACE);
+        PictureUploadInfo info = UploadFileUtils.uploadPic(face, PictureType.FACE);
         info.setBelongTo(id);
         info.setUploader(RequestUtils.getUserName());
         info.setUploadTime(FunnyTimeUtils.nowUnix());
@@ -74,7 +77,7 @@ public class PersonalInfoController {
         if (!ObjectUtils.isEmpty(path)) {
             // 提取路径参数中的uuid,先删除数据库中的记录，再删除文件夹中的图片
             fileService.deletePictureInfo(UploadFileUtils.getFileName(path));
-            UploadFileUtils.deletePictureByRelative(path);
+            UploadFileUtils.deleteFileByRelative(path);
         }
         fileService.uploadPictureInfo(info);
         // 更新用户头像信息
@@ -120,14 +123,47 @@ public class PersonalInfoController {
     @PostMapping("/uploadResume")
     @OperationLog(action = LogConstant.ActionType.UPDATE, object = LogConstant.ActionObject.USER,
             info = LogConstant.ActionInfo.UPLOAD_RESUME)
-    public BaseResponse uploadResume(@RequestParam("resume") String resume) {
+    public BaseResponse uploadResume(@RequestParam("file") MultipartFile file,
+                                     @RequestParam("resume") String resume) {
         String username = RequestUtils.getUserName();
+        if (ObjectUtils.isEmpty(username)) {
+            throw new ErrorResponse(UserErrorCode.LOGIN_USER_INFO_ERROR);
+        }
         //删除原先的简历
-
-        personDetailsService.updateResumeByName(username, resume);
-        return BaseResponse.ok();
+        UploadFileUtils.deleteFileByRelative(CoreConstant.FILE_PATH + resume);
+        // 把新的简历复制到文件路径下
+        String fileName = UploadFileUtils.uploadFile(file);
+        // 更新成新的简历名称
+        personDetailsService.updateResumeByName(username, fileName);
+        return new BaseResponse(fileName);
     }
 
+
+    /**
+     * 功能描述：  上传思维导图
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/3/24 23:30
+     * @since v1.0
+     **/
+    @PostMapping("/uploadMind")
+    @OperationLog(action = LogConstant.ActionType.UPDATE, object = LogConstant.ActionObject.USER,
+            info = LogConstant.ActionInfo.UPLOAD_MIND)
+    public BaseResponse uploadMind(@RequestParam("file") MultipartFile file,
+                                   @RequestParam("mind") String mind) {
+        String username = RequestUtils.getUserName();
+        if (ObjectUtils.isEmpty(username)) {
+            throw new ErrorResponse(UserErrorCode.LOGIN_USER_INFO_ERROR);
+        }
+        //删除原先的思维导图
+        UploadFileUtils.deleteFileByRelative(CoreConstant.FILE_PATH + mind);
+        // 把新的思维导图复制到文件路径下
+        String fileName = UploadFileUtils.uploadFile(file);
+        // 更新成新的思维导图名称
+        personDetailsService.updateMindByName(username, fileName);
+        return new BaseResponse(fileName);
+    }
 
     /**
      * 功能描述：将详细信息转成视图信息
@@ -140,7 +176,7 @@ public class PersonalInfoController {
     private PersonDetailsVo convertToDetailVo(PersonDetailsInfo detailsInfo) {
         PersonDetailsVo vo = new PersonDetailsVo();
         vo.setEmail(detailsInfo.getEmail());
-        vo.setMind(detailsInfo.getMind());
+        vo.setMind(CoreConstant.FILE_PATH + detailsInfo.getMind());
         vo.setPersonName(detailsInfo.getPersonName());
         vo.setTags(ConvertIdUtils.convertTagsToList(detailsInfo.getTags()));
         vo.setTelephone(detailsInfo.getTelephone());

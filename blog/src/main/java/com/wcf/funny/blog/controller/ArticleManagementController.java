@@ -75,7 +75,7 @@ public class ArticleManagementController {
                                             @RequestParam("id") Integer id,
                                             @RequestParam(value = "path",required = false) String path) {
         // 先调用工具类，完成文章的封面上传
-        PictureUploadInfo info = UploadFileUtils.uploadFace(cover, PictureType.ARTICLE_COVER);
+        PictureUploadInfo info = UploadFileUtils.uploadPic(cover, PictureType.ARTICLE_COVER);
         info.setBelongTo(id);
         info.setUploader(RequestUtils.getUserName());
         info.setUploadTime(FunnyTimeUtils.nowUnix());
@@ -83,7 +83,7 @@ public class ArticleManagementController {
         if(!ObjectUtils.isEmpty(path)){
             // 提取路径参数中的uuid,先删除数据库中的记录，再删除文件夹中的图片
             fileService.deletePictureInfo(UploadFileUtils.getFileName(path));
-            UploadFileUtils.deletePictureByRelative(path);
+            UploadFileUtils.deleteFileByRelative(path);
         }
         //存储图片信息
         fileService.uploadPictureInfo(info);

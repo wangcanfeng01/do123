@@ -266,7 +266,7 @@ public class ArticleInfoController {
     public BaseResponse<ArticlePicInfoVo> uploadPicInfo(@RequestParam("image") MultipartFile picture,
                                                         @PathVariable(value = "id") Integer id) {
         // 先调用工具类，完成专题的封面上传
-        PictureUploadInfo info = UploadFileUtils.uploadFace(picture, PictureType.ARTICLE_INFO);
+        PictureUploadInfo info = UploadFileUtils.uploadPic(picture, PictureType.ARTICLE_INFO);
         info.setBelongTo(id);
         info.setUploader(RequestUtils.getUserName());
         info.setUploadTime(FunnyTimeUtils.nowUnix());
@@ -292,7 +292,7 @@ public class ArticleInfoController {
         }
         // 提取路径参数中的uuid
         fileService.deletePictureInfo(infos[len - 1]);
-        UploadFileUtils.deletePictureByRelative(path);
+        UploadFileUtils.deleteFileByRelative(path);
         return BaseResponse.ok();
     }
 

@@ -15,7 +15,9 @@ public enum PictureType {
     CATEGORY_COVER(1, "/upload/image/cover/category/"),
     // 文章信息
     ARTICLE_INFO(2, "/upload/image/article/"),
+    //人脸图片
     FACE(3, "/upload/image/face/");
+
 
     PictureType(Integer type, String prefix) {
         this.prefix = prefix;

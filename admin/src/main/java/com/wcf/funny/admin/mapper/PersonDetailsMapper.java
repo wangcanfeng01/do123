@@ -56,8 +56,18 @@ public interface PersonDetailsMapper {
      * @time 2019/3/8 22:27
      * @since v1.0
      **/
-    @Select("update info_user_details set resume=#{resume} where username=#{username}")
+    @Update("update info_user_details set resume=#{resume} where username=#{username}")
     void updateResumeByName(@Param("username") String username,@Param("resume") String resume);
+
+    /**
+     * 功能描述：根据用户名称修改用户简历
+     *
+     * @author wangcanfeng
+     * @time 2019/3/8 22:27
+     * @since v1.0
+     **/
+    @Update("update info_user_details set mind=#{mind} where username=#{username}")
+    void updateMindByName(@Param("username") String username,@Param("mind") String mind);
 
     /**
      * 功能描述：  获取开发者详情列表

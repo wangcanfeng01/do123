@@ -62,12 +62,7 @@ public class ProgrammerController {
             vo.setTelephone(details.getTelephone());
             vo.setWorkArea(details.getWorkArea());
             vo.setUsername(details.getUsername());
-            if (!ObjectUtils.isEmpty(details.getResume())) {
-                String[] infos = details.getResume().split(CoreConstant.SEPARATOR);
-                if (infos.length > 0) {
-                    vo.setResume(infos[infos.length - 1]);
-                }
-            }
+            vo.setResume(details.getResume());
             vos.add(vo);
         });
         return vos;

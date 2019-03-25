@@ -145,6 +145,8 @@ public class LogConstant {
         public final static String UPDATE_USER_DETAILS="update_user_details";
         // 上传个人简历
         public final static String UPLOAD_RESUME="upload_resume";
+        // 上传思维导图
+        public final static String UPLOAD_MIND="upload_mind";
     }
 
     /**

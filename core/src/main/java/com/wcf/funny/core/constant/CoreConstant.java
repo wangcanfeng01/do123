@@ -41,5 +41,10 @@ public class CoreConstant {
     // 1GB的byte数
     public final static int GB=1073741824;
 
+    /**
+     * 文件保存相对路径
+     */
+    public static final String FILE_PATH = "/upload/files/";
+
 
 }

@@ -89,6 +89,10 @@ public class CommentController {
             info = LogConstant.ActionInfo.DELETE_COMMENT)
     public BaseResponse deleteCommentById(@PathVariable("id") Integer id) {
         commentInfoService.deleteCommentById(id);
+        // 文章内评论数减去1
+
+
+
         return BaseResponse.ok();
     }
 
@@ -116,6 +120,9 @@ public class CommentController {
         info.setIsRead(0);
         info.setParent(req.getParent());
         commentInfoService.addComment(info);
+
+        //文章内评论数增加1
+
         return BaseResponse.ok();
     }
 
