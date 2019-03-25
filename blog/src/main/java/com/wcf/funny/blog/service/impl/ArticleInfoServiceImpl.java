@@ -288,6 +288,40 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
     }
 
     /**
+     * 功能描述：减少文章的评论的统计值
+     *
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/3/25 22:59
+     * @since v1.0
+     **/
+    @Override
+    public void reduceCommentNum(Integer id) {
+        try {
+            articleInfoMapper.reduceCommentNum(id);
+        } catch (Exception e) {
+            throw new PgSqlException(ArticleErrorCode.UPDATE_ARTICLE_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：增加评论的统计值
+     *
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/3/25 22:59
+     * @since v1.0
+     **/
+    @Override
+    public void increaseCommentNum(Integer id) {
+        try {
+            articleInfoMapper.increaseCommentNum(id);
+        } catch (Exception e) {
+            throw new PgSqlException(ArticleErrorCode.UPDATE_ARTICLE_ERROR, e);
+        }
+    }
+
+    /**
      * 功能描述：  转换简单的文章视图列表信息
      *
      * @param simplePageInfo

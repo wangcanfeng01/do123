@@ -2,6 +2,7 @@ package com.wcf.funny.blog.controller;
 
 import com.github.pagehelper.PageInfo;
 import com.wcf.funny.blog.entity.CommentInfo;
+import com.wcf.funny.blog.service.ArticleInfoService;
 import com.wcf.funny.blog.service.CommentInfoService;
 import com.wcf.funny.blog.vo.CommentVo;
 import com.wcf.funny.blog.vo.req.CommentReq;
@@ -27,6 +28,9 @@ import java.util.List;
 public class CommentController {
     @Autowired
     private CommentInfoService commentInfoService;
+
+    @Autowired
+    private ArticleInfoService articleInfoService;
 
     /**
      * 功能描述：  查询评论记录
@@ -90,9 +94,7 @@ public class CommentController {
     public BaseResponse deleteCommentById(@PathVariable("id") Integer id) {
         commentInfoService.deleteCommentById(id);
         // 文章内评论数减去1
-
-
-
+        articleInfoService.reduceCommentNum(id);
         return BaseResponse.ok();
     }
 
@@ -120,9 +122,8 @@ public class CommentController {
         info.setIsRead(0);
         info.setParent(req.getParent());
         commentInfoService.addComment(info);
-
         //文章内评论数增加1
-
+        articleInfoService.increaseCommentNum(req.getArticleId());
         return BaseResponse.ok();
     }
 

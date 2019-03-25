@@ -160,4 +160,27 @@ public interface ArticleInfoMapper {
      **/
     @UpdateProvider(type = ArticleInfoProvider.class, method = "getModifyArticleSQL")
     void modifyArticleInfoById(ArticleInfo info);
+
+
+    /**
+     * 功能描述：减少文章的评论的统计值
+     *
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/3/25 22:59
+     * @since v1.0
+     **/
+    @Update("UPDATE info_article SET comments_num = comments_num-1 WHERE id = #{id}")
+    void reduceCommentNum(Integer id);
+
+    /**
+     * 功能描述：增加评论的统计值
+     *
+     * @param id
+     * @author wangcanfeng
+     * @time 2019/3/25 22:59
+     * @since v1.0
+     **/
+    @Update("UPDATE info_article SET comments_num = comments_num+1 WHERE id = #{id}")
+    void increaseCommentNum(Integer id);
 }
