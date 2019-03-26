@@ -50,7 +50,7 @@ public interface ServerInfoMapper {
      **/
     @Select(" SELECT id, create_time as createTime, heap_used as heapUsed, noheap_used as noHeapUsed," +
             " disk_used as diskUsed, cpu_used as cpuUsed, statistic_type as statisticType " +
-            " FROM info_server WHERE statistic_type=#{statisticType} ORDER BY create_time")
+            " FROM info_server WHERE statistic_type=#{statisticType} ORDER BY create_time desc")
     List<ServerInfo> getServerInfosByType(String type);
 
 }

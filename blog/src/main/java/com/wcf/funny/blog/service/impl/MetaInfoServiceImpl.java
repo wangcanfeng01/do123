@@ -42,11 +42,23 @@ public class MetaInfoServiceImpl implements MetaInfoService {
      **/
     @Override
     public PageInfo<CategoryVo> getCategoryList(Integer currentPage, Integer pageSize) {
+        PageHelper.startPage(currentPage, pageSize);
+        List<MetaInfo> metaInfos = getCategoryList();
+        PageInfo<MetaInfo> pageInfo = new PageInfo<>(metaInfos);
+        return convertCategoryPage(pageInfo);
+    }
+
+    /**
+     * 功能描述：  查询专题列表
+     *
+     * @author wangcanfeng
+     * @time 2019/2/17 0:08
+     * @since v1.0
+     **/
+    @Override
+    public List<MetaInfo> getCategoryList() {
         try {
-            PageHelper.startPage(currentPage, pageSize);
-            List<MetaInfo> metaInfos = metaInfoMapper.getMetasByType(ArticleConstant.CATEGORY_TYPE);
-            PageInfo<MetaInfo> pageInfo = new PageInfo<>(metaInfos);
-            return convertCategoryPage(pageInfo);
+            return metaInfoMapper.getMetasByType(ArticleConstant.CATEGORY_TYPE);
         } catch (Exception e) {
             throw new PgSqlException(MetaErrorCode.SELECT_CATEGORY_ERROR, e);
         }
@@ -304,6 +316,22 @@ public class MetaInfoServiceImpl implements MetaInfoService {
             metaInfoMapper.changeMetaCount(list);
         } catch (Exception e) {
             throw new PgSqlException(MetaErrorCode.UPDATE_META_ERROR, e);
+        }
+    }
+
+    /**
+     * 功能描述：  查询专题列表
+     *
+     * @author wangcanfeng
+     * @time 2019/2/17 0:08
+     * @since v1.0
+     **/
+    @Override
+    public List<MetaInfo> getRecentMetaList(Integer limit,String type) {
+        try {
+            return metaInfoMapper.getRecentMetasByType(limit,type);
+        } catch (Exception e) {
+            throw new PgSqlException(MetaErrorCode.SELECT_META_ERROR, e);
         }
     }
 

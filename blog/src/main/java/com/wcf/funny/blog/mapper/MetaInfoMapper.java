@@ -29,6 +29,19 @@ public interface MetaInfoMapper {
     List<MetaInfo> getMetasByType(String type);
 
     /**
+     * @param type  标签类型
+     * @param limit 限制个数
+     * @note 根据类型查询meta列表
+     * @author WCF
+     * @time 2018/6/13 22:25
+     * @since v1.0
+     **/
+    @Select("SELECT id, name, type, cover, description, modify_time as modifyTime, create_time as createTime, count " +
+            " FROM info_metas WHERE type= #{type}" +
+            " ORDER BY modify_time desc limit #{limit}")
+    List<MetaInfo> getRecentMetasByType(@Param("limit") Integer limit,@Param("type") String type);
+
+    /**
      * @param type 标签类型
      * @note 根据类型查询meta列表
      * @author WCF
@@ -83,7 +96,7 @@ public interface MetaInfoMapper {
      * @since v1.0
      **/
     @UpdateProvider(type = MetaInfoProvider.class, method = "reduceCountBatchByNameAndTypeSQL")
-    void reduceMetaCountByNameAndTypeBatch(@Param("names") List<String> names,@Param("type") String type);
+    void reduceMetaCountByNameAndTypeBatch(@Param("names") List<String> names, @Param("type") String type);
 
     /**
      * @param name
@@ -94,7 +107,7 @@ public interface MetaInfoMapper {
      * @since v1.0
      **/
     @Update("UPDATE info_metas SET count=count-1, modify_time=#{modifyTime} WHERE name = #{name} and type=#{type}")
-    void reduceMetaCountByNameAndType(@Param("modifyTime") Integer time, @Param("name") String name,@Param("type")String type);
+    void reduceMetaCountByNameAndType(@Param("modifyTime") Integer time, @Param("name") String name, @Param("type") String type);
 
     /**
      * 功能描述： 根据标签id更新封面
@@ -134,22 +147,24 @@ public interface MetaInfoMapper {
 
     /**
      * 功能描述： 根据专题名称和类型增加统计值
-     *@author wangcanfeng
-     *@time 2019/2/23 19:55
-     *@since v1.0
+     *
      * @param name
-    * @param type
+     * @param type
+     * @author wangcanfeng
+     * @time 2019/2/23 19:55
+     * @since v1.0
      **/
     @Update("UPDATE info_metas SET count=count+1, modify_time=#{modifyTime} WHERE name = #{name} and type=#{type}")
-    void increaseMetaCountByNameAndType(@Param("modifyTime") Integer time,@Param("name")String name,@Param("type")String type);
+    void increaseMetaCountByNameAndType(@Param("modifyTime") Integer time, @Param("name") String name, @Param("type") String type);
 
     /**
      * 功能描述：
-     *@author wangcanfeng
-     *@time 2019/2/26 21:13
-     *@since v1.0
+     *
      * @param
+     * @author wangcanfeng
+     * @time 2019/2/26 21:13
+     * @since v1.0
      **/
-    @UpdateProvider(type = MetaInfoProvider.class,method = "changeMetaCountSQL")
+    @UpdateProvider(type = MetaInfoProvider.class, method = "changeMetaCountSQL")
     void changeMetaCount(@Param("metas") List<MetaChangeInfo> list);
 }

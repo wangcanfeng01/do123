@@ -23,8 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author wangcanfeng
@@ -131,6 +130,7 @@ public class ServerInfoServiceImpl implements ServerInfoService {
         try {
             PageHelper.startPage(1, 24);
             List<ServerInfo> list = serverInfoMapper.getServerInfosByType(TaskInterval.PER_HOUR.getInfo().toString());
+            Collections.reverse(list);
             return convertChart(list);
         } catch (Exception e) {
             throw new PgSqlException(ServerInfoErrorCode.SELECT_SERVER_ERROR, e);
@@ -283,7 +283,7 @@ public class ServerInfoServiceImpl implements ServerInfoService {
         // 坐标轴信息
         String[] xAxis = new String[24];
         //预填充默认坐标轴的值
-        for (int i = 0; i < 23; i++) {
+        for (int i = 0; i < 24; i++) {
             xAxis[i] = "--";
         }
         //堆内存信息
@@ -304,7 +304,7 @@ public class ServerInfoServiceImpl implements ServerInfoService {
             int len = list.size();
             for (int count = 0; count < len; count++) {
                 ServerInfo info = list.get(count);
-                xAxis[count] = "" + FunnyTimeUtils.getHour(info.getCreateTime());
+                xAxis[count] = FunnyTimeUtils.getHour(info.getCreateTime()) + ":00";
                 heap[count] = Double.valueOf(info.getHeapUsed());
                 noheap[count] = Double.valueOf(info.getNoHeapUsed());
                 disk[count] = Double.valueOf(info.getDiskUsed());
@@ -313,5 +313,5 @@ public class ServerInfoServiceImpl implements ServerInfoService {
         }
         return vo;
     }
-    
+
 }

@@ -27,6 +27,15 @@ public interface MetaInfoService {
     PageInfo<CategoryVo> getCategoryList(Integer currentPage, Integer pageSize);
 
     /**
+     * 功能描述：  查询专题列表
+     *
+     * @author wangcanfeng
+     * @time 2019/2/17 0:08
+     * @since v1.0
+     **/
+    List<MetaInfo> getCategoryList();
+
+    /**
      * 功能描述：  查询专题列表简单信息，用于检索
      *
      * @author wangcanfeng
@@ -167,4 +176,12 @@ public interface MetaInfoService {
      **/
     void changeMetaInfo(List<MetaChangeInfo> list);
 
+    /**
+     * 功能描述：  查询专题列表
+     *
+     * @author wangcanfeng
+     * @time 2019/2/17 0:08
+     * @since v1.0
+     **/
+    List<MetaInfo> getRecentMetaList(Integer limit,String type);
 }

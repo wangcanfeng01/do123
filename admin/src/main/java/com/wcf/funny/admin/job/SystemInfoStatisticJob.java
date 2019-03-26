@@ -39,7 +39,7 @@ public class SystemInfoStatisticJob implements Job {
         try {
             serverInfoService.insertServerInfo(task.getTaskInterval());
         } catch (Exception e) {
-            log.error("task executes failed, details:" + json);
+            log.error("task executes failed, details:" + json,e);
             //任务结果设置为失败
             task.setTaskResult(TaskResult.FAILED.getInfo().toString());
         }
