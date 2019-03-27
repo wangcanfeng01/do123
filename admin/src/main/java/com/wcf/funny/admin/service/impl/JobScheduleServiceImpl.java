@@ -102,7 +102,8 @@ public class JobScheduleServiceImpl implements JobScheduleService {
     public void restartJob(ScheduleTaskInfo info) {
         //利用已有的任务信息，创建新的任务信息对象
         JobDetail jobDetail = JobBuilder.newJob(TaskGroupMap.getJobClazz(info.getTaskGroup()))
-                .withIdentity(info.getTaskName(), info.getTaskGroup()).build();
+                .withIdentity(info.getTaskName(), info.getTaskGroup())
+                .usingJobData("taskInfo", info.toJson()).build();
         //创建点火器
        TaskInterval interval= TaskInterval.valueOfInterval(info.getTaskInterval());
         Trigger trigger = TaskTriggerMap.getCronTrigger(interval);

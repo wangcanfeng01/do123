@@ -115,4 +115,9 @@ public class HomePageController {
         return "/index.html";
     }
 
+    @RequestMapping("/readPDF")
+    public String pdf(){
+        return "/index.html";
+    }
+
 }

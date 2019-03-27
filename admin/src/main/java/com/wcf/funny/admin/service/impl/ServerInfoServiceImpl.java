@@ -146,6 +146,8 @@ public class ServerInfoServiceImpl implements ServerInfoService {
      * @since v1.0
      **/
     public String cpuUsed() {
+        // 这个地方很尴尬，第一次查询得到的结果总是0，索性每次都查两次，取后面的一次
+        getMetricStatistic(AdminConstant.SYSTEM_CPU_USED, null);
         Double used = getMetricStatistic(AdminConstant.SYSTEM_CPU_USED, null);
         DecimalFormat format = new DecimalFormat("0.00");
         return format.format(used);
@@ -305,10 +307,13 @@ public class ServerInfoServiceImpl implements ServerInfoService {
             for (int count = 0; count < len; count++) {
                 ServerInfo info = list.get(count);
                 xAxis[count] = FunnyTimeUtils.getHour(info.getCreateTime()) + ":00";
+                //这个单位已经是MB
                 heap[count] = Double.valueOf(info.getHeapUsed());
+                //这个单位已经是MB
                 noheap[count] = Double.valueOf(info.getNoHeapUsed());
-                disk[count] = Double.valueOf(info.getDiskUsed());
-                cpu[count] = Double.valueOf(info.getCpuUsed());
+                // 数据库中存储的是百分比，这里需要转成MB为单位的数据
+                disk[count] = Double.valueOf(info.getDiskUsed()) * 4096 * 4;
+                cpu[count] = Double.valueOf(info.getCpuUsed()) * 4096;
             }
         }
         return vo;
