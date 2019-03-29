@@ -26,6 +26,7 @@
         <module>root</module>
         <module>home</module>
         <module>about</module>
+        <module>job</module>
     </modules>
 
     <properties>
@@ -39,6 +40,7 @@
         <do123.funny.front-ui>1.0-SNAPSHOT</do123.funny.front-ui>
         <do123.funny.video>1.0-SNAPSHOT</do123.funny.video>
         <do123.funny.home>1.0-SNAPSHOT</do123.funny.home>
+        <do123.funny.job>1.0-SNAPSHOT</do123.funny.job>
         <spring-boot-relation>2.1.1.RELEASE</spring-boot-relation>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -138,6 +140,12 @@
                 <groupId>com.wcf.funny</groupId>
                 <artifactId>do123-home</artifactId>
                 <version>${do123.funny.home}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wcf.funny</groupId>
+                <artifactId>do123-job</artifactId>
+                <version>${do123.funny.job}</version>
             </dependency>
             <!--数据库相关依赖-start-->
             <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->

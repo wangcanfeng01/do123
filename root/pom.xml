@@ -62,6 +62,11 @@
             <groupId>com.wcf.funny</groupId>
             <artifactId>do123-home</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.wcf.funny</groupId>
+            <artifactId>do123-job</artifactId>
+        </dependency>
     </dependencies>
 
     <packaging>war</packaging>
