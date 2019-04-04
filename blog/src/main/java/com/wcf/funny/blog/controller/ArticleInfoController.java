@@ -142,6 +142,7 @@ public class ArticleInfoController {
      * @since v1.0
      **/
     @GetMapping("/article/write")
+    @OperationLog(action = LogConstant.ActionType.STAR, object = LogConstant.ActionObject.ARTICLE, info = LogConstant.ActionInfo.MODIFY_ARTICLE)
     public BaseResponse writeArticle(@RequestParam(value = "slug", required = false) String slug) {
         if (ObjectUtils.isEmpty(RequestUtils.getUserName())) {
             // 如果当前用户未登录，直接提示异常信息
