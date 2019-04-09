@@ -12,7 +12,7 @@ import java.io.IOException;
  * @function 主页页面路由
  **/
 @Controller
-public class HomePageController {
+public class PageResolverController {
     /**
      * 主页跳转
      *
@@ -115,8 +115,30 @@ public class HomePageController {
         return "/index.html";
     }
 
+
+    /**
+     * 功能描述：pdf展示页面
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/4/9 23:02
+     * @since v1.0
+     **/
     @RequestMapping("/readPDF")
-    public String pdf(){
+    public String pdf() {
+        return "/index.html";
+    }
+
+    /**
+     * 功能描述：查询首页
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/4/9 23:02
+     * @since v1.0
+     **/
+    @RequestMapping("/searchInfo")
+    public String search() {
         return "/index.html";
     }
 

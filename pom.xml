@@ -190,6 +190,14 @@
                 <version>1.6.0</version>
             </dependency>
 
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-pool2 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-pool2</artifactId>
+                <version>2.6.1</version>
+            </dependency>
+
+
         </dependencies>
 
     </dependencyManagement>
