@@ -137,7 +137,7 @@ public class PageResolverController {
      * @time 2019/4/9 23:02
      * @since v1.0
      **/
-    @RequestMapping("/searchInfo")
+    @RequestMapping("/global/search")
     public String search() {
         return "/index.html";
     }
