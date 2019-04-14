@@ -71,6 +71,7 @@
     <orderEntry type="library" name="Maven: com.github.pagehelper:pagehelper:5.1.2" level="project" />
     <orderEntry type="library" name="Maven: com.github.jsqlparser:jsqlparser:1.0" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.16" level="project" />
+    <orderEntry type="library" name="Maven: org.jsoup:jsoup:1.11.3" level="project" />
     <orderEntry type="library" name="Maven: org.pegdown:pegdown:1.6.0" level="project" />
     <orderEntry type="library" name="Maven: org.parboiled:parboiled-java:1.1.7" level="project" />
     <orderEntry type="library" name="Maven: org.parboiled:parboiled-core:1.1.7" level="project" />

@@ -1,6 +1,7 @@
 package com.wcf.funny.job.constant;
 
 import com.wcf.funny.job.task.SystemInfoStatisticJob;
+import com.wcf.funny.job.task.TencentVideoCrawlerJob;
 import org.quartz.Job;
 
 import java.util.HashMap;
@@ -24,6 +25,7 @@ public class TaskGroupMap {
      **/
     private static void init() {
         taskGroupMap.put("system_statistic", SystemInfoStatisticJob.class);
+        taskGroupMap.put("tencent_crawler", TencentVideoCrawlerJob.class);
     }
 
     /**

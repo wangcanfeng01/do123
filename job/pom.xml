@@ -36,6 +36,11 @@
         </dependency>
 
         <dependency>
+            <groupId>com.wcf.funny</groupId>
+            <artifactId>do123-video</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>

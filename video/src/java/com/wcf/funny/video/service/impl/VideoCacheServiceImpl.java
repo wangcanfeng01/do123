@@ -118,17 +118,21 @@ public class VideoCacheServiceImpl implements VideoCacheService {
     public List<VideoInfoVo> changeVideo(String client, String key) {
         List<VideoInfoVo> list = getCache(client + "_" + key);
         List<VideoInfoVo> result = new LinkedList<>();
-        //默认将前8个视频信息挪到后面
-        int count = 8;
+        //默认将前10个视频信息挪到后面
+        int count = 10;
         if (!ObjectUtils.isEmpty(list) && list.size() > count) {
-            //将第九个视频开始的信息挪到前面
+            //将第11个视频开始的信息挪到前面
             for (int i = count; i < list.size(); i++) {
                 result.add(list.get(i));
             }
-            //将前8个视频挪到后面
+            //将前10个视频挪到后面
             for (int i = 0; i < count; i++) {
                 result.add(list.get(i));
             }
+        }
+        if (result.size() > count) {
+            //这个分割集合的方式是闭开区间
+           return result.subList(0, count);
         }
         return list;
     }

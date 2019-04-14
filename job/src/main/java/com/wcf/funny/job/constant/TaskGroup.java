@@ -11,7 +11,9 @@ import com.wcf.funny.core.constant.InfoEnum;
  **/
 public enum TaskGroup implements InfoEnum {
     // 系统信息统计任务组
-    SYSTEM_STATISTIC("system_statistic_code", "system_statistic"),;
+    SYSTEM_STATISTIC("system_statistic_code", "system_statistic"),
+    // 腾讯视频爬取任务组
+    TENCENT_CRAWLER("tencent_crawler_code", "tencent_crawler"),;
 
     TaskGroup(String code, String group) {
         this.code = code;
@@ -60,6 +62,10 @@ public enum TaskGroup implements InfoEnum {
         switch (group) {
             case "system_statistic": {
                 taskGroup = SYSTEM_STATISTIC;
+                break;
+            }
+            case "tencent_crawler": {
+                taskGroup = TENCENT_CRAWLER;
                 break;
             }
             default: {

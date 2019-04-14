@@ -18,6 +18,8 @@ public enum  CommonCode implements CoreCode{
     CAN_NOT_FIND_BEAN("0x05020006","bean name can not be null"),
     //当前方法还未提供使用
     UNSUPPORTED_METHOD("0x05020007","unsupported method"),
+    //url地址请求失败
+    URL_REQUEST_FAILED("0x05020008","request the url failed"),
     ;
 
     /**
