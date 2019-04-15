@@ -57,6 +57,7 @@ public class LeaveMessagesController {
         info.setEmail(req.getAddress());
         info.setIsRead(HomeConstant.NON_READ);
         info.setMessage(req.getInfo());
+        info.setUsername(req.getUsername());
         leaveMessageService.insertMessage(info);
         return BaseResponse.ok();
     }

@@ -34,7 +34,7 @@ public interface LeaveMessageMapper {
      * @time 2019/4/14 21:10
      * @since v1.0
      **/
-    @Select("SELECT id, username, message, email, create_time as createTime, is_read as isRead" +
+    @Select("SELECT id, username, message, email, create_time as createTime, is_read as isRead " +
             "FROM info_leave_message order by create_time desc")
     List<LeaveMessageInfo> getMessages();
 }

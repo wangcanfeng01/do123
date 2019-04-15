@@ -142,4 +142,16 @@ public class PageResolverController {
         return "/index.html";
     }
 
+    /**
+     * 功能描述：留言板
+     *
+     * @param
+     * @author wangcanfeng
+     * @time 2019/4/9 23:02
+     * @since v1.0
+     **/
+    @RequestMapping("/leave/message")
+    public String leaveessage() {
+        return "/index.html";
+    }
 }
