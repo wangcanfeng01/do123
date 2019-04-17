@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -94,7 +95,7 @@ public class TencentVideoCrawlerJob implements Job {
      **/
     private List<VideoInfoVo> carousels() {
         Document document = CrawlerUtils.getDocWithPC(HOME_PAGE_PC);
-        List<VideoInfoVo> list = new ArrayList<>();
+        List<VideoInfoVo> list = new LinkedList<>();
         Elements carousels = document.select("div.slider_nav a");
         for (Element carousel : carousels) {
             VideoInfoVo video = new VideoInfoVo();
@@ -106,6 +107,8 @@ public class TencentVideoCrawlerJob implements Job {
             video.setImage(image);
             list.add(video);
         }
+        //移除第一个视频信息
+        list.remove(0);
         return list;
     }
 

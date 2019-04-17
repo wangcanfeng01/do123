@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -132,7 +133,7 @@ public class VideoCacheServiceImpl implements VideoCacheService {
         }
         if (result.size() > count) {
             //这个分割集合的方式是闭开区间
-           return result.subList(0, count);
+            return result.subList(0, count);
         }
         return list;
     }
@@ -148,6 +149,19 @@ public class VideoCacheServiceImpl implements VideoCacheService {
     private List<VideoInfoVo> getCache(String key) {
         String json = stringRedisTemplate.opsForValue().get(key);
         List<VideoInfoVo> list = JSONObject.parseArray(json, VideoInfoVo.class);
-        return list;
+        List<VideoInfoVo> result = new ArrayList<>();
+        int count = 10;
+        if (!ObjectUtils.isEmpty(list) && list.size() > count) {
+            result = list.subList(0, count);
+        } else {
+            result = list;
+        }
+        int titleLen = 13;
+        list.forEach(video -> {
+            if (!ObjectUtils.isEmpty(video.getTitle()) && video.getTitle().length() >titleLen) {
+
+            }
+        });
+        return result;
     }
 }
