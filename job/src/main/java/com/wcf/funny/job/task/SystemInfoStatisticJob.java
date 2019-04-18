@@ -1,6 +1,7 @@
 package com.wcf.funny.job.task;
 
 import com.alibaba.fastjson.JSON;
+import com.wcf.funny.core.utils.FunnyTimeUtils;
 import com.wcf.funny.job.constant.TaskResult;
 import com.wcf.funny.job.constant.TaskStatus;
 import com.wcf.funny.job.constant.TaskType;
@@ -37,7 +38,7 @@ public class SystemInfoStatisticJob implements Job {
         try {
             serverInfoService.insertServerInfo(task.getTaskInterval());
         } catch (Exception e) {
-            log.error("task executes failed, details:" + json,e);
+            log.error("task executes failed, details:" + json, e);
             //任务结果设置为失败
             task.setTaskResult(TaskResult.FAILED.getInfo().toString());
         }
@@ -47,6 +48,8 @@ public class SystemInfoStatisticJob implements Job {
         }
         //更新任务信息,内部就将异常处理掉
         try {
+            //重置更新时间
+            task.setUpdateTime(FunnyTimeUtils.nowUnix());
             taskLogService.updateTask(task);
         } catch (Exception e) {
             log.error(TaskErrorCode.UPDATE_TASK_FAILED, e);

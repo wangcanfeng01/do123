@@ -38,4 +38,14 @@ public class VideoInfoVo {
      * 其他信息
      */
     private String other;
+
+    /**
+     * 演员
+     */
+    private String director;
+
+    /**
+     * 简介
+     */
+    private String summary;
 }

@@ -39,10 +39,16 @@ public class TencentController {
         VideoHomeVo vo = new VideoHomeVo();
         String client = VideoCacheKey.TENCENT;
         vo.setCarousels(cacheService.carousels(client));
-        vo.setVarietyShows(cacheService.varietyShow(client));
-        vo.setTvHots(cacheService.tvHots(client));
-        vo.setCartoons(cacheService.cartoons(client));
-        vo.setMovies(cacheService.movies(client));
+        // 对视频信息进行截取
+        int count=10;
+        List<VideoInfoVo> varietyShows=cacheService.varietyShow(client).subList(0,count);
+        vo.setVarietyShows(varietyShows);
+        List<VideoInfoVo> tvHots=cacheService.tvHots(client).subList(0,count);
+        vo.setTvHots(tvHots);
+        List<VideoInfoVo> cartoons=cacheService.cartoons(client).subList(0,count);
+        vo.setCartoons(cartoons);
+        List<VideoInfoVo> movies=cacheService.movies(client).subList(0,count);
+        vo.setMovies(movies);
         return new BaseResponse<>(vo);
     }
 
@@ -55,9 +61,9 @@ public class TencentController {
      * @since v1.0
      **/
     @GetMapping("/change")
-    public BaseResponse<List<VideoInfoVo>> change(@RequestParam("key") String key) {
+    public BaseResponse<List<VideoInfoVo>> change(@RequestParam("key") String key,@RequestParam("index") Integer index) {
         //取出指定个数的缓存中的视频信息
-        List<VideoInfoVo> list = cacheService.changeVideo(VideoCacheKey.TENCENT, key);
+        List<VideoInfoVo> list = cacheService.changeVideo(VideoCacheKey.TENCENT, key,index);
         return new ListResponse<>(list);
     }
 

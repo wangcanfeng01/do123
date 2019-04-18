@@ -111,31 +111,29 @@ public class VideoCacheServiceImpl implements VideoCacheService {
      * 功能描述：  换一批视频
      *
      * @param key
+     * @param client
+     * @param index
      * @author wangcanfeng
      * @time 2019/4/13 21:49
      * @since v1.0
      **/
     @Override
-    public List<VideoInfoVo> changeVideo(String client, String key) {
+    public List<VideoInfoVo> changeVideo(String client, String key, Integer index) {
         List<VideoInfoVo> list = getCache(client + "_" + key);
         List<VideoInfoVo> result = new LinkedList<>();
         //默认将前10个视频信息挪到后面
         int count = 10;
+        // 默认能切换3次
+        int round = 3;
         if (!ObjectUtils.isEmpty(list) && list.size() > count) {
+            //获取除3的余数
+            int remainder = index % round;
             //将第11个视频开始的信息挪到前面
-            for (int i = count; i < list.size(); i++) {
-                result.add(list.get(i));
-            }
-            //将前10个视频挪到后面
-            for (int i = 0; i < count; i++) {
+            for (int i = count*remainder; i < (remainder+1)*count; i++) {
                 result.add(list.get(i));
             }
         }
-        if (result.size() > count) {
-            //这个分割集合的方式是闭开区间
-            return result.subList(0, count);
-        }
-        return list;
+        return result;
     }
 
     /**
@@ -149,19 +147,6 @@ public class VideoCacheServiceImpl implements VideoCacheService {
     private List<VideoInfoVo> getCache(String key) {
         String json = stringRedisTemplate.opsForValue().get(key);
         List<VideoInfoVo> list = JSONObject.parseArray(json, VideoInfoVo.class);
-        List<VideoInfoVo> result = new ArrayList<>();
-        int count = 10;
-        if (!ObjectUtils.isEmpty(list) && list.size() > count) {
-            result = list.subList(0, count);
-        } else {
-            result = list;
-        }
-        int titleLen = 13;
-        list.forEach(video -> {
-            if (!ObjectUtils.isEmpty(video.getTitle()) && video.getTitle().length() >titleLen) {
-
-            }
-        });
-        return result;
+        return list;
     }
 }

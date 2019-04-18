@@ -78,10 +78,11 @@ public interface VideoCacheService {
      *
      * @param client
      * @param key
+     * @param index
      * @author wangcanfeng
      * @time 2019/4/13 21:49
      * @since v1.0
      **/
-    List<VideoInfoVo> changeVideo(String client, String key);
+    List<VideoInfoVo> changeVideo(String client, String key,Integer index);
 
 }

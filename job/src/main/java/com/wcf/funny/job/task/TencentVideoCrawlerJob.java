@@ -132,9 +132,23 @@ public class TencentVideoCrawlerJob implements Job {
             video.setTitle(title);
             video.setImage(image);
             video.setValue(source);
+            //获取视频的简介和演员
+            getDetails(video);
             list.add(video);
         }
         return list;
+    }
+
+    private void getDetails(VideoInfoVo video) {
+        Document document = CrawlerUtils.getDocWithPC(video.getValue());
+        //获取简介信息的数据块
+        Elements elements = document.select("ul.intro_content");
+        //提取演员信息
+        Elements persons = elements.select("div.director");
+        video.setDirector(persons.text());
+        //提取简介信息
+        Elements summary = elements.select("p.summary");
+        video.setSummary(summary.text());
     }
 
 
