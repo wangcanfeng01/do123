@@ -2,11 +2,11 @@ package com.wcf.funny.job.task;
 
 import com.alibaba.fastjson.JSON;
 import com.wcf.funny.core.utils.CrawlerUtils;
+import com.wcf.funny.core.utils.FunnyTimeUtils;
 import com.wcf.funny.job.constant.TaskStatus;
 import com.wcf.funny.job.constant.TaskType;
 import com.wcf.funny.job.entity.ScheduleTaskInfo;
 import com.wcf.funny.job.exception.errorcode.TaskErrorCode;
-import com.wcf.funny.job.service.ServerInfoService;
 import com.wcf.funny.job.service.TaskLogService;
 import com.wcf.funny.video.constant.VideoCacheKey;
 import com.wcf.funny.video.service.VideoCacheService;
@@ -79,6 +79,8 @@ public class TencentVideoCrawlerJob implements Job {
         }
         //更新任务信息,内部就将异常处理掉
         try {
+            //重置更新时间
+            task.setUpdateTime(FunnyTimeUtils.nowUnix());
             taskLogService.updateTask(task);
         } catch (Exception e) {
             log.error(TaskErrorCode.UPDATE_TASK_FAILED, e);
