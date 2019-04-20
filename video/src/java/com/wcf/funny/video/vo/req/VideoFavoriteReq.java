@@ -1,18 +1,14 @@
-package com.wcf.funny.video.vo;
+package com.wcf.funny.video.vo.req;
 
 import lombok.Data;
 
 /**
  * @author wangcanfeng
- * @time 2019/4/12
- * @function 视频视图信息
+ * @time 2019/4/20
+ * @function 视频收藏信息
  **/
 @Data
-public class VideoInfoVo {
-    /**
-     * 序列号
-     */
-    private Integer id;
+public class VideoFavoriteReq {
     /**
      * 视频名称
      */

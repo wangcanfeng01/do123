@@ -9,6 +9,7 @@ import com.wcf.funny.job.entity.ScheduleTaskInfo;
 import com.wcf.funny.job.exception.errorcode.TaskErrorCode;
 import com.wcf.funny.job.service.TaskLogService;
 import com.wcf.funny.video.constant.VideoCacheKey;
+import com.wcf.funny.video.constant.VideoType;
 import com.wcf.funny.video.service.VideoCacheService;
 import com.wcf.funny.video.vo.VideoInfoVo;
 import lombok.extern.log4j.Log4j2;
@@ -66,13 +67,17 @@ public class TencentVideoCrawlerJob implements Job {
         //保存跑马灯视频信息
         cacheService.savesVideos(VideoCacheKey.TENCENT, VideoCacheKey.VIDEO_HOME_CAROUSEL_KEY, carousels());
         //保存综艺视频信息
-        cacheService.savesVideos(VideoCacheKey.TENCENT, VideoCacheKey.VIDEO_HOME_VARIETY_SHOW_KEY, crawler(HOME_PAGE_PHONE_VARIETY));
+        cacheService.savesVideos(VideoCacheKey.TENCENT, VideoCacheKey.VIDEO_HOME_VARIETY_SHOW_KEY,
+                crawler(HOME_PAGE_PHONE_VARIETY, VideoType.VARIETY));
         //保存电视剧信息
-        cacheService.savesVideos(VideoCacheKey.TENCENT, VideoCacheKey.VIDEO_HOME_TV_KEY, crawler(HOME_PAGE_PHONE_TV));
+        cacheService.savesVideos(VideoCacheKey.TENCENT, VideoCacheKey.VIDEO_HOME_TV_KEY,
+                crawler(HOME_PAGE_PHONE_TV,VideoType.TV));
         //保存电影信息
-        cacheService.savesVideos(VideoCacheKey.TENCENT, VideoCacheKey.VIDEO_HOME_MOVIE_KEY, crawler(HOME_PAGE_PHONE_MOVIE));
+        cacheService.savesVideos(VideoCacheKey.TENCENT, VideoCacheKey.VIDEO_HOME_MOVIE_KEY,
+                crawler(HOME_PAGE_PHONE_MOVIE,VideoType.MOVIE));
         //保存动漫信息
-        cacheService.savesVideos(VideoCacheKey.TENCENT, VideoCacheKey.VIDEO_HOME_CARTOON_KEY, crawler(HOME_PAGE_PHONE_CARTOON));
+        cacheService.savesVideos(VideoCacheKey.TENCENT, VideoCacheKey.VIDEO_HOME_CARTOON_KEY,
+                crawler(HOME_PAGE_PHONE_CARTOON,VideoType.CARTOON));
         //如果是单次的任务
         if (TaskType.SINGLE.getInfo().equals(task.getTaskType())) {
             task.setTaskStatus(TaskStatus.FINISHED.getInfo().toString());
@@ -122,7 +127,7 @@ public class TencentVideoCrawlerJob implements Job {
      * @time 2019/4/14 12:52
      * @since v1.0
      **/
-    private List<VideoInfoVo> crawler(String url) {
+    private List<VideoInfoVo> crawler(String url,VideoType type) {
         Document document = CrawlerUtils.getDocWithPC(url);
         List<VideoInfoVo> list = new ArrayList<>();
         Elements elements = document.select("li.list_item a.figure");
@@ -134,6 +139,7 @@ public class TencentVideoCrawlerJob implements Job {
             video.setTitle(title);
             video.setImage(image);
             video.setValue(source);
+            video.setType(type.getInfo().toString());
             //获取视频的简介和演员
             getDetails(video);
             list.add(video);
@@ -141,6 +147,14 @@ public class TencentVideoCrawlerJob implements Job {
         return list;
     }
 
+    /**
+     * 功能描述：  爬取视频详细信息
+     *
+     * @param video
+     * @author wangcanfeng
+     * @time 2019/4/20 14:00
+     * @since v1.0
+     **/
     private void getDetails(VideoInfoVo video) {
         Document document = CrawlerUtils.getDocWithPC(video.getValue());
         //获取简介信息的数据块

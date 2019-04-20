@@ -1,5 +1,6 @@
 package com.wcf.funny.core.reponse;
 
+import com.wcf.funny.core.exception.ErrorResponse;
 import com.wcf.funny.core.exception.errorcode.CommonCode;
 import com.wcf.funny.core.exception.errorcode.CoreCode;
 
@@ -35,17 +36,23 @@ public class BaseResponse<T> {
         return new BaseResponse(CommonCode.DEFAULT_SUCCESS_CODE, null);
     }
 
+    @SuppressWarnings("unchecked")
+    public static BaseResponse error(CoreCode coreCode) {
+        throw new ErrorResponse(coreCode);
+    }
+
     /**
      * 功能描述：  默认的返回正确结果
-     *@author wangcanfeng
-     *@time 2019/1/27 22:53
-     *@since v1.0
+     *
      * @param data
-     *@return
+     * @return
+     * @author wangcanfeng
+     * @time 2019/1/27 22:53
+     * @since v1.0
      **/
     public BaseResponse(T data) {
         this.code = CommonCode.DEFAULT_SUCCESS_CODE.getCode();
-        this.msg=CommonCode.DEFAULT_SUCCESS_CODE.getReason();
+        this.msg = CommonCode.DEFAULT_SUCCESS_CODE.getReason();
         this.data = data;
     }
 

@@ -39,11 +39,13 @@ public interface VideoFavoriteService {
      * @param currentPage 当前页
      * @param pageSize    分页大小
      * @param collector   收藏者
+     * @param type        视频类型
+     * @param title       视频标题
      * @author wangcanfeng
      * @time 2019/4/19 22:48
      * @since v1.0
      **/
-    PageInfo<VideoInfoVo> getFavorites(Integer currentPage, Integer pageSize, String collector);
+    PageInfo<VideoInfoVo> getFavorites(Integer currentPage, Integer pageSize, String collector, String type, String title);
 
     /**
      * 功能描述：视频是否已经被收藏
