@@ -1,7 +1,6 @@
 package com.wcf.funny.video.mapper.provider;
 
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.jdbc.SQL;
 import org.springframework.util.ObjectUtils;
 

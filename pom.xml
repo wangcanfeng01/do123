@@ -17,15 +17,15 @@
     </parent>
 
     <modules>
-        <module>video</module>
+        <module>core</module>
         <module>blog</module>
         <module>front-ui</module>
         <module>config</module>
-        <module>core</module>
         <module>admin</module>
         <module>root</module>
         <module>home</module>
         <module>about</module>
+        <module>video</module>
         <module>job</module>
     </modules>
 
@@ -33,14 +33,7 @@
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <do123.funny.admin>1.0-SNAPSHOT</do123.funny.admin>
-        <do123.funny.blog>1.0-SNAPSHOT</do123.funny.blog>
-        <do123.funny.config>1.0-SNAPSHOT</do123.funny.config>
-        <do123.funny.core>1.0-SNAPSHOT</do123.funny.core>
-        <do123.funny.front-ui>1.0-SNAPSHOT</do123.funny.front-ui>
-        <do123.funny.video>1.0-SNAPSHOT</do123.funny.video>
-        <do123.funny.home>1.0-SNAPSHOT</do123.funny.home>
-        <do123.funny.job>1.0-SNAPSHOT</do123.funny.job>
+        <do123.funny>1.0-SNAPSHOT</do123.funny>
         <spring-boot-relation>2.1.1.RELEASE</spring-boot-relation>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -56,55 +49,55 @@
             <dependency>
                 <groupId>com.wcf.funny</groupId>
                 <artifactId>do123-admin</artifactId>
-                <version>${do123.funny.admin}</version>
+                <version>${do123.funny}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
                 <artifactId>do123-blog</artifactId>
-                <version>${do123.funny.blog}</version>
+                <version>${do123.funny}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
                 <artifactId>do123-config</artifactId>
-                <version>${do123.funny.config}</version>
+                <version>${do123.funny}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
                 <artifactId>do123-core</artifactId>
-                <version>${do123.funny.core}</version>
+                <version>${do123.funny}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
                 <artifactId>do123-front-ui</artifactId>
-                <version>${do123.funny.front-ui}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>com.wcf.funny</groupId>
-                <artifactId>do123-video</artifactId>
-                <version>${do123.funny.video}</version>
+                <version>${do123.funny}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
                 <artifactId>do123-about</artifactId>
-                <version>${do123.funny.video}</version>
+                <version>${do123.funny}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
                 <artifactId>do123-home</artifactId>
-                <version>${do123.funny.home}</version>
+                <version>${do123.funny}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.wcf.funny</groupId>
+                <artifactId>do123-video</artifactId>
+                <version>${do123.funny}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.wcf.funny</groupId>
                 <artifactId>do123-job</artifactId>
-                <version>${do123.funny.job}</version>
+                <version>${do123.funny}</version>
             </dependency>
             <!--数据库相关依赖-start-->
             <!-- https://mvnrepository.com/artifact/com.github.pagehelper/pagehelper-spring-boot-starter -->

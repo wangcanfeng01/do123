@@ -4,8 +4,6 @@ import com.github.pagehelper.PageInfo;
 import com.wcf.funny.video.entity.VideoFavoriteInfo;
 import com.wcf.funny.video.vo.VideoInfoVo;
 
-import java.util.List;
-
 /**
  * @author wangcanfeng
  * @time 2019/4/19
