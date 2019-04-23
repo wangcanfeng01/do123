@@ -34,6 +34,18 @@ public class ListResponse<T> extends BaseResponse<List<T>> {
         }
     }
 
+    /**
+     * 功能描述：静态方法返回结果
+     *
+     * @param list
+     * @author wangcanfeng
+     * @time 2019/4/23 21:51
+     * @since v1.0
+     **/
+    public static <T> ListResponse<T> list(List<T> list) {
+        return new ListResponse<>(list);
+    }
+
     public Integer getTotal() {
         return total;
     }

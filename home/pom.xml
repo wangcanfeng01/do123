@@ -50,5 +50,10 @@
             <groupId>com.wcf.funny</groupId>
             <artifactId>do123-admin</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>com.wcf.funny</groupId>
+            <artifactId>do123-blog</artifactId>
+        </dependency>
     </dependencies>
 </project>

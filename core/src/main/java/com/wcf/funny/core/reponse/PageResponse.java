@@ -29,6 +29,10 @@ public class PageResponse<T> extends BaseResponse<List<T>> {
         this.total = data.getTotal();
     }
 
+    public static <T> PageResponse<T> page(PageInfo<T> data){
+        return new PageResponse<>(data);
+    }
+
     public Long getTotal() {
         return total;
     }

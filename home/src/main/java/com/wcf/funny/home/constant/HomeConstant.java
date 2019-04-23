@@ -14,4 +14,16 @@ public class HomeConstant {
      * 未读
      */
     public final static Integer NON_READ = 0;
+    /**
+     * 视频
+     */
+    public final static String SOURCE_VIDEO = "video";
+    /**
+     * 博客
+     */
+    public final static String SOURCE_BLOG = "blog";
+    /**
+     * 文件
+     */
+    public final static String SOURCE_FILE="file";
 }

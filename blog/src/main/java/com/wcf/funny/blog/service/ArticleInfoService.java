@@ -7,6 +7,8 @@ import com.wcf.funny.blog.vo.ArticleInfoVo;
 import com.wcf.funny.blog.vo.ArticleSimpleVo;
 import com.wcf.funny.blog.vo.req.ArticleQueryReq;
 
+import java.util.List;
+
 /**
  * @author wangcanfeng
  * @time 2019/2/17
@@ -24,6 +26,16 @@ public interface ArticleInfoService {
      * @since v1.0
      **/
     PageInfo<ArticleSimpleVo> getSimpleArticles(Integer currentPage, Integer pageSize);
+
+    /**
+     * 功能描述：查询跟输入的标题类似的文章信息
+     *
+     * @param title
+     * @author wangcanfeng
+     * @time 2019/4/22 22:08
+     * @since v1.0
+     **/
+    List<ArticleInfo> searchArticleLikeTitle(String title);
 
     /**
      * 功能描述：  简单的文章信息列表，只用于文章列表展示

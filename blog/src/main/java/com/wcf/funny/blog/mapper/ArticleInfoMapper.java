@@ -30,6 +30,18 @@ public interface ArticleInfoMapper {
     ArticleInfo getArticleInfoBySlug(String slug);
 
     /**
+     * 功能描述：查询跟输入的标题类似的文章信息
+     *
+     * @param title
+     * @author wangcanfeng
+     * @time 2019/4/22 22:08
+     * @since v1.0
+     **/
+    @Select("SELECT id, title, cover, text, author, keywords, categories as category " +
+            " FROM info_article WHERE title like '%${title}%' and delete_flag=0 and allow_see='public'")
+    List<ArticleInfo> getArticleLikeTitle(@Param("title") String title);
+
+    /**
      * @param id
      * @return com.wcf.hellohome.read.model.ArticleInfo
      * @note 根据id寻找文章

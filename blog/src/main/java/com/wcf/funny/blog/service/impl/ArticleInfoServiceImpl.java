@@ -58,6 +58,23 @@ public class ArticleInfoServiceImpl implements ArticleInfoService {
     }
 
     /**
+     * 功能描述：查询跟输入的标题类似的文章信息
+     *
+     * @param title
+     * @author wangcanfeng
+     * @time 2019/4/22 22:08
+     * @since v1.0
+     **/
+    @Override
+    public List<ArticleInfo> searchArticleLikeTitle(String title) {
+        try {
+            return articleInfoMapper.getArticleLikeTitle(title);
+        } catch (Exception e) {
+            throw new PgSqlException(ArticleErrorCode.SELECT_ARTICLE_ERROR, e);
+        }
+    }
+
+    /**
      * 功能描述：  根据参数查找，简单的文章信息列表，只用于文章列表展示
      *
      * @param req
