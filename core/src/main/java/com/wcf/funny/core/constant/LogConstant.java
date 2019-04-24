@@ -35,6 +35,10 @@ public class LogConstant {
         public final static String PUBLISH="publish";
         // 上传
         public final static String UPLOAD="upload";
+        //收藏
+        public final static String COLLECT="collect";
+        //取消
+        public final static String CANCEL="cancel";
     }
 
     /**
@@ -71,6 +75,8 @@ public class LogConstant {
         public final static String MENU="menu";
         // 角色
         public final static String ROLE="role";
+        // 视频
+        public final static String VIDEO="video";
     }
 
     /**
@@ -147,6 +153,10 @@ public class LogConstant {
         public final static String UPLOAD_RESUME="upload_resume";
         // 上传思维导图
         public final static String UPLOAD_MIND="upload_mind";
+        // 收藏视频
+        public final static String COLLECT_VIDEO="collect_video";
+        // 取消收藏视频
+        public final static String CANCEL_COLLECT_VIDEO="cancel_collect_video";
     }
 
     /**

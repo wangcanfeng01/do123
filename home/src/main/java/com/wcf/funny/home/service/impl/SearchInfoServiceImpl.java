@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.wcf.funny.blog.entity.ArticleInfo;
 import com.wcf.funny.blog.service.ArticleInfoService;
 import com.wcf.funny.core.utils.CrawlerUtils;
+import com.wcf.funny.core.utils.FunnyTimeUtils;
 import com.wcf.funny.home.constant.HomeConstant;
 import com.wcf.funny.home.service.SearchInfoService;
 import com.wcf.funny.home.vo.SearchInfoVo;
@@ -83,7 +84,7 @@ public class SearchInfoServiceImpl implements SearchInfoService {
         articleInfos.forEach(article -> {
             SearchInfoVo vo = new SearchInfoVo();
             vo.setTitle(article.getTitle());
-            vo.setDirector(article.getAuthor());
+            vo.setDirector(article.getAuthor()+" | "+ FunnyTimeUtils.getTimeByUnixTime(article.getModifyTime()));
             String summary = article.getText();
             // 取前200个字
             if (!ObjectUtils.isEmpty(summary) && summary.length() > 200) {

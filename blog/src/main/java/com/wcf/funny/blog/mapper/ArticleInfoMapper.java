@@ -37,7 +37,7 @@ public interface ArticleInfoMapper {
      * @time 2019/4/22 22:08
      * @since v1.0
      **/
-    @Select("SELECT id, title, cover, text, author, keywords, categories as category " +
+    @Select("SELECT id, title, cover, text, author, keywords, categories as category, modify_time as modifyTime " +
             " FROM info_article WHERE title like '%${title}%' and delete_flag=0 and allow_see='public'")
     List<ArticleInfo> getArticleLikeTitle(@Param("title") String title);
 

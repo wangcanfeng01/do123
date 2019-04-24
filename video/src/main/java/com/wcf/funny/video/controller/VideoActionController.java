@@ -1,6 +1,8 @@
 package com.wcf.funny.video.controller;
 
 import com.github.pagehelper.PageInfo;
+import com.wcf.funny.core.annotation.OperationLog;
+import com.wcf.funny.core.constant.LogConstant;
 import com.wcf.funny.core.entity.CodeAndName;
 import com.wcf.funny.core.reponse.BaseResponse;
 import com.wcf.funny.core.reponse.ListResponse;
@@ -41,6 +43,8 @@ public class VideoActionController {
      * @since v1.0
      **/
     @PostMapping("/collection")
+    @OperationLog(action = LogConstant.ActionType.COLLECT, object = LogConstant.ActionObject.VIDEO,
+            info = LogConstant.ActionInfo.COLLECT_VIDEO)
     public BaseResponse collectVideo(@RequestBody VideoFavoriteReq req) {
         boolean exist = favoriteService.isExist(req.getTitle(), RequestUtils.getUserName());
         if (exist) {
@@ -71,6 +75,8 @@ public class VideoActionController {
      * @since v1.0
      **/
     @PostMapping("/cancel/collection")
+    @OperationLog(action = LogConstant.ActionType.CANCEL, object = LogConstant.ActionObject.VIDEO,
+            info = LogConstant.ActionInfo.CANCEL_COLLECT_VIDEO)
     public BaseResponse cancelCollect(@RequestParam("videoId") Integer id) {
         favoriteService.cancelCollect(id);
         return BaseResponse.ok();
