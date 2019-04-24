@@ -104,5 +104,6 @@
     <orderEntry type="library" name="Maven: org.quartz-scheduler:quartz:2.3.0" level="project" />
     <orderEntry type="library" name="Maven: com.mchange:mchange-commons-java:0.2.11" level="project" />
     <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.30" level="project" />
+    <orderEntry type="module" module-name="blog" />
   </component>
 </module>
