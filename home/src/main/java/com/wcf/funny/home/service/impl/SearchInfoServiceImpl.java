@@ -27,9 +27,9 @@ import java.util.List;
 @Service
 public class SearchInfoServiceImpl implements SearchInfoService {
 
-    private final static String SOUGOU_SEARCH = "http://kan.sogou.com/search";
+    private final static String TENCENT_SEARCH = "https://v.qq.com/x/search/?q=";
 
-    private final static String SOUGOU_HOME = "http://kan.sogou.com";
+    private final static String TENCENT_HOME = "https://v.qq.com";
 
     @Autowired
     private ArticleInfoService articleInfoService;
@@ -44,16 +44,16 @@ public class SearchInfoServiceImpl implements SearchInfoService {
      **/
     @Override
     public List<SearchInfoVo> searchVideos(String keyword) {
-        Document document = CrawlerUtils.getDocWithPC(SOUGOU_SEARCH + "?keyword=" + keyword);
+        Document document = CrawlerUtils.getDocWithPC(TENCENT_SEARCH + keyword);
         List<SearchInfoVo> list = new LinkedList<>();
-        Elements searchInfos = document.select("dl.cf");
+        Elements searchInfos = document.select("div.result_item.result_item_v");
         for (Element search : searchInfos) {
             SearchInfoVo video = new SearchInfoVo();
-            String title = search.select("h1.tit a").text() + search.select("h1.tit strong").text();
-            String image = search.select("a.pic img").attr("src");
-            String summary = search.select("li.search_summary span.it").text();
-            String url = SOUGOU_HOME + search.select("dt a.pic").attr("href");
-            String director = search.select("li.line").text();
+            String title = search.select("h2.result_title").text();
+            String image = search.select("img.figure_pic").attr("src");
+            String summary = search.select("div.info_item.info_item_desc").text();
+            String url = search.select("a.figure.result_figure").attr("href");
+            String director = search.select("div.info_item.info_item_even").text();
             video.setTitle(title);
             video.setType(HomeConstant.SOURCE_VIDEO);
             video.setSummary(summary);
@@ -84,7 +84,7 @@ public class SearchInfoServiceImpl implements SearchInfoService {
         articleInfos.forEach(article -> {
             SearchInfoVo vo = new SearchInfoVo();
             vo.setTitle(article.getTitle());
-            vo.setDirector(article.getAuthor()+" | "+ FunnyTimeUtils.getTimeByUnixTime(article.getModifyTime()));
+            vo.setDirector(article.getAuthor() + " | " + FunnyTimeUtils.getTimeByUnixTime(article.getModifyTime()));
             String summary = article.getText();
             // 取前200个字
             if (!ObjectUtils.isEmpty(summary) && summary.length() > 200) {

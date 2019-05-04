@@ -86,7 +86,7 @@ public class FunnyWebSecurityAdapter extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         String[] paths;
         if (Boolean.valueOf(openSecurity)) {
-            paths = new String[]{"/ui/user/get/login", "/ui/user/register", "/", "/home", "/index.html"};
+            paths = new String[]{"/ui/user/get/login", "/ui/user/register","/ui/search/**", "/", "/home", "/index.html"};
         } else {
             //不开启权限的时候直接打开所有路径
             paths = new String[]{"/**"};

@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.LinkedTransferQueue;
 
 /**
  * @author wangcanfeng
@@ -40,14 +42,14 @@ public class TencentController {
         String client = VideoCacheKey.TENCENT;
         vo.setCarousels(cacheService.carousels(client));
         // 对视频信息进行截取
-        int count=10;
-        List<VideoInfoVo> varietyShows=cacheService.varietyShow(client).subList(0,count);
+        int count = 10;
+        List<VideoInfoVo> varietyShows = cacheService.varietyShow(client).subList(0, count);
         vo.setVarietyShows(varietyShows);
-        List<VideoInfoVo> tvHots=cacheService.tvHots(client).subList(0,count);
+        List<VideoInfoVo> tvHots = cacheService.tvHots(client).subList(0, count);
         vo.setTvHots(tvHots);
-        List<VideoInfoVo> cartoons=cacheService.cartoons(client).subList(0,count);
+        List<VideoInfoVo> cartoons = cacheService.cartoons(client).subList(0, count);
         vo.setCartoons(cartoons);
-        List<VideoInfoVo> movies=cacheService.movies(client).subList(0,count);
+        List<VideoInfoVo> movies = cacheService.movies(client).subList(0, count);
         vo.setMovies(movies);
         return new BaseResponse<>(vo);
     }
@@ -61,11 +63,10 @@ public class TencentController {
      * @since v1.0
      **/
     @GetMapping("/change")
-    public BaseResponse<List<VideoInfoVo>> change(@RequestParam("key") String key,@RequestParam("index") Integer index) {
+    public BaseResponse<List<VideoInfoVo>> change(@RequestParam("key") String key, @RequestParam("index") Integer index) {
         //取出指定个数的缓存中的视频信息
-        List<VideoInfoVo> list = cacheService.changeVideo(VideoCacheKey.TENCENT, key,index);
+        List<VideoInfoVo> list = cacheService.changeVideo(VideoCacheKey.TENCENT, key, index);
         return new ListResponse<>(list);
     }
-
 
 }
